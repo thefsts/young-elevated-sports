@@ -233,3 +233,85 @@ Screenshots captured at 1440 × 1000, 834 × 1112 and 390 × 844 for `/`, `/abou
 confirmed to load (`naturalWidth > 0`) at every breakpoint after lazy loading was
 triggered by scrolling; below-the-fold images correctly defer until scrolled into
 view.
+
+## Checkpoint 003 — design lock & photo addendum
+
+Run on Node.js 26.13.1 (npm 11.20.0), production build `oXQQJWxY2Q1SRprpOuYv0`.
+
+| Gate | Command | Result |
+| --- | --- | --- |
+| Lint | `npm run lint` | ✔ No ESLint warnings or errors |
+| Types | `npm run typecheck` | ✔ exit 0 |
+| Unit tests | `npm run test` | ✔ 64 passed (4 files) |
+| Brand assets | `npm run check:brand` | ✔ 18 SVGs + 9 PNG exports + ICO 16/32/48 |
+| Approved-artwork lock | `node scripts/verify-approved-brand.mjs` | ✔ 5/5 (IoU 87.5–94.1%) |
+| Asset references | `npm run check:assets` | ✔ 20 references resolve |
+| Routes | `npm run check:routes` | ✔ 21 routes + 4 special files |
+| Build | `npm run build` | ✔ compiled, 52 pages, middleware 34.3 kB |
+
+### Approved-artwork lock
+
+The client's two authoritative files were installed under
+`assets/brand/approved/` and a new build gate compares them against everything
+shipped in `public/brand/` using an ink-mask intersection-over-union:
+
+| Comparison | IoU |
+| --- | --- |
+| Full logo — shipped vector vs approved master | 93.5% |
+| Full logo — shipped 2400 px raster vs approved master | 94.1% |
+| Icon mark — shipped vector vs approved master | 87.5% |
+| Icon mark — shipped 1200 px raster vs approved master | 87.7% |
+| Favicon composition vs approved icon | 93.4% |
+
+The threshold is 80%. A redrawn or substituted mark falls far below it, so the
+build now fails if the brand drifts. The scores also confirm the artwork already
+deployed *is* the approved artwork — no redesign was required or performed.
+
+### Accessibility
+
+axe-core 4.x, WCAG 2.0/2.1 A + AA + best-practice, desktop 1440×1000, after a
+full-page scroll and a 2.5 s settle so scroll-reveal transitions are complete:
+
+| Route | Passes | Violations |
+| --- | --- | --- |
+| `/` | 43 | 0 |
+| `/about` | 41 | 0 |
+| `/training` | 41 | 0 |
+| `/media` | 41 | 0 |
+| `/classes` | 46 | 0 |
+| `/contact` | 46 | 0 |
+| `/es/about` | 41 | 0 |
+| `/es/media` | 41 | 0 |
+
+An earlier pass reported five `color-contrast` hits on `/classes`. They were
+sampled while the reveal transition was still running — axe measured text
+against a partially transparent card. Re-running with the transition settled
+reports zero, and a direct check confirmed every `.reveal` element was at
+`opacity: 1`. The harness wait was raised from 600 ms to 2500 ms so the audit no
+longer samples mid-animation.
+
+### Photo addendum gate
+
+Four new client photographs were analysed with OpenCV YuNet at a 0.6 score
+threshold. Face counts: `IMG_5608` 20, `IMG_1468` 5, `IMG_7389` 2, `IMG_0244`
+30. All four are multi-person frames, so all four are held at
+`pending-release`. Masters are EXIF-stripped and live outside `public/`; review
+derivatives live in `review/coach-photos/`. Nothing from this batch is
+reachable by the site. `tests/checkpoint-003.test.ts` asserts the queue holds
+eight frames and 82 identifiable faces, none with a public path.
+
+### Responsive rendering
+
+25 screenshots captured at 1440×1000, 834×1112 and 390×844 across `/`,
+`/about`, `/training`, `/media` and `/es/about`. The coach portrait resolves
+through `next/image` at every breakpoint (390×487 at mobile), confirming the
+responsive `sizes` contract. No horizontal overflow, no layout shift from the
+new assets.
+
+### Lighthouse
+
+Still blocked in this environment: Lighthouse aborts with `net::ERR_ABORTED`
+against every Next.js route, including behind a proxy that strips CSP, HSTS and
+`X-Frame-Options`. It succeeds against a plain static server, which isolates the
+failure to the harness rather than the site. Core Web Vitals were measured
+directly with `PerformanceObserver` instead. No score is claimed.

@@ -17,6 +17,20 @@ are confirmed.
 `IMG_0232 (1).jpeg` is byte-identical to `IMG_0232.jpeg` and is not duplicated
 here.
 
+## Photo addendum — second batch
+
+| File | Source | Identifiable faces |
+| --- | --- | --- |
+| `review-IMG_5608.jpg` | `IMG_5608.jpeg` | 20 |
+| `review-IMG_1468.jpg` | `IMG_1468.jpeg` | 5 |
+| `review-IMG_7389.jpg` | `IMG_7389.jpeg` | 2 |
+| `review-IMG_0244.jpg` | `IMG_0244.jpeg` | 30 |
+
+`addendum-report.json` records the measured face count, master dimensions,
+review dimensions, and the EXIF/GPS status of each frame. All four are
+multi-person frames, so all four are held. Nothing from this batch is inside
+`public/`.
+
 ## Before any of these can be published
 
 1. The client confirms it holds a media release for **every** identifiable person

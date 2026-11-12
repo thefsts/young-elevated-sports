@@ -246,6 +246,35 @@ export const coachPhotoQueue: Array<{
     status: "pending-release",
     note: "Eight faces detected; releases required before publication.",
   },
+  // --- Photo addendum (Checkpoint 003, second batch) ---------------------
+  // Four additional frames arrived with the addendum. Every one of them is a
+  // multi-person frame, so none can be published until the people in them —
+  // several of them children — have signed media releases. They are preserved
+  // as EXIF-stripped masters and private review copies only.
+  {
+    source: "IMG_5608.jpeg",
+    identifiableFaces: 20,
+    status: "pending-release",
+    note: "Large group session. Twenty faces detected; releases required before publication.",
+  },
+  {
+    source: "IMG_1468.jpeg",
+    identifiableFaces: 5,
+    status: "pending-release",
+    note: "Small group. Five faces detected; releases required before publication.",
+  },
+  {
+    source: "IMG_7389.jpeg",
+    identifiableFaces: 2,
+    status: "pending-release",
+    note: "Two people. Second face detected at 0.91 confidence; both releases required.",
+  },
+  {
+    source: "IMG_0244.jpeg",
+    identifiableFaces: 30,
+    status: "pending-release",
+    note: "Camp-scale group. Thirty faces detected; releases required before publication.",
+  },
 ];
 
 /** True when a media asset is authentic client photography. */

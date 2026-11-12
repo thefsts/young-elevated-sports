@@ -141,3 +141,72 @@ other image on the site keeps its placeholder label and disclosure.
 2. Confirm that `Young2.jpg` depicts Coach Young and may be published.
 3. Supply release documentation so the group frames can move from
    `pending-release` to `cleared`.
+
+## Photo addendum — second batch (Checkpoint 003)
+
+Four further client photographs arrived with the photo addendum. They were
+analysed with the same gate used for the first batch: OpenCV YuNet face
+detection at a 0.6 score threshold on the full-resolution original, plus an
+EXIF inspection.
+
+| Source | Dimensions | Faces detected | GPS in original | Status | Public path |
+| --- | --- | --- | --- | --- | --- |
+| `IMG_5608.jpeg` | 3024 × 4032 | 20 | Yes | `pending-release` | none |
+| `IMG_1468.jpeg` | 4284 × 5712 | 5 | Yes | `pending-release` | none |
+| `IMG_7389.jpeg` | 4284 × 5712 | 2 | No | `pending-release` | none |
+| `IMG_0244.jpeg` | 4284 × 5712 | 30 | Yes | `pending-release` | none |
+
+**Every one of the four is a multi-person frame.** The smallest contains two
+people; the largest contains thirty. Directive E §10 requires publication
+permission for other identifiable people, "particularly children", and requires
+that uncleared images stay out of the public deployment. A camp-scale frame of
+thirty athletes is overwhelmingly likely to include minors. Publishing any of
+these four on the strength of "the client sent them" would be exactly the
+failure mode the directive forbids, so **nothing from this batch was published**.
+
+What was done instead:
+
+- **Masters preserved.** Each original was re-encoded at quality 95 with 4:4:4
+  chroma into `assets/coach/originals/`, which is outside `public/` and
+  git-ignored by the `IMG_*.jpeg` pattern. The EXIF block — including GPS on
+  three of the four — is gone; verification reports `exif: false`, `gps: false`
+  and no orientation tag on all four masters.
+- **Review copies produced.** `scripts/photo-addendum.mjs` writes a 1600 px
+  derivative with a restrained exposure lift (`brightness 1.04`, `linear 1.03,
+  −4`) into `review/coach-photos/review-IMG_*.jpg`. These are for the PM and the
+  client to judge framing and quality, not for the website.
+- **Queue extended.** All four appear in `coachPhotoQueue` with their measured
+  face counts and no `src` property, so there is no code path that can render
+  them.
+- **Tests enforce the gate.** `tests/checkpoint-003.test.ts` asserts the queue
+  holds eight frames and 82 identifiable faces in total, that every entry is
+  `pending-release` with no public path, that each review copy exists outside
+  `public/`, and that each master is present.
+
+### Placement plan once releases arrive
+
+The addendum asks for these photographs to be woven into Training, Classes,
+Youth Development, Football Performance, About, and Media. The placement is
+blocked on releases, not on design. When a release is recorded, the intended
+surface for each frame is:
+
+| Frame | Intended surface | Why |
+| --- | --- | --- |
+| `IMG_7389.jpeg` | Training — small-group coaching | Two people; reads as one-to-one coaching |
+| `IMG_1468.jpeg` | Youth Development — small group | Five athletes; reads as a development cohort |
+| `IMG_5608.jpeg` | Classes — session in progress | Twenty athletes; reads as a full class |
+| `IMG_0244.jpeg` | Media gallery — camp scale | Thirty athletes; reads as programme reach |
+
+Each would be exported at desktop (1600 px), tablet (1024 px) and mobile
+(640 px) widths with a 3:2 landscape crop, a slight black-and-gold grade, and
+alt text naming the setting rather than the individuals. No athlete result,
+testimonial, scholarship, partnership or endorsement will be inferred from any
+of them.
+
+### Outstanding client actions (addendum)
+
+1. Confirm whether any subject in `IMG_5608`, `IMG_1468`, `IMG_7389` or
+   `IMG_0244` is a minor, and supply parent/guardian releases for those subjects.
+2. Supply releases for every other identifiable adult in the four frames.
+3. Confirm which of the four the client actually wants on the site; the review
+   copies in `review/coach-photos/` are the shortlist.
