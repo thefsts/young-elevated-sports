@@ -10,3 +10,7 @@ next-env.d.ts
 .vercel
 coverage
 .fonts
+
+# Python
+__pycache__/
+*.pyc
