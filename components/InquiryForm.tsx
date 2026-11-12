@@ -46,6 +46,13 @@ const TYPE_FIELDS: Record<InquiryType, FieldConfig[]> = {
     { name: "groupSize", label: "Approximate group size (optional)", type: "number", half: true },
     { name: "preferredDates", label: "Proposed dates (optional)", half: true },
   ],
+  class: [
+    { name: "interest", label: "Class of interest (optional)", half: true },
+    { name: "athleteName", label: "Athlete name (optional)", half: true },
+    { name: "athleteAge", label: "Athlete age (optional)", type: "number", half: true },
+    { name: "sport", label: "Primary sport (optional)", half: true },
+    { name: "preferredDates", label: "Preferred session window (optional)", half: true },
+  ],
 };
 
 export function InquiryForm({

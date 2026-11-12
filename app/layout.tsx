@@ -3,7 +3,12 @@ import localFont from "next/font/local";
 import "./globals.css";
 import { SiteHeader } from "@/components/SiteHeader";
 import { SiteFooter } from "@/components/SiteFooter";
+import { AccessibilityToolbar } from "@/components/AccessibilityToolbar";
+import { CookieConsent } from "@/components/CookieConsent";
 import { site } from "@/lib/content/site";
+import { I18nProvider } from "@/lib/i18n/client";
+import { getLocale } from "@/lib/i18n/server";
+import { LOCALE_LABELS, LOCALES, absoluteLocalized } from "@/lib/i18n/config";
 
 const display = localFont({
   src: [
@@ -43,7 +48,12 @@ export const metadata: Metadata = {
     "youth athlete training",
   ],
   authors: [{ name: site.legalName }],
-  alternates: { canonical: "/" },
+  alternates: {
+    canonical: "/",
+    languages: Object.fromEntries(
+      LOCALES.map((locale) => [LOCALE_LABELS[locale].htmlLang, absoluteLocalized(site.url, locale, "/")]),
+    ),
+  },
   openGraph: {
     type: "website",
     siteName: site.legalName,
@@ -75,19 +85,25 @@ export const viewport: Viewport = {
   initialScale: 1,
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+  const locale = await getLocale();
+
   return (
-    <html lang="en" className={`${display.variable} ${sans.variable}`}>
+    <html lang={LOCALE_LABELS[locale].htmlLang} className={`${display.variable} ${sans.variable}`}>
       <body>
-        <a
-          href="#main"
-          className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-gold focus:px-5 focus:py-3 focus:font-sans focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-ink"
-        >
-          Skip to main content
-        </a>
-        <SiteHeader />
-        <main id="main">{children}</main>
-        <SiteFooter />
+        <I18nProvider locale={locale}>
+          <a
+            href="#main"
+            className="sr-only focus:not-sr-only focus:fixed focus:left-4 focus:top-4 focus:z-[100] focus:bg-gold focus:px-5 focus:py-3 focus:font-sans focus:text-xs focus:font-semibold focus:uppercase focus:tracking-widest focus:text-ink"
+          >
+            {locale === "es" ? "Saltar al contenido principal" : "Skip to main content"}
+          </a>
+          <SiteHeader />
+          <main id="main">{children}</main>
+          <SiteFooter />
+          <AccessibilityToolbar />
+          <CookieConsent />
+        </I18nProvider>
       </body>
     </html>
   );

@@ -12,6 +12,8 @@ const pageRoutes = [
   "/",
   "/about",
   "/training",
+  "/classes",
+  "/classes/register",
   "/performance-technology",
   "/athletes",
   "/results",
@@ -30,6 +32,8 @@ const pageRoutes = [
   "/accessibility",
 ];
 
+const dynamicRoutes = ["/classes/[slug]", "/waivers/[slug]"];
+
 const specialFiles = [
   "app/not-found.tsx",
   "app/error.tsx",
@@ -44,6 +48,10 @@ function pagePath(route) {
 const missing = [];
 for (const route of pageRoutes) {
   if (!existsSync(pagePath(route))) missing.push(route);
+}
+for (const route of dynamicRoutes) {
+  const file = join(ROOT, "app", route.slice(1), "page.tsx");
+  if (!existsSync(file)) missing.push(route);
 }
 for (const file of specialFiles) {
   if (!existsSync(join(ROOT, file))) missing.push(file);

@@ -2,12 +2,44 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, GoldRule, SectionHeading, StatStrip, ArrowLink } from "@/components/ui";
-import { programs, trainingPrinciples } from "@/lib/content/programs";
+import { localizedPrograms, localizedTrainingPrinciples } from "@/lib/content/programs";
 import { technology } from "@/lib/content/technology";
 import { stats } from "@/lib/content/site";
 import { JsonLd, organizationSchema } from "@/lib/seo";
+import { getTranslator } from "@/lib/i18n/server";
+import { localizedPath } from "@/lib/i18n/config";
 
-export default function HomePage() {
+export default async function HomePage() {
+  const { t, locale } = await getTranslator();
+  const lp = (p: string) => localizedPath(locale, p);
+  const programs = localizedPrograms(locale);
+  const trainingPrinciples = localizedTrainingPrinciples(locale);
+
+  const ticker = [
+    t("home.ticker.speed"),
+    t("home.ticker.strength"),
+    t("home.ticker.agility"),
+    t("home.ticker.power"),
+    t("home.ticker.injury"),
+    t("home.ticker.vertical"),
+    t("home.ticker.mobility"),
+    t("home.ticker.conditioning"),
+  ];
+
+  const pillars = [
+    { title: t("home.pillars.one.title"), body: t("home.pillars.one.body") },
+    { title: t("home.pillars.two.title"), body: t("home.pillars.two.body") },
+    { title: t("home.pillars.three.title"), body: t("home.pillars.three.body") },
+    { title: t("home.pillars.four.title"), body: t("home.pillars.four.body") },
+    { title: t("home.pillars.five.title"), body: t("home.pillars.five.body") },
+  ];
+
+  const dfw = [
+    { label: t("home.dfw.one.label"), body: t("home.dfw.one.body") },
+    { label: t("home.dfw.two.label"), body: t("home.dfw.two.body") },
+    { label: t("home.dfw.three.label"), body: t("home.dfw.three.body") },
+  ];
+
   return (
     <>
       <JsonLd data={organizationSchema} />
@@ -16,7 +48,7 @@ export default function HomePage() {
       <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-ink">
         <Image
           src="/media/hero-track.jpg"
-          alt="Illustrative image: a lone athlete silhouette sprinting on a floodlit track at night."
+          alt={t("home.hero.imageAlt")}
           fill
           priority
           sizes="100vw"
@@ -30,33 +62,32 @@ export default function HomePage() {
           <div className="max-w-4xl">
             <div className="flex items-center gap-4 fade-in">
               <GoldRule />
-              <Eyebrow>Dallas–Fort Worth · Athletic Development</Eyebrow>
+              <Eyebrow>{t("home.hero.eyebrow")}</Eyebrow>
             </div>
 
             <h1 className="mt-7 fade-in" style={{ animationDelay: "80ms" }}>
-              <span className="display-xl block text-white">Build winning</span>
-              <span className="display-xl block text-white">habits.</span>
-              <span className="display-xl mt-2 block text-sheen">Reach your</span>
-              <span className="display-xl block text-sheen">next level.</span>
+              <span className="display-xl block text-white">{t("home.hero.line1")}</span>
+              <span className="display-xl block text-white">{t("home.hero.line2")}</span>
+              <span className="display-xl mt-2 block text-sheen">{t("home.hero.line3")}</span>
+              <span className="display-xl block text-sheen">{t("home.hero.line4")}</span>
             </h1>
 
             <p
               className="mt-8 max-w-xl font-sans text-base leading-7 text-silver sm:text-lg fade-in"
               style={{ animationDelay: "160ms" }}
             >
-              Elite athletic development built on speed, strength, discipline, and measurable
-              performance. Train with purpose. Compete with confidence.
+              {t("home.hero.intro")}
             </p>
 
             <div
               className="mt-10 flex flex-wrap items-center gap-3 fade-in"
               style={{ animationDelay: "240ms" }}
             >
-              <Link href="/start-training" className="btn-primary">
-                Start Training
+              <Link href={lp("/start-training")} className="btn-primary">
+                {t("home.hero.cta")}
               </Link>
-              <Link href="/about" className="btn-ghost">
-                Meet Coach Young
+              <Link href={lp("/about")} className="btn-ghost">
+                {t("home.hero.secondary")}
               </Link>
             </div>
           </div>
@@ -65,21 +96,12 @@ export default function HomePage() {
 
       {/* ------------------------------------------------------------- ticker */}
       <section
-        aria-label="Training qualities"
+        aria-label={t("home.ticker.label")}
         className="overflow-hidden border-y border-white/10 bg-graphite/60"
       >
         <div className="flex whitespace-nowrap py-4">
           <ul className="ticker flex shrink-0 items-center gap-10 pr-10 font-display text-sm uppercase tracking-[0.28em] text-silver/70">
-            {[
-              "Speed",
-              "Strength",
-              "Agility",
-              "Explosive Power",
-              "Injury Prevention",
-              "Vertical Jump",
-              "Mobility",
-              "Conditioning",
-            ].map((item) => (
+            {ticker.map((item) => (
               <li key={item} className="flex items-center gap-10">
                 <span>{item}</span>
                 <span aria-hidden="true" className="text-gold">
@@ -92,16 +114,7 @@ export default function HomePage() {
             aria-hidden="true"
             className="ticker flex shrink-0 items-center gap-10 pr-10 font-display text-sm uppercase tracking-[0.28em] text-silver/70"
           >
-            {[
-              "Speed",
-              "Strength",
-              "Agility",
-              "Explosive Power",
-              "Injury Prevention",
-              "Vertical Jump",
-              "Mobility",
-              "Conditioning",
-            ].map((item) => (
+            {ticker.map((item) => (
               <li key={item} className="flex items-center gap-10">
                 <span>{item}</span>
                 <span className="text-gold">/</span>
@@ -112,7 +125,7 @@ export default function HomePage() {
       </section>
 
       {/* -------------------------------------------------------------- stats */}
-      <section aria-label="At a glance" className="border-b border-white/10 bg-graphite/40">
+      <section aria-label={t("home.stats.label")} className="border-b border-white/10 bg-graphite/40">
         <div className="shell py-2">
           <StatStrip items={stats} />
         </div>
@@ -123,31 +136,17 @@ export default function HomePage() {
         <div className="shell">
           <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
             <Reveal>
-              <Eyebrow>The standard</Eyebrow>
-              <h2 className="display-lg mt-6 text-white">
-                Development is
-                <br />
-                not a workout.
-                <br />
-                <span className="text-gold">It is a system.</span>
-              </h2>
+              <Eyebrow>{t("home.manifesto.eyebrow")}</Eyebrow>
+              <h2 className="display-lg mt-6 text-white">{t("home.manifesto.title")}</h2>
             </Reveal>
             <Reveal delay={120}>
               <div className="space-y-6 font-sans text-base leading-7 text-silver sm:text-lg">
-                <p>
-                  Young &amp; Elevated Sports Performance exists to give athletes an environment that
-                  prepares them for the next level. Not a random collection of drills — a structured
-                  process built around the individual athlete, their sport, and their season.
-                </p>
-                <p>
-                  Every athlete is assessed, coached, and measured. Technique is treated as the
-                  prerequisite for load. Progress is tracked with objective tools, and the habits that
-                  separate consistent competitors from occasional ones are coached deliberately.
-                </p>
+                <p>{t("home.manifesto.p1")}</p>
+                <p>{t("home.manifesto.p2")}</p>
                 <p className="border-l-2 border-gold/60 pl-6 font-display text-xl uppercase leading-tight text-white">
-                  &ldquo;Expose athletes to an environment that prepares them for the next level.&rdquo;
+                  {t("home.manifesto.quote")}
                   <span className="mt-3 block font-sans text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">
-                    Reggie Young, Founder
+                    {t("home.manifesto.attribution")}
                   </span>
                 </p>
               </div>
@@ -162,18 +161,12 @@ export default function HomePage() {
           <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
             <SectionHeading
               index="01"
-              eyebrow="Training disciplines"
-              title={
-                <>
-                  Eight qualities.
-                  <br />
-                  One athlete.
-                </>
-              }
-              intro="Speed, power, strength, and movement quality are developed together. Each discipline is programmed against the athlete's assessment — not applied as a standalone workout."
+              eyebrow={t("home.programs.eyebrow")}
+              title={t("home.programs.title")}
+              intro={t("home.programs.intro")}
             />
             <div className="shrink-0">
-              <ArrowLink href="/training">View all programs</ArrowLink>
+              <ArrowLink href={lp("/training")}>{t("home.programs.link")}</ArrowLink>
             </div>
           </div>
 
@@ -181,7 +174,7 @@ export default function HomePage() {
             {programs.map((program, i) => (
               <Reveal key={program.slug} delay={i * 40}>
                 <Link
-                  href={`/training#${program.slug}`}
+                  href={`${lp("/training")}#${program.slug}`}
                   className="group flex h-full flex-col justify-between bg-ink p-7 transition-colors hover:bg-graphite"
                 >
                   <div>
@@ -210,40 +203,30 @@ export default function HomePage() {
           <div className="relative min-h-[380px] lg:min-h-[620px]">
             <Image
               src="/media/facility.jpg"
-              alt="Illustrative image: an empty indoor training facility with turf and overhead lighting."
+              alt={t("home.coach.imageAlt")}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
               className="object-cover"
             />
             <div className="absolute inset-0 bg-gradient-to-r from-ink/40 to-ink/10" />
             <div className="absolute bottom-6 left-6 border border-white/15 bg-ink/70 px-4 py-2 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-white/50 backdrop-blur">
-              Illustrative imagery — replace with licensed client photography
+              {t("home.illustrative")}
             </div>
           </div>
 
           <div className="flex items-center bg-ink px-6 py-20 sm:px-12 lg:px-16">
             <Reveal>
-              <Eyebrow>Meet the founder</Eyebrow>
-              <h2 className="display-lg mt-6 text-white">
-                Reggie
-                <br />
-                Young
-              </h2>
+              <Eyebrow>{t("home.coach.eyebrow")}</Eyebrow>
+              <h2 className="display-lg mt-6 text-white">{t("home.coach.title")}</h2>
               <p className="mt-6 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-gold">
-                Founder · CSCS · Dallas–Fort Worth
+                {t("home.coach.role")}
               </p>
               <div className="mt-7 space-y-4 font-sans text-base leading-7 text-silver">
-                <p>
-                  A former Division I football player at Liberty University and the University of
-                  Colorado, Reggie retired from football in 2023 and moved into athletic development.
-                </p>
-                <p>
-                  His coaching is built on winning habits, physical resilience, competitive mindset, and
-                  an individual connection with every athlete he works with.
-                </p>
+                <p>{t("home.coach.p1")}</p>
+                <p>{t("home.coach.p2")}</p>
               </div>
               <div className="mt-9">
-                <ArrowLink href="/about">Read the full story</ArrowLink>
+                <ArrowLink href={lp("/about")}>{t("home.coach.link")}</ArrowLink>
               </div>
             </Reveal>
           </div>
@@ -253,17 +236,7 @@ export default function HomePage() {
       {/* -------------------------------------------------------------- method */}
       <section className="border-t border-white/10 py-24 lg:py-32">
         <div className="shell">
-          <SectionHeading
-            index="02"
-            eyebrow="The method"
-            title={
-              <>
-                How the work
-                <br />
-                gets done.
-              </>
-            }
-          />
+          <SectionHeading index="02" eyebrow={t("home.method.eyebrow")} title={t("home.method.title")} />
           <div className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
             {trainingPrinciples.map((item, i) => (
               <Reveal key={item.title} delay={i * 60}>
@@ -289,18 +262,12 @@ export default function HomePage() {
             <Reveal>
               <SectionHeading
                 index="03"
-                eyebrow="Performance technology"
-                title={
-                  <>
-                    Measured,
-                    <br />
-                    not guessed.
-                  </>
-                }
-                intro="Objective measurement turns training into a trend line. Velocity, jump output, and movement quality are recorded so decisions are based on data — and coaching judgment still leads."
+                eyebrow={t("home.tech.eyebrow")}
+                title={t("home.tech.title")}
+                intro={t("home.tech.intro")}
               />
               <div className="mt-9">
-                <ArrowLink href="/performance-technology">Explore the technology</ArrowLink>
+                <ArrowLink href={lp("/performance-technology")}>{t("home.tech.link")}</ArrowLink>
               </div>
             </Reveal>
 
@@ -327,19 +294,11 @@ export default function HomePage() {
       <section className="border-t border-white/10 py-20 lg:py-28">
         <div className="shell">
           <Reveal>
-            <Eyebrow>Data-driven training</Eyebrow>
-            <h2 className="display-lg mt-6 max-w-3xl text-white">
-              Data-driven training for <span className="text-gold">measurable results.</span>
-            </h2>
+            <Eyebrow>{t("home.pillars.eyebrow")}</Eyebrow>
+            <h2 className="display-lg mt-6 max-w-3xl text-white">{t("home.pillars.title")}</h2>
           </Reveal>
           <div className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
-            {[
-              { title: "Movement Analysis", body: "Screening how the athlete moves before loading it." },
-              { title: "Performance Tracking", body: "Repeatable metrics recorded across the training block." },
-              { title: "Recovery & Readiness", body: "Load and readiness considered before intensity is assigned." },
-              { title: "Sports Technology", body: "Velocity, jump, and output tools used with coaching judgment." },
-              { title: "Training Intelligence", body: "Assessment data translated into the next program." },
-            ].map((pillar, i) => (
+            {pillars.map((pillar, i) => (
               <Reveal key={pillar.title} delay={i * 50}>
                 <div className="h-full bg-ink p-6">
                   <span className="font-sans text-[0.62rem] font-semibold tracking-[0.28em] text-gold/70">
@@ -364,25 +323,14 @@ export default function HomePage() {
         />
         <div className="shell relative">
           <Reveal>
-            <Eyebrow>Training in</Eyebrow>
-            <h2 className="display-xl mt-5 text-white">
-              Dallas<span className="text-gold">–</span>Fort Worth
-            </h2>
-            <p className="lede mt-6 max-w-2xl">
-              Built for athletes across the metroplex. Sessions are programmed around the sport,
-              the season, and the individual — with objective measurement guiding the work.
-            </p>
+            <Eyebrow>{t("home.dfw.eyebrow")}</Eyebrow>
+            <h2 className="display-xl mt-5 text-white">{t("home.dfw.title")}</h2>
+            <p className="lede mt-6 max-w-2xl">{t("home.dfw.intro")}</p>
           </Reveal>
           <div className="mt-14 grid gap-10 border-t border-white/10 pt-10 sm:grid-cols-3">
-            {[
-              { label: "Elite Training", body: "Structured, coached sessions — not open gym time." },
-              { label: "Elite Facility", body: "A performance environment built for speed, strength, and power." },
-              { label: "DFW Athletes", body: "Serving Dallas–Fort Worth and the surrounding communities." },
-            ].map((item, i) => (
+            {dfw.map((item, i) => (
               <Reveal key={item.label} delay={i * 60}>
-                <h3 className="font-display text-2xl uppercase leading-none text-gold">
-                  {item.label}
-                </h3>
+                <h3 className="font-display text-2xl uppercase leading-none text-gold">{item.label}</h3>
                 <p className="mt-3 font-sans text-sm leading-6 text-silver/80">{item.body}</p>
               </Reveal>
             ))}
@@ -397,20 +345,15 @@ export default function HomePage() {
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(214,167,59,0.14),transparent_65%)]"
         />
         <div className="shell relative text-center">
-          <Eyebrow className="justify-center">Next step</Eyebrow>
-          <h2 className="display-xl mx-auto mt-6 max-w-4xl text-white">
-            Ready to <span className="text-gold">elevate?</span>
-          </h2>
-          <p className="lede mx-auto mt-6 max-w-xl">
-            Tell us about the athlete, the sport, and the goal. We will follow up with next steps,
-            availability, and the registration process.
-          </p>
+          <Eyebrow className="justify-center">{t("home.cta.eyebrow")}</Eyebrow>
+          <h2 className="display-xl mx-auto mt-6 max-w-4xl text-white">{t("home.cta.title")}</h2>
+          <p className="lede mx-auto mt-6 max-w-xl">{t("home.cta.intro")}</p>
           <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href="/start-training" className="btn-primary">
-              Start Training
+            <Link href={lp("/start-training")} className="btn-primary">
+              {t("home.hero.cta")}
             </Link>
-            <Link href="/contact" className="btn-ghost">
-              Contact
+            <Link href={lp("/contact")} className="btn-ghost">
+              {t("common.contact")}
             </Link>
           </div>
         </div>

@@ -2,7 +2,7 @@
   "name": "young-elevated-sports",
   "version": "0.1.0",
   "private": true,
-  "description": "Young & Elevated Sports Performance — premium athletic development website.",
+  "description": "Young & Elevated Sports Performance \u2014 premium athletic development website.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -13,7 +13,8 @@
     "test:watch": "vitest",
     "check:assets": "node scripts/check-assets.mjs",
     "check:routes": "node scripts/check-routes.mjs",
-    "verify": "npm run lint && npm run typecheck && npm run test && npm run build"
+    "verify": "npm run lint && npm run typecheck && npm run test && npm run check:brand && npm run check:assets && npm run check:routes && npm run build",
+    "check:brand": "node scripts/verify-brand.mjs"
   },
   "dependencies": {
     "next": "^15.5.29",

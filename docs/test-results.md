@@ -98,3 +98,53 @@ Note: the repository bootstrap commit (`b6395ec`) was created on top of the Batc
 | Homepage sections present | ✔ ticker, five pillars, DFW section render |
 
 Not run (unchanged): Lighthouse, axe, device-matrix responsive smoke, live Resend send.
+
+---
+
+## PM Checkpoint 002 — expanded frontend run
+
+Run locally against branch `feature/batch-001-foundation` on the sandbox.
+
+| Check | Command | Result |
+| --- | --- | --- |
+| Lint | `npm run lint` | ✔ No ESLint warnings or errors |
+| Typecheck | `npm run typecheck` | ✔ exit 0 |
+| Unit tests | `npm run test` | ✔ 53/53 passing (3 files) |
+| Brand verification | `npm run check:brand` | ✔ all 18 variants + favicon verified |
+| Asset references | `npm run check:assets` | ✔ 14 literal references + 36 media derivatives exist |
+| Route verification | `npm run check:routes` | ✔ 21 routes + 2 dynamic routes + 4 special files |
+| Production build | `npm run build` | ✔ 52 pages generated, 3 API routes, middleware 34.3 kB |
+| Production server | `next start` | ✔ `/`, `/classes`, `/classes/register`, `/es/classes`, `/es/waivers/parent-guardian-consent` all 200 |
+| Spanish rendering | `curl /es/classes` | ✔ Spanish class headings and CTAs present |
+| Spanish legal notice | `curl /es/waivers/parent-guardian-consent` | ✔ English-authoritative + signature-disabled notices present |
+| Responsive screenshots | Chromium headless | ✔ 12 surfaces × desktop 1440 / tablet 834 / mobile 390 = 36 images in `screenshots/checkpoint-002/` |
+
+### New automated coverage in this checkpoint
+
+- Class template integrity: exactly 10 templates, unique slugs, `price === null`,
+  `schedule === null`, `proposed === true`, no `enrollment-open` class.
+- Every schedule preview entry asserts `preview === true` and `bookable === false`.
+- Class-interest validation for adult, guardian-led minor, and school audiences,
+  including the audience-scoped requirement for athlete fields and the guardian
+  relationship boundary.
+- Spanish validation message pack returns Spanish errors.
+- Calendar dates: `2025-02-31`, `2025-04-31`, `2025-13-01` rejected; leap years
+  2024/2000 accepted, 2025/1900 rejected.
+- Age boundaries: exact birthday, minimum and maximum age, minor at 17 / adult at 18.
+- Dictionary parity: every English key exists in Spanish, no empty strings.
+- Consent defaults: all optional categories false, essential true.
+- Abuse controls: oversized body, non-JSON content type, spam + disposable domain,
+  and a normal submission accepted.
+
+### Not run / unavailable (reported honestly)
+
+- **Lighthouse**: not available in this sandbox; no score is claimed.
+- **axe-core / automated accessibility audit**: not installed; no conformance
+  claim is made beyond manual keyboard/focus implementation.
+- **Vercel Preview deploy**: blocked — no Vercel CLI or token in the environment,
+  and the sandbox port proxy returns 403/404. No preview URL is claimed.
+- **Live Resend delivery**: no verified sending domain or API key in this
+  environment, so no end-to-end email was sent. The failure path is implemented so
+  a delivery failure can never render a success screen.
+- **Device-matrix testing**: replaced with headless Chromium viewport captures at
+  three widths; no physical-device testing was performed.
