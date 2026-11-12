@@ -46,6 +46,13 @@ const TYPE_FIELDS: Record<InquiryType, FieldConfig[]> = {
     { name: "groupSize", label: "Approximate group size (optional)", type: "number", half: true },
     { name: "preferredDates", label: "Proposed dates (optional)", half: true },
   ],
+  class: [
+    { name: "interest", label: "Class of interest (optional)", half: true },
+    { name: "athleteName", label: "Athlete name (optional)", half: true },
+    { name: "athleteAge", label: "Athlete age (optional)", type: "number", half: true },
+    { name: "sport", label: "Primary sport (optional)", half: true },
+    { name: "preferredDates", label: "Preferred session window (optional)", half: true },
+  ],
 };
 
 export function InquiryForm({
@@ -168,7 +175,7 @@ export function InquiryForm({
                 className="field-input"
               />
               {field.help ? (
-                <p id={`${id}-help`} className="mt-1.5 font-sans text-xs text-white/40">
+                <p id={`${id}-help`} className="mt-1.5 font-sans text-xs text-white/60">
                   {field.help}
                 </p>
               ) : null}
@@ -238,7 +245,7 @@ export function InquiryForm({
         <button type="submit" disabled={status === "submitting"} className="btn-primary disabled:opacity-60">
           {status === "submitting" ? "Sending\u2026" : submitLabel}
         </button>
-        <p className="font-sans text-xs leading-5 text-white/40">
+        <p className="font-sans text-xs leading-5 text-white/60">
           Please do not include medical, injury, or health details in this form. Those are collected
           only through the secure registration process.
         </p>

@@ -1,0 +1,77 @@
+{
+  "generatedAt": "2026-11-12T15:57:54.852Z",
+  "frames": [
+    {
+      "source": "IMG_5608.jpeg",
+      "faces": 20,
+      "note": "Large group session; twenty faces detected.",
+      "master": "assets/coach/originals/IMG_5608.jpeg",
+      "masterSize": [
+        3024,
+        4032
+      ],
+      "review": "review/coach-photos/review-IMG_5608.jpg",
+      "reviewSize": [
+        1600,
+        2133
+      ],
+      "reviewBytes": 915032,
+      "exifStripped": true,
+      "publicationStatus": "pending-release"
+    },
+    {
+      "source": "IMG_1468.jpeg",
+      "faces": 5,
+      "note": "Small group; five faces detected.",
+      "master": "assets/coach/originals/IMG_1468.jpeg",
+      "masterSize": [
+        4284,
+        5712
+      ],
+      "review": "review/coach-photos/review-IMG_1468.jpg",
+      "reviewSize": [
+        1600,
+        2133
+      ],
+      "reviewBytes": 494293,
+      "exifStripped": true,
+      "publicationStatus": "pending-release"
+    },
+    {
+      "source": "IMG_7389.jpeg",
+      "faces": 2,
+      "note": "Two people; second face detected at 0.91 confidence.",
+      "master": "assets/coach/originals/IMG_7389.jpeg",
+      "masterSize": [
+        4284,
+        5712
+      ],
+      "review": "review/coach-photos/review-IMG_7389.jpg",
+      "reviewSize": [
+        1600,
+        2133
+      ],
+      "reviewBytes": 491237,
+      "exifStripped": true,
+      "publicationStatus": "pending-release"
+    },
+    {
+      "source": "IMG_0244.jpeg",
+      "faces": 30,
+      "note": "Camp-scale group; thirty faces detected.",
+      "master": "assets/coach/originals/IMG_0244.jpeg",
+      "masterSize": [
+        4284,
+        5712
+      ],
+      "review": "review/coach-photos/review-IMG_0244.jpg",
+      "reviewSize": [
+        1600,
+        2133
+      ],
+      "reviewBytes": 897738,
+      "exifStripped": true,
+      "publicationStatus": "pending-release"
+    }
+  ]
+}

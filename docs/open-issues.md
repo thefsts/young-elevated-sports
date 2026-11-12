@@ -4,10 +4,11 @@
 
 | # | Issue | Impact | Owner |
 | --- | --- | --- | --- |
-| B1 | Uploaded brand/concept package `/workspace/01_approved_concepts` was a 0-byte file | No client reference imagery or approved concept files were available; brand was built to the written directive | Client (re-upload) |
+| B1 | **RESOLVED** — approved brand kit received (`Young_Elevated_Client_Full_Branding_Runner_Logo_(4).zip`, 32 files) | Runner mark traced to vector masters and implemented site-wide | — |
 | B2 | No verified contact details (phone, address, hours) | Cannot publish contact details or business listing | Client |
 | B3 | Resend not configured (no API key / verified domain) | Inquiry email returns 503; end-to-end send untested | Client / ops |
-| B4 | Vercel CLI not installed in the environment | Preview deployment not performed from here | Ops |
+| B4 | Vercel CLI not installed and no `VERCEL_TOKEN`/auth present | Preview deployment not performed from here; must be connected via Vercel dashboard or an authenticated CLI | Ops |
+| B6 | Sandbox port exposure returns HTTP 403 at the CloudFront proxy | A temporary public preview could not be provided from this environment; local production server verified at `localhost:3000` | Ops |
 | B5 | Legal review not performed on W01–W13 or policies | All documents remain drafts; registration submission stays disabled | Counsel |
 
 ## Partial / pending

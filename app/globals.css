@@ -132,7 +132,7 @@
   }
 
   .field-input {
-    @apply w-full border border-white/15 bg-ink/60 px-4 py-3 font-sans text-[0.95rem] text-white placeholder:text-white/30;
+    @apply w-full border border-white/15 bg-ink/60 px-4 py-3 font-sans text-[0.95rem] text-white placeholder:text-white/55;
   }
 
   .field-input:focus {
@@ -231,10 +231,142 @@
     transform: none;
   }
 
+  .ticker {
+    animation: ticker 38s linear infinite;
+  }
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1;
       transform: none;
     }
+
+    .ticker {
+      animation: none;
+    }
+  }
+}
+
+/* ---------------------------------------------------------------------------
+   Accessibility preference layers.
+   Applied by the floating accessibility toolbar as data attributes on <html>.
+   These are real, functional overrides — no decorative or non-working controls.
+   --------------------------------------------------------------------------- */
+
+html[data-a11y-text="large"] {
+  font-size: 112.5%;
+}
+
+html[data-a11y-text="xlarge"] {
+  font-size: 125%;
+}
+
+html[data-a11y-contrast="on"] {
+  --ink: #000000;
+  --gold: #ffd166;
+  --gold-bright: #ffe08a;
+  --silver: #ffffff;
+}
+
+html[data-a11y-contrast="on"] body {
+  background: #000000 !important;
+  color: #ffffff !important;
+}
+
+html[data-a11y-contrast="on"] * {
+  border-color: rgba(255, 255, 255, 0.55) !important;
+}
+
+html[data-a11y-contrast="on"] a,
+html[data-a11y-contrast="on"] button {
+  text-decoration-thickness: 2px;
+}
+
+html[data-a11y-contrast="on"] :focus-visible {
+  outline: 3px solid #ffe08a;
+  outline-offset: 3px;
+}
+
+html[data-a11y-motion="reduced"] *,
+html[data-a11y-motion="reduced"] *::before,
+html[data-a11y-motion="reduced"] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.001ms !important;
+  scroll-behavior: auto !important;
+}
+
+html[data-a11y-motion="reduced"] .reveal {
+  opacity: 1 !important;
+  transform: none !important;
+}
+
+html[data-a11y-motion="reduced"] .ticker {
+  animation: none !important;
+}
+
+html[data-a11y-links="on"] main a:not(.btn):not([class*="button"]),
+html[data-a11y-links="on"] footer a {
+  text-decoration: underline;
+  text-underline-offset: 0.22em;
+  text-decoration-thickness: 1px;
+}
+
+html[data-a11y-spacing="on"] body {
+  line-height: 1.85;
+  letter-spacing: 0.045em;
+  word-spacing: 0.12em;
+}
+
+html[data-a11y-spacing="on"] p,
+html[data-a11y-spacing="on"] li {
+  margin-bottom: 1.1em;
+}
+
+html[data-a11y-spacing="on"] h1,
+html[data-a11y-spacing="on"] h2,
+html[data-a11y-spacing="on"] h3 {
+  line-height: 1.25;
+  letter-spacing: 0.02em;
+}
+
+html[data-a11y-pointer="on"],
+html[data-a11y-pointer="on"] * {
+  cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='36' height='36' viewBox='0 0 36 36'%3E%3Cpath d='M6 3 L6 27 L12.5 21 L17 31 L21 29 L16.5 19.5 L25 19 Z' fill='%23080808' stroke='%23F4CC64' stroke-width='2.2' stroke-linejoin='round'/%3E%3C/svg%3E") 6 3, auto;
+}
+
+/* Accessibility launcher + panel */
+.a11y-launcher {
+  position: fixed;
+  z-index: 90;
+  bottom: max(1rem, env(safe-area-inset-bottom));
+  right: max(1rem, env(safe-area-inset-right));
+  touch-action: none;
+}
+
+.a11y-panel {
+  position: fixed;
+  z-index: 95;
+  width: min(22rem, calc(100vw - 2rem));
+  max-height: min(38rem, calc(100vh - 2rem));
+  overflow-y: auto;
+  overscroll-behavior: contain;
+}
+
+@media (max-width: 640px) {
+  .a11y-panel {
+    left: 0.75rem;
+    right: 0.75rem;
+    width: auto;
+    bottom: max(0.75rem, env(safe-area-inset-bottom));
   }
 }

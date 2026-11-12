@@ -2,38 +2,55 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, Notice, PageHero, SectionHeading } from "@/components/ui";
-import { formats, programs, trainingPrinciples } from "@/lib/content/programs";
+import {
+  localizedFormats,
+  localizedPrograms,
+  localizedTrainingPrinciples,
+} from "@/lib/content/programs";
+import { media, coachPortraitCutout } from "@/lib/content/media";
+import Image from "next/image";
 import { pageMetadata } from "@/lib/seo";
+import { getTranslator } from "@/lib/i18n/server";
+import { LOCALE_LABELS, LOCALES, absoluteLocalized, localizedPath } from "@/lib/i18n/config";
+import { site } from "@/lib/content/site";
 
-export const metadata: Metadata = pageMetadata({
-  title: "Training Programs",
-  description:
-    "Speed and acceleration, explosive power, agility, strength, injury risk reduction, conditioning, vertical jump, and mobility — structured athletic development in Dallas–Fort Worth.",
-  path: "/training",
-});
+export const metadata: Metadata = {
+  ...pageMetadata({
+    title: "Training Programs",
+    description:
+      "Speed and acceleration, explosive power, agility, strength, injury risk reduction, conditioning, vertical jump, and mobility — structured athletic development in Dallas–Fort Worth.",
+    path: "/training",
+  }),
+  alternates: {
+    canonical: "/training",
+    languages: Object.fromEntries(
+      LOCALES.map((l) => [LOCALE_LABELS[l].htmlLang, absoluteLocalized(site.url, l, "/training")]),
+    ),
+  },
+};
 
-export default function TrainingPage() {
+export default async function TrainingPage() {
+  const { t, locale } = await getTranslator();
+  const lp = (p: string) => localizedPath(locale, p);
+  const programs = localizedPrograms(locale);
+  const formats = localizedFormats(locale);
+  const trainingPrinciples = localizedTrainingPrinciples(locale);
+
   return (
     <>
       <PageHero
-        eyebrow="Training · Programs"
-        title={
-          <>
-            Built for the
-            <br />
-            demands of sport.
-          </>
-        }
-        intro="Eight training disciplines, programmed together around one athlete. Each quality is developed with intent — and progressed only when technique earns it."
-        image="/media/barbell.jpg"
-        imageAlt="Illustrative image: a loaded barbell on a rubber gym floor under warm side lighting."
+        eyebrow={t("training.hero.eyebrow")}
+        title={t("training.hero.title")}
+        intro={t("training.hero.intro")}
+        image={media.strength.src}
+        imageAlt={media.strength.alt}
         actions={
           <>
-            <Link href="/start-training" className="btn-primary">
-              Start Training
+            <Link href={lp("/start-training")} className="btn-primary">
+              {t("home.hero.cta")}
             </Link>
-            <Link href="/registration" className="btn-ghost">
-              Registration
+            <Link href={lp("/registration")} className="btn-ghost">
+              {t("nav.registration")}
             </Link>
           </>
         }
@@ -43,9 +60,9 @@ export default function TrainingPage() {
         <div className="shell">
           <SectionHeading
             index="01"
-            eyebrow="Disciplines"
-            title="What we train"
-            intro="Descriptions below explain the training emphasis. They are not promises of a specific result, and training is not medical treatment or physical therapy."
+            eyebrow={t("training.disciplines.eyebrow")}
+            title={t("training.disciplines.title")}
+            intro={t("training.disciplines.intro")}
           />
 
           <div className="mt-14 divide-y divide-white/10 border-y border-white/10">
@@ -53,7 +70,7 @@ export default function TrainingPage() {
               <Reveal key={program.slug} delay={i * 30}>
                 <article id={program.slug} className="scroll-mt-28 py-10 lg:py-12">
                   <div className="grid gap-8 lg:grid-cols-[0.16fr_0.84fr_1fr] lg:gap-12">
-                    <div className="font-sans text-[0.68rem] font-semibold tracking-[0.28em] text-gold/70">
+                    <div className="font-sans text-[0.68rem] font-semibold tracking-[0.28em] text-gold">
                       {program.index}
                     </div>
 
@@ -66,8 +83,8 @@ export default function TrainingPage() {
 
                     <div className="grid gap-6 sm:grid-cols-2">
                       <div>
-                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/40">
-                          Focus
+                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/60">
+                          {t("training.focus")}
                         </h3>
                         <ul className="mt-3 space-y-2">
                           {program.focus.map((f) => (
@@ -79,8 +96,8 @@ export default function TrainingPage() {
                         </ul>
                       </div>
                       <div>
-                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/40">
-                          Why it matters
+                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/60">
+                          {t("training.why")}
                         </h3>
                         <p className="mt-3 font-sans text-sm leading-6 text-silver/85">
                           {program.athleteBenefit}
@@ -99,9 +116,9 @@ export default function TrainingPage() {
         <div className="shell">
           <SectionHeading
             index="02"
-            eyebrow="Formats"
-            title="How athletes train"
-            intro="Service formats are configurable. Pricing, schedules, and locations are confirmed directly on inquiry — they are not published here."
+            eyebrow={t("training.formats.eyebrow")}
+            title={t("training.formats.title")}
+            intro={t("training.formats.intro")}
           />
 
           <div className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
@@ -114,7 +131,7 @@ export default function TrainingPage() {
                   <p className="mt-4 flex-1 font-sans text-sm leading-6 text-silver/80">
                     {format.summary}
                   </p>
-                  <p className="mt-6 border-t border-white/10 pt-4 font-sans text-[0.66rem] uppercase leading-5 tracking-[0.16em] text-gold/70">
+                  <p className="mt-6 border-t border-white/10 pt-4 font-sans text-[0.66rem] uppercase leading-5 tracking-[0.16em] text-gold">
                     {format.availability}
                   </p>
                 </div>
@@ -127,7 +144,7 @@ export default function TrainingPage() {
       <section className="border-t border-white/10 py-20">
         <div className="shell grid gap-12 lg:grid-cols-[1fr_1fr] lg:gap-20">
           <div>
-            <Eyebrow>Training principles</Eyebrow>
+            <Eyebrow>{t("training.principles.eyebrow")}</Eyebrow>
             <div className="mt-8 space-y-8">
               {trainingPrinciples.map((p) => (
                 <div key={p.title} className="border-l border-gold/40 pl-6">
@@ -139,29 +156,49 @@ export default function TrainingPage() {
           </div>
 
           <div className="space-y-6">
-            <Notice tone="draft" title="Important limitations">
-              <p>
-                Athletic training involves inherent risk. Young &amp; Elevated Sports Performance does
-                not guarantee improvement, injury prevention, scholarship offers, recruiting outcomes,
-                or professional contracts.
-              </p>
-              <p className="mt-3">
-                Training is not medical treatment, physical therapy, or rehabilitation. Athletes with
-                injuries or medical restrictions should consult a qualified healthcare provider.
-              </p>
+            <Notice tone="draft" title={t("training.limits.title")}>
+              <p>{t("training.limits.p1")}</p>
+              <p className="mt-3">{t("training.limits.p2")}</p>
             </Notice>
-            <Notice tone="info" title="Pricing & scheduling">
-              <p>
-                No prices or session schedules are published at this stage. Availability, pricing, and
-                location are confirmed on inquiry so that each athlete receives accurate information.
-              </p>
+            <Notice tone="info" title={t("training.pricing.title")}>
+              <p>{t("training.pricing.body")}</p>
             </Notice>
             <div className="flex flex-wrap gap-3 pt-2">
-              <Link href="/start-training" className="btn-primary">
-                Start Training
+              <Link href={lp("/start-training")} className="btn-primary">
+                {t("home.hero.cta")}
               </Link>
-              <Link href="/performance-technology" className="btn-ghost">
-                Technology
+              <Link href={lp("/performance-technology")} className="btn-ghost">
+                {t("nav.technology")}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* coach introduction -------------------------------------------------- */}
+      <section className="border-t border-white/10 bg-ink py-20 lg:py-24">
+        <div className="shell grid items-center gap-10 lg:grid-cols-[320px_1fr] lg:gap-16">
+          <div className="relative mx-auto w-full max-w-[320px]">
+            <div className="absolute -inset-3 border border-gold/25" aria-hidden="true" />
+            <Image
+              src={coachPortraitCutout.src}
+              alt={coachPortraitCutout.alt}
+              width={coachPortraitCutout.width}
+              height={coachPortraitCutout.height}
+              sizes="(max-width: 1024px) 60vw, 320px"
+              className="relative h-auto w-full"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <Eyebrow>{t("training.coach.eyebrow")}</Eyebrow>
+            <h2 className="display-md mt-5 text-white">{t("training.coach.title")}</h2>
+            <p className="mt-5 max-w-xl font-sans text-base leading-7 text-silver">
+              {t("training.coach.body")}
+            </p>
+            <div className="mt-7">
+              <Link href={lp("/about")} className="btn-ghost">
+                {t("training.coach.link")}
               </Link>
             </div>
           </div>

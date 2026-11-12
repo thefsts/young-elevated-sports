@@ -1,0 +1,58 @@
+{
+  "publicExports": [
+    {
+      "name": "coach-young-portrait.jpg",
+      "bytes": 180042,
+      "width": 1200,
+      "height": 1500
+    },
+    {
+      "name": "coach-young-portrait-md.jpg",
+      "bytes": 85819,
+      "width": 800,
+      "height": 1000
+    },
+    {
+      "name": "coach-young-portrait-sm.jpg",
+      "bytes": 29253,
+      "width": 400,
+      "height": 500
+    },
+    {
+      "name": "coach-young-portrait-brand.jpg",
+      "bytes": 147107,
+      "width": 1200,
+      "height": 1500
+    }
+  ],
+  "reviewCopies": [
+    {
+      "source": "IMG_3643.jpeg",
+      "name": "review-3643.jpg",
+      "bytes": 371961,
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "source": "IMG_1652.jpg",
+      "name": "review-1652.jpg",
+      "bytes": 339234,
+      "width": 900,
+      "height": 1600
+    },
+    {
+      "source": "IMG_0232.jpeg",
+      "name": "review-0232.jpg",
+      "bytes": 443539,
+      "width": 1200,
+      "height": 1600
+    },
+    {
+      "source": "IMG_8097.jpeg",
+      "name": "review-8097.jpg",
+      "bytes": 232849,
+      "width": 1200,
+      "height": 1600
+    }
+  ]
+}

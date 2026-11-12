@@ -3,6 +3,8 @@ import Link from "next/link";
 import { notFound } from "next/navigation";
 import { pageMetadata } from "@/lib/seo";
 import { waiverDocuments, getWaiver } from "@/lib/content/waivers";
+import { getTranslator } from "@/lib/i18n/server";
+import { localizedPath } from "@/lib/i18n/config";
 
 export function generateStaticParams() {
   return waiverDocuments.map((waiver) => ({ slug: waiver.slug }));
@@ -27,12 +29,14 @@ export default async function WaiverDetailPage({ params }: { params: Promise<{ s
   const { slug } = await params;
   const waiver = getWaiver(slug);
   if (!waiver) notFound();
+  const { t, locale } = await getTranslator();
+  const lp = (path: string) => localizedPath(locale, path);
 
   return (
     <article className="bg-ink">
       <div className="shell max-w-4xl py-16 lg:py-24">
         <Link
-          href="/waivers"
+          href={lp("/waivers")}
           className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.18em] text-gold hover:text-gold-bright"
         >
           &larr; All waiver documents
@@ -47,6 +51,25 @@ export default async function WaiverDetailPage({ params }: { params: Promise<{ s
             and must not be signed or relied upon until approved by qualified Texas counsel.
           </p>
         </div>
+
+        {locale !== "en" ? (
+          <div
+            lang="es"
+            className="mt-4 border border-white/20 bg-white/[0.04] px-5 py-4"
+            role="note"
+            aria-label={t("legal.englishAuthoritative")}
+          >
+            <p className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.24em] text-white/70">
+              {t("legal.englishAuthoritative")}
+            </p>
+            <p className="mt-2 font-sans text-sm leading-6 text-silver">
+              {t("legal.spanishNotice")}
+            </p>
+            <p className="mt-2 font-sans text-sm font-semibold leading-6 text-gold">
+              {t("legal.signatureDisabled")}
+            </p>
+          </div>
+        ) : null}
 
         <header className="mt-10 border-b border-white/10 pb-8">
           <p className="font-display text-lg text-gold">{waiver.id}</p>
@@ -63,7 +86,7 @@ export default async function WaiverDetailPage({ params }: { params: Promise<{ s
               ["Status", waiver.status],
             ].map(([label, value]) => (
               <div key={label}>
-                <dt className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-white/40">{label}</dt>
+                <dt className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-white/60">{label}</dt>
                 <dd className="mt-1 font-sans text-sm text-white">{value}</dd>
               </div>
             ))}
@@ -106,10 +129,10 @@ export default async function WaiverDetailPage({ params }: { params: Promise<{ s
         </section>
 
         <div className="mt-12 flex flex-wrap gap-3">
-          <Link href="/waivers" className="btn-ghost">
+          <Link href={lp("/waivers")} className="btn-ghost">
             Back to inventory
           </Link>
-          <Link href="/policies" className="btn-ghost">
+          <Link href={lp("/policies")} className="btn-ghost">
             Policy index
           </Link>
         </div>

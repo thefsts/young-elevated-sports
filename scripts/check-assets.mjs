@@ -36,8 +36,24 @@ for (const dir of SCAN_DIRS) {
 
 const missing = [];
 for (const ref of [...references].sort()) {
+  // Template-literal stems (e.g. `/media/${category}.jpg`) are resolved by the
+  // media registry check below rather than as literal file names.
+  if (ref.includes("${")) continue;
   const path = join(PUBLIC, ref.replace(/^\//, ""));
   if (!existsSync(path)) missing.push(ref);
+}
+
+// Verify every category in the media registry has its three derivatives.
+const mediaSource = readFileSync(join(ROOT, "lib/content/media.ts"), "utf8");
+const categoryBlock = mediaSource.match(/export type MediaCategory =([\s\S]*?);/);
+if (categoryBlock) {
+  const categories = [...categoryBlock[1].matchAll(/"([a-z-]+)"/g)].map((m) => m[1]);
+  for (const category of categories) {
+    for (const suffix of ["", "-md", "-sm"]) {
+      const file = `/media/${category}${suffix}.jpg`;
+      if (!existsSync(join(PUBLIC, file.replace(/^\//, "")))) missing.push(file);
+    }
+  }
 }
 
 console.log(`Checked ${references.size} local asset reference(s).`);

@@ -1,3 +1,24 @@
 node_modules
 .next
-.env*
+out
+.env
+.env.local
+.env*.local
+*.tsbuildinfo
+next-env.d.ts
+.DS_Store
+.vercel
+coverage
+.fonts
+
+# Python
+__pycache__/
+*.pyc
+
+# Full-resolution client photography masters.
+# Only the master for the cleared, published portrait is versioned. The group
+# frames are held outside version control until media releases are confirmed,
+# because they contain multiple identifiable people. The client retains the
+# untouched originals.
+assets/coach/originals/IMG_*.jpeg
+assets/coach/originals/IMG_*.jpg

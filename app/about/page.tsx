@@ -4,6 +4,10 @@ import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, GoldRule, Notice, PageHero, SectionHeading } from "@/components/ui";
 import { bio } from "@/lib/content/bio";
+import { pageCopy } from "@/lib/content/page-copy-es";
+import { coachPortrait } from "@/lib/content/media";
+import { getTranslator } from "@/lib/i18n/server";
+import { localizedPath } from "@/lib/i18n/config";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -13,26 +17,45 @@ export const metadata: Metadata = pageMetadata({
   path: "/about",
 });
 
-export default function AboutPage() {
+export default async function AboutPage() {
+  const { locale } = await getTranslator();
+  const c = pageCopy(locale);
+  const lp = (p: string) => localizedPath(locale, p);
+
+  const copy = c?.about;
+  const b = c?.bio;
+
+  const intro = b?.intro ?? bio.intro;
+  const mission = b?.mission ?? bio.mission;
+  const paragraphs = b?.paragraphs ?? bio.paragraphs;
+  const emphasis = b?.emphasis ?? bio.emphasis;
+  const education = b?.education ?? bio.education;
+  const certifications = b?.certifications ?? bio.certifications.map((x) => x.name);
+  const accomplishments = b?.accomplishments ?? bio.accomplishments;
+  const pending = b?.pendingVerification ?? bio.pendingVerification;
+
   return (
     <>
       <PageHero
-        eyebrow="About · Founder"
+        eyebrow={copy?.eyebrow ?? "About · Founder"}
         title={
           <>
-            Meet
+            {copy?.titleLines[0] ?? "Meet"}
             <br />
-            Reggie Young
+            {copy?.titleLines[1] ?? "Reggie Young"}
           </>
         }
-        intro={bio.intro}
+        intro={intro}
         image="/media/facility.jpg"
-        imageAlt="Illustrative image: an empty indoor athletic training facility with turf and overhead lighting."
+        imageAlt={
+          copy?.imageAlt ??
+          "Illustrative image: an empty indoor athletic training facility with turf and overhead lighting."
+        }
         meta={
           <div className="flex flex-wrap gap-x-8 gap-y-3 font-sans text-[0.68rem] uppercase tracking-[0.2em] text-white/60">
-            <span>Founder</span>
-            <span className="text-gold">CSCS</span>
-            <span>CPR &amp; AED</span>
+            <span>{copy?.meta[0] ?? "Founder"}</span>
+            <span className="text-gold">{copy?.meta[1] ?? "CSCS"}</span>
+            <span>{copy?.meta[2] ?? "CPR & AED"}</span>
             <span>{bio.location}</span>
           </div>
         }
@@ -42,12 +65,12 @@ export default function AboutPage() {
         <div className="shell grid gap-14 lg:grid-cols-[1.25fr_0.75fr] lg:gap-20">
           <div>
             <Reveal>
-              <Eyebrow>The mission</Eyebrow>
+              <Eyebrow>{copy?.missionEyebrow ?? "The mission"}</Eyebrow>
               <p className="mt-6 font-display text-2xl uppercase leading-tight text-white sm:text-3xl">
-                {bio.mission}
+                {mission}
               </p>
               <div className="mt-8 space-y-5 font-sans text-base leading-7 text-silver">
-                {bio.paragraphs.map((p) => (
+                {paragraphs.map((p) => (
                   <p key={p.slice(0, 24)}>{p}</p>
                 ))}
               </div>
@@ -55,9 +78,9 @@ export default function AboutPage() {
 
             <Reveal delay={100}>
               <div className="mt-16">
-                <Eyebrow>Coaching emphasis</Eyebrow>
+                <Eyebrow>{copy?.emphasisEyebrow ?? "Coaching emphasis"}</Eyebrow>
                 <div className="mt-7 grid gap-px bg-white/10 sm:grid-cols-2">
-                  {bio.emphasis.map((item) => (
+                  {emphasis.map((item) => (
                     <div key={item.title} className="bg-ink p-6">
                       <h2 className="font-display text-lg uppercase text-white">{item.title}</h2>
                       <p className="mt-2 font-sans text-sm leading-6 text-silver/80">{item.body}</p>
@@ -71,24 +94,24 @@ export default function AboutPage() {
           <aside className="space-y-10">
             <div className="relative aspect-[4/5] overflow-hidden border border-white/10">
               <Image
-                src="/media/barbell.jpg"
-                alt="Illustrative image: a loaded barbell on a rubber gym floor under warm side lighting."
+                src={coachPortrait.src}
+                alt={coachPortrait.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 33vw"
-                className="object-cover"
+                className="object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
-              <p className="absolute bottom-4 left-4 right-4 font-sans text-[0.58rem] uppercase leading-4 tracking-[0.16em] text-white/50">
-                Illustrative imagery — not a photo of the client. Replace with licensed photography.
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
+              <p className="absolute bottom-4 left-4 right-4 font-sans text-[0.58rem] uppercase leading-4 tracking-[0.16em] text-gold/80">
+                {coachPortrait.caption}
               </p>
             </div>
 
             <div className="border border-white/10 bg-graphite/50 p-6">
               <h2 className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-gold">
-                Education
+                {copy?.education ?? "Education"}
               </h2>
               <ul className="mt-5 space-y-4">
-                {bio.education.map((item) => (
+                {education.map((item) => (
                   <li key={item.credential}>
                     <p className="font-display text-lg uppercase text-white">{item.credential}</p>
                     <p className="font-sans text-sm text-silver/80">
@@ -101,28 +124,28 @@ export default function AboutPage() {
 
             <div className="border border-white/10 bg-graphite/50 p-6">
               <h2 className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-gold">
-                Certifications
+                {copy?.certifications ?? "Certifications"}
               </h2>
               <ul className="mt-5 space-y-3">
-                {bio.certifications.map((item) => (
-                  <li key={item.name} className="flex items-start gap-3 font-sans text-sm text-silver">
+                {certifications.map((name) => (
+                  <li key={name} className="flex items-start gap-3 font-sans text-sm text-silver">
                     <span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-gold" />
-                    {item.name}
+                    {name}
                   </li>
                 ))}
               </ul>
-              <p className="mt-5 font-sans text-[0.7rem] leading-5 text-white/35">
-                Certification badges and issuing-body logos are not displayed pending written
-                permission and verification of current status.
+              <p className="mt-5 font-sans text-[0.7rem] leading-5 text-white/60">
+                {copy?.certNote ??
+                  "Certification badges and issuing-body logos are not displayed pending written permission and verification of current status."}
               </p>
             </div>
 
             <div className="border border-white/10 bg-graphite/50 p-6">
               <h2 className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.28em] text-gold">
-                Accomplishments
+                {copy?.accomplishments ?? "Accomplishments"}
               </h2>
               <ul className="mt-5 space-y-3">
-                {bio.accomplishments.map((item) => (
+                {accomplishments.map((item) => (
                   <li key={item} className="flex items-start gap-3 font-sans text-sm text-silver">
                     <span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-gold" />
                     {item}
@@ -137,14 +160,17 @@ export default function AboutPage() {
       <section className="border-t border-white/10 bg-graphite/30 py-20">
         <div className="shell">
           <SectionHeading
-            eyebrow="Verification status"
-            title="What we have not published"
-            intro="The following details were not supplied or verified, so they are intentionally absent from this page rather than invented."
+            eyebrow={copy?.verificationEyebrow ?? "Verification status"}
+            title={copy?.verificationTitle ?? "What we have not published"}
+            intro={
+              copy?.verificationIntro ??
+              "The following details were not supplied or verified, so they are intentionally absent from this page rather than invented."
+            }
           />
           <div className="mt-10 max-w-3xl">
-            <Notice tone="info" title="Pending client verification">
+            <Notice tone="info" title={copy?.pendingTitle ?? "Pending client verification"}>
               <ul className="mt-1 space-y-2">
-                {bio.pendingVerification.map((item) => (
+                {pending.map((item) => (
                   <li key={item} className="flex gap-3">
                     <span aria-hidden="true" className="mt-2.5 h-px w-3 shrink-0 bg-gold" />
                     {item}
@@ -160,17 +186,20 @@ export default function AboutPage() {
         <div className="shell flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div>
             <GoldRule />
-            <h2 className="display-md mt-5 text-white">Train with Coach Young.</h2>
+            <h2 className="display-md mt-5 text-white">
+              {copy?.ctaTitle ?? "Train with Coach Young."}
+            </h2>
             <p className="mt-3 max-w-lg font-sans text-sm leading-6 text-silver">
-              Start with an inquiry. We will discuss the athlete, the sport, and the next step.
+              {copy?.ctaBody ??
+                "Start with an inquiry. We will discuss the athlete, the sport, and the next step."}
             </p>
           </div>
           <div className="flex flex-wrap gap-3">
-            <Link href="/start-training" className="btn-primary">
-              Start Training
+            <Link href={lp("/start-training")} className="btn-primary">
+              {copy?.ctaPrimary ?? "Start Training"}
             </Link>
-            <Link href="/training" className="btn-ghost">
-              Training Programs
+            <Link href={lp("/training")} className="btn-ghost">
+              {copy?.ctaSecondary ?? "Training Programs"}
             </Link>
           </div>
         </div>

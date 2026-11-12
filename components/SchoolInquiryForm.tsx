@@ -184,7 +184,7 @@ export function SchoolInquiryForm() {
         <button type="submit" disabled={status === "submitting"} className="btn-primary disabled:opacity-60">
           {status === "submitting" ? "Sending\u2026" : "Send school inquiry"}
         </button>
-        <p className="font-sans text-xs leading-5 text-white/40">
+        <p className="font-sans text-xs leading-5 text-white/60">
           Please do not include student medical, injury, or health information in this form.
         </p>
       </div>
