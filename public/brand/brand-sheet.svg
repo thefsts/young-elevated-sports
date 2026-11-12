@@ -1,0 +1,23 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 700" width="1200" height="700">
+  <rect width="1200" height="700" fill="#080808"/>
+  <g transform="translate(60,60) scale(2.2)"><g id="m">
+    <g fill="#D6A73B">
+      <polygon points="11.4,30 22.6,20 57.6,59 46.4,69"/>
+      <polygon points="92.6,30 81.4,20 46.4,59 57.6,69"/>
+      <rect x="44.5" y="56" width="15" height="48"/>
+      <rect x="94" y="25" width="13" height="79"/>
+      <rect x="94" y="25" width="26" height="13"/>
+      <rect x="94" y="58" width="20" height="13"/>
+      <rect x="94" y="91" width="26" height="13"/>
+    </g>
+    <polygon points="40,101 52,89 64,101 64,108 52,96 40,108" fill="#F4CC64"/>
+  </g></g>
+  <text x="400" y="120" fill="#FFFFFF" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="64" font-weight="700" letter-spacing="2">YOUNG &amp; ELEVATED</text>
+  <text x="402" y="160" fill="#D6A73B" font-family="Barlow Condensed, Arial Narrow, sans-serif" font-size="22" letter-spacing="10">SPORTS PERFORMANCE</text>
+  <rect x="60" y="360" width="1080" height="1" fill="#2A2A2A"/>
+  <g transform="translate(60,400)">
+    <rect x="0" y="0" width="160" height="90" fill="#080808" stroke="#2A2A2A"/><text x="0" y="120" fill="#C5C8CE" font-family="monospace" font-size="13">#080808</text><rect x="176" y="0" width="160" height="90" fill="#191919" stroke="#2A2A2A"/><text x="176" y="120" fill="#C5C8CE" font-family="monospace" font-size="13">#191919</text><rect x="352" y="0" width="160" height="90" fill="#D6A73B" stroke="#2A2A2A"/><text x="352" y="120" fill="#C5C8CE" font-family="monospace" font-size="13">#D6A73B</text><rect x="528" y="0" width="160" height="90" fill="#F4CC64" stroke="#2A2A2A"/><text x="528" y="120" fill="#C5C8CE" font-family="monospace" font-size="13">#F4CC64</text><rect x="704" y="0" width="160" height="90" fill="#FFFFFF" stroke="#2A2A2A"/><text x="704" y="120" fill="#C5C8CE" font-family="monospace" font-size="13">#FFFFFF</text><rect x="880" y="0" width="160" height="90" fill="#C5C8CE" stroke="#2A2A2A"/><text x="880" y="120" fill="#C5C8CE" font-family="monospace" font-size="13">#C5C8CE</text>
+  </g>
+  <text x="60" y="600" fill="#C5C8CE" font-family="Barlow, Arial, sans-serif" font-size="18">Performance Black · Graphite · Championship Gold · Bright Gold · Athletic White · Cool Silver</text>
+  <text x="60" y="650" fill="#6A6A6A" font-family="Barlow, Arial, sans-serif" font-size="14">DRAFT BRAND SHEET — Young &amp; Elevated Sports Performance · Batch 001</text>
+</svg>
