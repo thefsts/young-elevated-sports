@@ -2,7 +2,7 @@
   "name": "young-elevated-sports",
   "version": "0.1.0",
   "private": true,
-  "description": "Young & Elevated Sports Performance \u2014 premium athletic development website.",
+  "description": "Young & Elevated Sports Performance — premium athletic development website.",
   "scripts": {
     "dev": "next dev",
     "build": "next build",
@@ -36,5 +36,8 @@
     "tailwindcss": "3.4.17",
     "typescript": "5.7.3",
     "vitest": "2.1.8"
+  },
+  "engines": {
+    "node": "26.x"
   }
 }
