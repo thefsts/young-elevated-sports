@@ -49,7 +49,7 @@ Commit under test: `9fb33e9` · branch `feature/batch-001-foundation` · PR #1 o
 - [x] Photo permission inventory
 - [x] `docs/checkpoint-004-report.md` with all eight deliverables and blockers
 - [x] Commit and push report + todo
-- [ ] Deliver report to PM and stop for review
+- [x] Deliver report to PM and stop for review
 
 ## Scope discipline
 - [x] PR #1 not merged
