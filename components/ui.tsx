@@ -90,11 +90,19 @@ export function PageHero({
   );
 }
 
-export function ArrowLink({ href, children }: { href: string; children: ReactNode }) {
+export function ArrowLink({
+  href,
+  children,
+  className = "text-gold hover:text-gold-bright",
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <Link
       href={href}
-      className="group inline-flex items-center gap-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold transition-colors hover:text-gold-bright"
+      className={`group inline-flex items-center gap-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.2em] transition-colors ${className}`}
     >
       {children}
       <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">

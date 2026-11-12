@@ -1,38 +1,110 @@
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { Eyebrow, GoldRule, SectionHeading, StatStrip, ArrowLink } from "@/components/ui";
-import { localizedPrograms, localizedTrainingPrinciples } from "@/lib/content/programs";
-import { technology } from "@/lib/content/technology";
-import { stats } from "@/lib/content/site";
-import { coachPortrait } from "@/lib/content/media";
+import { Eyebrow, ArrowLink } from "@/components/ui";
+import { media, coachPortrait } from "@/lib/content/media";
 import { JsonLd, organizationSchema } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
 import { localizedPath } from "@/lib/i18n/config";
+import type { TranslationKey } from "@/lib/i18n/dictionaries";
+
+/* ------------------------------------------------------------------ icons */
+
+const ICON_PROPS = {
+  width: 30,
+  height: 30,
+  viewBox: "0 0 24 24",
+  fill: "none",
+  stroke: "currentColor",
+  strokeWidth: 1.35,
+  strokeLinecap: "round" as const,
+  strokeLinejoin: "round" as const,
+  "aria-hidden": true,
+};
+
+/** Speed — motion chevrons. */
+function IconSpeed() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M3 8h9M3 12h12M3 16h7" />
+      <path d="M15.5 7.5 20 12l-4.5 4.5" />
+    </svg>
+  );
+}
+
+/** Strength — loaded bar. */
+function IconStrength() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M4 9v6M7 7v10M17 7v10M20 9v6M7 12h10" />
+    </svg>
+  );
+}
+
+/** Agility — change of direction. */
+function IconAgility() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M3 18 8 9l5 6 3-5 5 8" />
+      <circle cx="8" cy="9" r="1.1" />
+      <circle cx="16" cy="10" r="1.1" />
+    </svg>
+  );
+}
+
+/** Explosive power — upward burst. */
+function IconPower() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M12 21V8" />
+      <path d="m7.5 12.5 4.5-4.5 4.5 4.5" />
+      <path d="M5 5.5 7.5 3M19 5.5 16.5 3M12 3V1" />
+    </svg>
+  );
+}
+
+/** Injury prevention — shield. */
+function IconShield() {
+  return (
+    <svg {...ICON_PROPS}>
+      <path d="M12 3 5 5.5v5.9c0 4.2 2.9 7.4 7 8.6 4.1-1.2 7-4.4 7-8.6V5.5L12 3Z" />
+      <path d="m9 11.8 2.1 2.1 4-4" />
+    </svg>
+  );
+}
+
+const DISCIPLINE_ICONS = [IconSpeed, IconStrength, IconAgility, IconPower, IconShield];
+
+/* ------------------------------------------------------------------- page */
 
 export default async function HomePage() {
   const { t, locale } = await getTranslator();
   const lp = (p: string) => localizedPath(locale, p);
-  const programs = localizedPrograms(locale);
-  const trainingPrinciples = localizedTrainingPrinciples(locale);
 
-  const ticker = [
-    t("home.ticker.speed"),
-    t("home.ticker.strength"),
-    t("home.ticker.agility"),
-    t("home.ticker.power"),
-    t("home.ticker.injury"),
-    t("home.ticker.vertical"),
-    t("home.ticker.mobility"),
-    t("home.ticker.conditioning"),
+  const disciplines = [
+    t("home.disciplines.one"),
+    t("home.disciplines.two"),
+    t("home.disciplines.three"),
+    t("home.disciplines.four"),
+    t("home.disciplines.five"),
   ];
 
-  const pillars = [
+  const objectives: TranslationKey[] = [
+    "home.objectives.one",
+    "home.objectives.two",
+    "home.objectives.three",
+    "home.objectives.four",
+    "home.objectives.five",
+    "home.objectives.six",
+    "home.objectives.seven",
+    "home.objectives.eight",
+  ];
+
+  const techPillars = [
     { title: t("home.pillars.one.title"), body: t("home.pillars.one.body") },
     { title: t("home.pillars.two.title"), body: t("home.pillars.two.body") },
     { title: t("home.pillars.three.title"), body: t("home.pillars.three.body") },
     { title: t("home.pillars.four.title"), body: t("home.pillars.four.body") },
-    { title: t("home.pillars.five.title"), body: t("home.pillars.five.body") },
   ];
 
   const dfw = [
@@ -41,308 +113,211 @@ export default async function HomePage() {
     { label: t("home.dfw.three.label"), body: t("home.dfw.three.body") },
   ];
 
+  const skyline = media["dfw-skyline"];
+
   return (
     <>
       <JsonLd data={organizationSchema} />
 
-      {/* ---------------------------------------------------------------- hero */}
-      <section className="relative flex min-h-[92svh] items-end overflow-hidden bg-ink">
+      {/* ------------------------------------------------------------ hero */}
+      <section className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink">
         <Image
-          src="/media/hero-track.jpg"
+          src={media.sprinting.src}
           alt={t("home.hero.imageAlt")}
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[60%_center] opacity-100"
+          className="object-cover object-[68%_center] brightness-[1.14]"
         />
-        {/* Scrim is weighted to the left where the headline sits; the right two
-            thirds of the frame stay open so the athlete reads clearly. */}
-        <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/35 to-ink/5" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,8,0.88)_0%,rgba(8,8,8,0.42)_45%,rgba(8,8,8,0)_100%)]" />
-        <div className="grain absolute inset-0" aria-hidden="true" />
+        {/* Scrim is weighted to the left where the headline sits. The athlete
+            stays fully exposed on the right, and the bottom fade only exists so
+            the discipline row can sit on the photograph without a hard edge. */}
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,8,0.89)_0%,rgba(8,8,8,0.62)_30%,rgba(8,8,8,0.15)_54%,rgba(8,8,8,0)_84%)]" />
+        <div className="absolute inset-x-0 bottom-0 h-72 bg-gradient-to-t from-ink via-ink/60 to-transparent" />
 
-        <div className="shell relative w-full pb-14 pt-32 lg:pb-20">
-          <div className="max-w-4xl">
-            <div className="flex items-center gap-4 fade-in">
-              <GoldRule />
-              <Eyebrow>{t("home.hero.eyebrow")}</Eyebrow>
-            </div>
+        <div className="shell relative flex w-full flex-1 flex-col pb-8 pt-[18vh] sm:pt-[19vh]">
+          <div className="max-w-[47rem]">
+            <Eyebrow>{t("home.hero.eyebrow")}</Eyebrow>
 
-            <h1 className="mt-7 fade-in" style={{ animationDelay: "80ms" }}>
-              <span className="display-xl block text-white">{t("home.hero.line1")}</span>
-              <span className="display-xl block text-white">{t("home.hero.line2")}</span>
-              <span className="display-xl mt-2 block text-sheen">{t("home.hero.line3")}</span>
-              <span className="display-xl block text-sheen">{t("home.hero.line4")}</span>
+            <h1 className="mt-6 fade-in">
+              <span className="display-hero block text-white">{t("home.hero.headline1")}</span>
+              <span className="display-hero block text-sheen">{t("home.hero.headline2")}</span>
             </h1>
 
-            <p
-              className="mt-8 max-w-xl font-sans text-base leading-7 text-silver sm:text-lg fade-in"
-              style={{ animationDelay: "160ms" }}
-            >
-              {t("home.hero.intro")}
-            </p>
+            <p className="lede mt-7 max-w-xl">{t("home.hero.intro")}</p>
 
-            <div
-              className="mt-10 flex flex-wrap items-center gap-3 fade-in"
-              style={{ animationDelay: "240ms" }}
-            >
+            <div className="mt-9 flex flex-wrap gap-4">
               <Link href={lp("/start-training")} className="btn-primary">
                 {t("home.hero.cta")}
               </Link>
-              <Link href={lp("/about")} className="btn-ghost">
-                {t("home.hero.secondary")}
+              <Link href={lp("/registration/athlete")} className="btn-ghost">
+                {t("home.hero.ctaIntake")}
               </Link>
             </div>
           </div>
-        </div>
-      </section>
 
-      {/* ------------------------------------------------------------- ticker */}
-      <section
-        aria-label={t("home.ticker.label")}
-        className="overflow-hidden border-y border-white/10 bg-graphite/60"
-      >
-        <div className="flex whitespace-nowrap py-4">
-          <ul className="ticker flex shrink-0 items-center gap-10 pr-10 font-display text-sm uppercase tracking-[0.28em] text-silver/70">
-            {ticker.map((item) => (
-              <li key={item} className="flex items-center gap-10">
-                <span>{item}</span>
-                <span aria-hidden="true" className="text-gold">
-                  /
-                </span>
-              </li>
-            ))}
-          </ul>
+          {/* five training disciplines, beneath the hero copy */}
           <ul
-            aria-hidden="true"
-            className="ticker flex shrink-0 items-center gap-10 pr-10 font-display text-sm uppercase tracking-[0.28em] text-silver/70"
+            aria-label={t("home.disciplines.label")}
+            className="mt-auto grid grid-cols-2 gap-x-6 gap-y-8 border-t border-white/15 pt-8 sm:grid-cols-3 lg:grid-cols-5 lg:gap-x-8"
           >
-            {ticker.map((item) => (
-              <li key={item} className="flex items-center gap-10">
-                <span>{item}</span>
-                <span className="text-gold">/</span>
-              </li>
-            ))}
+            {disciplines.map((label, i) => {
+              const Icon = DISCIPLINE_ICONS[i];
+              return (
+                <li key={label} className="flex flex-col gap-3">
+                  <span className="text-gold">
+                    <Icon />
+                  </span>
+                  <span className="font-display text-[0.82rem] uppercase leading-none tracking-[0.16em] text-white/90">
+                    {label}
+                  </span>
+                </li>
+              );
+            })}
           </ul>
         </div>
       </section>
 
-      {/* -------------------------------------------------------------- stats */}
-      <section aria-label={t("home.stats.label")} className="border-b border-white/10 bg-graphite/40">
-        <div className="shell py-2">
-          <StatStrip items={stats} />
-        </div>
-      </section>
-
-      {/* ---------------------------------------------------------- manifesto */}
-      <section className="relative overflow-hidden py-24 lg:py-32">
-        <div className="shell">
-          <div className="grid gap-14 lg:grid-cols-[0.9fr_1.1fr] lg:gap-24">
-            <Reveal>
-              <Eyebrow>{t("home.manifesto.eyebrow")}</Eyebrow>
-              <h2 className="display-lg mt-6 text-white">{t("home.manifesto.title")}</h2>
-            </Reveal>
-            <Reveal delay={120}>
-              <div className="space-y-6 font-sans text-base leading-7 text-silver sm:text-lg">
-                <p>{t("home.manifesto.p1")}</p>
-                <p>{t("home.manifesto.p2")}</p>
-                <p className="border-l-2 border-gold/60 pl-6 font-display text-xl uppercase leading-tight text-white">
-                  {t("home.manifesto.quote")}
-                  <span className="mt-3 block font-sans text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">
-                    {t("home.manifesto.attribution")}
-                  </span>
-                </p>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------------------------------------------------- programs */}
-      <section className="border-t border-white/10 bg-graphite/30 py-24 lg:py-32">
-        <div className="shell">
-          <div className="flex flex-col justify-between gap-8 md:flex-row md:items-end">
-            <SectionHeading
-              index="01"
-              eyebrow={t("home.programs.eyebrow")}
-              title={t("home.programs.title")}
-              intro={t("home.programs.intro")}
-            />
-            <div className="shrink-0">
-              <ArrowLink href={lp("/training")}>{t("home.programs.link")}</ArrowLink>
-            </div>
-          </div>
-
-          <div className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-4">
-            {programs.map((program, i) => (
-              <Reveal key={program.slug} delay={i * 40}>
-                <Link
-                  href={`${lp("/training")}#${program.slug}`}
-                  className="group flex h-full flex-col justify-between bg-ink p-7 transition-colors hover:bg-graphite"
-                >
-                  <div>
-                    <span className="font-sans text-[0.66rem] font-semibold tracking-[0.28em] text-gold">
-                      {program.index}
-                    </span>
-                    <h3 className="mt-5 font-display text-2xl uppercase leading-none text-white">
-                      {program.title}
-                    </h3>
-                    <p className="mt-4 font-sans text-sm leading-6 text-silver/80">{program.summary}</p>
-                  </div>
-                  <span
-                    aria-hidden="true"
-                    className="mt-8 block h-px w-8 bg-white/20 transition-all duration-300 group-hover:w-16 group-hover:bg-gold"
-                  />
-                </Link>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ------------------------------------------------------------- coach */}
-      <section className="relative overflow-hidden border-t border-white/10">
-        <div className="grid lg:grid-cols-2">
-          <div className="relative min-h-[380px] lg:min-h-[620px]">
-            <Image
-              src={coachPortrait.src}
-              alt={t("home.coach.portraitAlt")}
-              fill
-              sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover object-top"
-              priority={false}
-            />
-            <div className="absolute inset-0 bg-gradient-to-r from-ink/25 to-transparent" />
-            <div className="absolute bottom-6 left-6 border border-gold/30 bg-ink/70 px-4 py-2 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-gold backdrop-blur">
-              {t("home.coach.portraitCaption")}
-            </div>
-          </div>
-
-          <div className="flex items-center bg-ink px-6 py-20 sm:px-12 lg:px-16">
-            <Reveal>
-              <Eyebrow>{t("home.coach.eyebrow")}</Eyebrow>
-              <h2 className="display-lg mt-6 text-white">{t("home.coach.title")}</h2>
-              <p className="mt-6 font-sans text-[0.7rem] font-semibold uppercase tracking-[0.22em] text-gold">
-                {t("home.coach.role")}
-              </p>
-              <div className="mt-7 space-y-4 font-sans text-base leading-7 text-silver">
-                <p>{t("home.coach.p1")}</p>
-                <p>{t("home.coach.p2")}</p>
-              </div>
-              <div className="mt-9">
-                <ArrowLink href={lp("/about")}>{t("home.coach.link")}</ArrowLink>
-              </div>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* -------------------------------------------------------------- method */}
-      <section className="border-t border-white/10 py-24 lg:py-32">
-        <div className="shell">
-          <SectionHeading index="02" eyebrow={t("home.method.eyebrow")} title={t("home.method.title")} />
-          <div className="mt-14 grid gap-10 md:grid-cols-2 lg:grid-cols-4">
-            {trainingPrinciples.map((item, i) => (
-              <Reveal key={item.title} delay={i * 60}>
-                <div className="border-t border-white/15 pt-6">
-                  <span className="font-sans text-[0.66rem] font-semibold tracking-[0.28em] text-gold">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-4 font-display text-xl uppercase leading-tight text-white">
-                    {item.title}
-                  </h3>
-                  <p className="mt-3 font-sans text-sm leading-6 text-silver/80">{item.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* -------------------------------------------------------- technology */}
-      <section className="relative overflow-hidden border-t border-white/10 bg-graphite/40 py-24 lg:py-32">
-        <div className="shell">
-          <div className="grid gap-14 lg:grid-cols-[1fr_1.05fr] lg:items-center lg:gap-20">
-            <Reveal>
-              <SectionHeading
-                index="03"
-                eyebrow={t("home.tech.eyebrow")}
-                title={t("home.tech.title")}
-                intro={t("home.tech.intro")}
-              />
-              <div className="mt-9">
-                <ArrowLink href={lp("/performance-technology")}>{t("home.tech.link")}</ArrowLink>
-              </div>
-            </Reveal>
-
-            <Reveal delay={120}>
-              <ul className="divide-y divide-white/10 border-y border-white/10">
-                {technology.map((item) => (
-                  <li key={item.name} className="flex items-baseline justify-between gap-6 py-5">
-                    <div>
-                      <p className="font-display text-xl uppercase text-white">{item.name}</p>
-                      <p className="mt-1 font-sans text-sm text-silver/70">{item.role}</p>
-                    </div>
-                    <span className="shrink-0 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-gold">
-                      {item.category}
-                    </span>
-                  </li>
-                ))}
-              </ul>
-            </Reveal>
-          </div>
-        </div>
-      </section>
-
-      {/* ----------------------------------------------------- tech pillars */}
-      <section className="border-t border-white/10 py-20 lg:py-28">
-        <div className="shell">
-          <Reveal>
-            <Eyebrow>{t("home.pillars.eyebrow")}</Eyebrow>
-            <h2 className="display-lg mt-6 max-w-3xl text-white">{t("home.pillars.title")}</h2>
-          </Reveal>
-          <div className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
-            {pillars.map((pillar, i) => (
-              <Reveal key={pillar.title} delay={i * 50}>
-                <div className="h-full bg-ink p-6">
-                  <span className="font-sans text-[0.62rem] font-semibold tracking-[0.28em] text-gold">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-4 font-display text-lg uppercase leading-tight text-white">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-3 font-sans text-sm leading-6 text-silver/85">{pillar.body}</p>
-                </div>
-              </Reveal>
-            ))}
-          </div>
-        </div>
-      </section>
-
-      {/* ---------------------------------------------------------------- DFW */}
-      <section className="relative overflow-hidden border-t border-white/10 bg-graphite/40 py-24 lg:py-32">
+      {/* ------------------------------------------- coach + technology */}
+      <section className="relative overflow-hidden border-t border-white/10 bg-[#161412]">
         <div
           aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,rgba(214,167,59,0.10),transparent_60%)]"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_12%_35%,rgba(214,167,59,0.28),transparent_62%)]"
         />
-        <div className="shell relative">
-          <Reveal>
-            <Eyebrow>{t("home.dfw.eyebrow")}</Eyebrow>
-            <h2 className="display-xl mt-5 text-white">{t("home.dfw.title")}</h2>
-            <p className="lede mt-6 max-w-2xl">{t("home.dfw.intro")}</p>
+        <div className="shell relative grid gap-14 py-16 lg:grid-cols-2 lg:gap-0 lg:py-24">
+          {/* coach */}
+          <Reveal className="lg:pr-14">
+            <div className="flex items-start gap-6">
+              <div className="relative aspect-[4/5] w-32 shrink-0 overflow-hidden rounded-sm border border-white/10 sm:w-40">
+                <Image
+                  src={coachPortrait.src}
+                  alt={t("home.coach.portraitAlt")}
+                  fill
+                  sizes="(max-width: 640px) 128px, 160px"
+                  className="object-cover object-top"
+                />
+              </div>
+              <div className="pt-1">
+                <Eyebrow>{t("home.coach.eyebrow")}</Eyebrow>
+                <h2 className="display-md mt-3 text-white">{t("home.coach.title")}</h2>
+                <p className="mt-2 font-sans text-[0.66rem] font-semibold uppercase tracking-[0.24em] text-gold">
+                  {t("home.coach.role")}
+                </p>
+              </div>
+            </div>
+
+            <p className="mt-7 max-w-xl font-sans text-sm leading-7 text-silver/90">
+              {t("home.coach.p1")}
+            </p>
+            <p className="mt-3 max-w-xl font-sans text-sm leading-7 text-silver/90">
+              {t("home.coach.p2")}
+            </p>
+            <div className="mt-6">
+              <ArrowLink href={lp("/about")}>{t("home.coach.link")}</ArrowLink>
+            </div>
           </Reveal>
-          <div className="mt-14 grid gap-10 border-t border-white/10 pt-10 sm:grid-cols-3">
-            {dfw.map((item, i) => (
-              <Reveal key={item.label} delay={i * 60}>
-                <h3 className="font-display text-2xl uppercase leading-none text-gold">{item.label}</h3>
-                <p className="mt-3 font-sans text-sm leading-6 text-silver/80">{item.body}</p>
-              </Reveal>
-            ))}
+
+          {/* performance technology */}
+          <Reveal delay={80} className="lg:border-l lg:border-white/10 lg:pl-14">
+            <Eyebrow>{t("home.tech.eyebrow")}</Eyebrow>
+            <h2 className="display-md mt-3 max-w-md text-white">{t("home.pillars.title")}</h2>
+            <p className="mt-4 max-w-xl font-sans text-sm leading-7 text-silver/90">
+              {t("home.tech.intro")}
+            </p>
+
+            <ul className="mt-9 grid gap-x-8 gap-y-7 sm:grid-cols-2">
+              {techPillars.map((pillar, i) => (
+                <li key={pillar.title} className="border-t border-white/10 pt-4">
+                  <span className="font-sans text-[0.6rem] font-semibold tracking-[0.28em] text-gold">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-2 font-display text-base uppercase leading-tight text-white">
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-2 font-sans text-[0.8rem] leading-6 text-silver/75">{pillar.body}</p>
+                </li>
+              ))}
+            </ul>
+
+            <div className="mt-7">
+              <ArrowLink href={lp("/performance-technology")}>{t("home.tech.link")}</ArrowLink>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
+      {/* --------------------------------------------- training objectives */}
+      <section id="objectives" className="bg-[#ece9e4] text-ink">
+        <div className="shell py-14 lg:py-20">
+          <div className="grid gap-10 lg:grid-cols-[minmax(0,0.85fr)_minmax(0,2.6fr)] lg:items-start lg:gap-12">
+            <div>
+              <p className="eyebrow text-[#6f5416]">{t("home.objectives.eyebrow")}</p>
+              <h2 className="display-md mt-3 text-ink">{t("home.objectives.title")}</h2>
+              <div className="mt-5 h-[2px] w-14 bg-[linear-gradient(90deg,#a8862f,#e0bb63)]" />
+              <div className="mt-6">
+                <ArrowLink href={lp("/training")} className="text-[#6f5416] hover:text-[#3d2e0b]">
+                  {t("home.programs.link")}
+                </ArrowLink>
+              </div>
+            </div>
+
+            <ul className="grid grid-cols-2 gap-x-6 gap-y-8 sm:grid-cols-4 xl:grid-cols-8 xl:gap-x-5">
+              {objectives.map((key, i) => (
+                <li key={key} className="border-t border-ink/15 pt-4">
+                  <span className="font-sans text-[0.6rem] font-semibold tracking-[0.26em] text-[#6f5416]">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <p className="mt-2 font-display text-[0.92rem] uppercase leading-[1.15] tracking-[0.01em] text-ink">
+                    {t(key)}
+                  </p>
+                </li>
+              ))}
+            </ul>
           </div>
         </div>
       </section>
 
-      {/* ---------------------------------------------------------------- CTA */}
+      {/* ------------------------------------------------------------- DFW */}
+      <section id="dfw" className="relative overflow-hidden bg-[#6f4f10]">
+        <Image
+          src={skyline.src}
+          alt={skyline.alt}
+          fill
+          sizes="100vw"
+          className="object-cover brightness-[1.18] sepia-[0.22] saturate-[1.05]"
+        />
+        {/* gold treatment — a warm duotone wash, not a black overlay */}
+        <div className="absolute inset-0 bg-[#c89a4a] opacity-58 mix-blend-screen" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(111,79,16,0.05)_0%,rgba(111,79,16,0.25)_42%,rgba(111,79,16,0.82)_78%,rgba(111,79,16,0.92)_100%)]" />
+        <div className="absolute inset-0 bg-[linear-gradient(180deg,rgba(111,79,16,0.3)_0%,rgba(111,79,16,0)_35%,rgba(111,79,16,0.45)_100%)]" />
+
+        <div className="shell relative py-16 lg:py-24">
+          <div className="lg:ml-auto lg:w-[52%]">
+            <p className="eyebrow text-[#f7dda2]">{t("home.dfw.eyebrow")}</p>
+            <h2 className="display-lg mt-3 text-white">{t("home.dfw.title")}</h2>
+            <p className="mt-5 max-w-lg font-sans text-sm leading-7 text-[#fdf3dd]/95">
+              {t("home.dfw.intro")}
+            </p>
+
+            <div className="mt-10 grid gap-6 sm:grid-cols-3">
+              {dfw.map((item, i) => (
+                <Reveal key={item.label} delay={i * 60}>
+                  <div className="border-t border-white/40 pt-4">
+                    <h3 className="font-display text-lg uppercase leading-none text-white">
+                      {item.label}
+                    </h3>
+                    <p className="mt-2 font-sans text-[0.78rem] leading-6 text-[#fdf3dd]/90">
+                      {item.body}
+                    </p>
+                  </div>
+                </Reveal>
+              ))}
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* ------------------------------------------------------------- CTA */}
       <section className="relative overflow-hidden border-t border-white/10 bg-ink py-24 lg:py-32">
         <div
           aria-hidden="true"
