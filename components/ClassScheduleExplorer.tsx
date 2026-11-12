@@ -3,7 +3,6 @@
 import Link from "next/link";
 import { useMemo, useState } from "react";
 import {
-  classAgeGroups,
   classCategories,
   classLevels,
   classes,
@@ -20,17 +19,16 @@ import { useI18n } from "@/lib/i18n/client";
  * offers a "book" action — only a class-interest request.
  */
 export function ClassScheduleExplorer() {
-  const { t, path } = useI18n();
+  const { t, path, locale } = useI18n();
   const [category, setCategory] = useState("all");
-  const [age, setAge] = useState("all");
   const [level, setLevel] = useState("all");
   const [view, setView] = useState<"week" | "list">("week");
 
   const classTitle = useMemo(() => {
     const map: Record<string, string> = {};
-    for (const c of classes) map[c.slug] = c.title;
+    for (const c of classes) map[c.slug] = locale === "es" ? c.titleEs : c.title;
     return map;
-  }, []);
+  }, [locale]);
 
   const filtered = useMemo(() => {
     return schedulePreview.filter((entry) => {
@@ -38,14 +36,10 @@ export function ClassScheduleExplorer() {
         const cat = classCategories.find((c) => c.value === category);
         if (!cat || !(cat.slugs as readonly string[]).includes(entry.classSlug)) return false;
       }
-      if (age !== "all") {
-        const group = classAgeGroups.find((a) => a.value === age);
-        if (!group || !(group.slugs as readonly string[]).includes(entry.classSlug)) return false;
-      }
       if (level !== "all" && entry.level !== level) return false;
       return true;
     });
-  }, [category, age, level]);
+  }, [category, level]);
 
   const selectClass =
     "rounded-lg border border-white/20 bg-ink px-3 py-2 text-xs text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright";
@@ -53,7 +47,7 @@ export function ClassScheduleExplorer() {
   return (
     <div>
       <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-graphite/40 p-4 lg:flex-row lg:items-end lg:justify-between">
-        <div className="grid flex-1 gap-3 sm:grid-cols-3">
+        <div className="grid flex-1 gap-3 sm:grid-cols-2">
           <label className="flex flex-col gap-1.5">
             <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
               {t("classes.filter.category")}
@@ -62,20 +56,7 @@ export function ClassScheduleExplorer() {
               <option value="all">{t("classes.filter.all")}</option>
               {classCategories.map((c) => (
                 <option key={c.value} value={c.value}>
-                  {c.label}
-                </option>
-              ))}
-            </select>
-          </label>
-          <label className="flex flex-col gap-1.5">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
-              {t("classes.filter.age")}
-            </span>
-            <select className={selectClass} value={age} onChange={(e) => setAge(e.target.value)}>
-              <option value="all">{t("classes.filter.all")}</option>
-              {classAgeGroups.map((a) => (
-                <option key={a.value} value={a.value}>
-                  {a.label}
+                  {locale === "es" ? c.labelEs : c.label}
                 </option>
               ))}
             </select>
@@ -88,7 +69,7 @@ export function ClassScheduleExplorer() {
               <option value="all">{t("classes.filter.all")}</option>
               {classLevels.map((l) => (
                 <option key={l.value} value={l.value}>
-                  {l.label}
+                  {locale === "es" ? l.labelEs : l.label}
                 </option>
               ))}
             </select>
@@ -179,7 +160,7 @@ export function ClassScheduleExplorer() {
               </p>
               <p className="mt-1 text-sm font-semibold text-white">{classTitle[entry.classSlug]}</p>
               <p className="text-[0.65rem] text-silver/60">
-                {entry.location} · {entry.level} · {entry.ageGroup}
+                {entry.location} · {entry.level}
               </p>
             </div>
             <Link

@@ -5,6 +5,9 @@ import {
   schedulePreview,
   classStatusLabels,
   CLASS_STATUSES,
+  pricing,
+  pricingPolicy,
+  formatPrice,
 } from "@/lib/content/classes";
 import {
   classInterestSchema,
@@ -28,16 +31,18 @@ import { screenSubmission, checkBodySize, checkContentType, MAX_BODY_BYTES } fro
 /* ------------------------------------------------------------------- classes */
 
 describe("class templates", () => {
-  it("defines exactly ten proposed class templates with unique slugs", () => {
-    expect(classes).toHaveLength(10);
-    expect(new Set(classSlugs()).size).toBe(10);
+  it("defines exactly four approved class tracks with unique slugs", () => {
+    expect(classes).toHaveLength(4);
+    expect(new Set(classSlugs()).size).toBe(4);
   });
 
-  it("never publishes a price or a schedule", () => {
+  it("publishes approved 75-minute sessions with no confirmed schedule", () => {
     for (const cls of classes) {
-      expect(cls.price).toBeNull();
-      expect(cls.schedule).toBeNull();
-      expect(cls.proposed).toBe(true);
+      expect(cls.approved).toBe(true);
+      expect(cls.durationMinutes).toBe(75);
+      // Age band is confirmed with the coach on inquiry, never published.
+      expect(cls.ageGroup).toBeNull();
+      expect("schedule" in cls).toBe(false);
     }
   });
 
@@ -60,6 +65,46 @@ describe("class templates", () => {
     const open = classes.filter((c) => c.status === "enrollment-open");
     // No class is approved for enrollment at this checkpoint.
     expect(open).toHaveLength(0);
+  });
+});
+
+/* -------------------------------------------------------------- price sheet */
+
+describe("approved price sheet", () => {
+  it("exposes exactly the seven approved price points", () => {
+    const figures = pricing.flatMap((g) => g.options.map((o) => o.price)).sort((a, b) => a - b);
+    expect(figures).toEqual([35, 120, 130, 200, 230, 250, 300]);
+  });
+
+  it("keeps English and Spanish price figures identical", () => {
+    for (const group of pricing) {
+      expect(group.titleEs).toBeTruthy();
+      expect(group.introEs).toBeTruthy();
+      for (const opt of group.options) {
+        expect(opt.labelEs).toBeTruthy();
+        expect(opt.unitEs).toBeTruthy();
+        // The figure is a single shared number, so both locales render it.
+        expect(formatPrice(opt.price)).toMatch(/^\$\d+$/);
+      }
+    }
+  });
+
+  it("states the 75-minute session length and 60-day flex expiry", () => {
+    expect(pricingPolicy.sessionLength).toBe(75);
+    expect(pricingPolicy.flexExpiryDays).toBe(60);
+  });
+
+  it("mentions family/sibling discounts as inquiry-only, with no invented amount", () => {
+    for (const locale of ["en", "es"] as const) {
+      const text = pricingPolicy.family[locale];
+      expect(text.toLowerCase()).toMatch(/family|familia/);
+      expect(text).not.toMatch(/\$\d/);
+    }
+  });
+
+  it("confirms online payment is not enabled", () => {
+    expect(pricingPolicy.payment.en.toLowerCase()).toContain("not enabled");
+    expect(pricingPolicy.payment.es.toLowerCase()).toContain("no est");
   });
 });
 

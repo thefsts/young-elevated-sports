@@ -53,10 +53,12 @@ export default async function HomePage() {
           fill
           priority
           sizes="100vw"
-          className="object-cover object-[60%_center] opacity-70"
+          className="object-cover object-[60%_center] opacity-100"
         />
-        <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/60 to-ink/40" />
-        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,8,0.92)_0%,rgba(8,8,8,0.55)_45%,rgba(8,8,8,0.1)_100%)]" />
+        {/* Scrim is weighted to the left where the headline sits; the right two
+            thirds of the frame stay open so the athlete reads clearly. */}
+        <div className="absolute inset-0 bg-gradient-to-t from-ink/95 via-ink/35 to-ink/5" />
+        <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,8,0.88)_0%,rgba(8,8,8,0.42)_45%,rgba(8,8,8,0)_100%)]" />
         <div className="grain absolute inset-0" aria-hidden="true" />
 
         <div className="shell relative w-full pb-14 pt-32 lg:pb-20">
@@ -210,7 +212,7 @@ export default async function HomePage() {
               className="object-cover object-top"
               priority={false}
             />
-            <div className="absolute inset-0 bg-gradient-to-r from-ink/40 to-ink/10" />
+            <div className="absolute inset-0 bg-gradient-to-r from-ink/25 to-transparent" />
             <div className="absolute bottom-6 left-6 border border-gold/30 bg-ink/70 px-4 py-2 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-gold backdrop-blur">
               {t("home.coach.portraitCaption")}
             </div>

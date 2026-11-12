@@ -3,8 +3,15 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, Notice, PageHero, SectionHeading } from "@/components/ui";
+import { ClassPricing } from "@/components/ClassPricing";
 import { ClassScheduleExplorer } from "@/components/ClassScheduleExplorer";
-import { classes, classStatusLabels } from "@/lib/content/classes";
+import {
+  classes,
+  classStatusLabels,
+  classTitle,
+  classSummary,
+  formatPrice,
+} from "@/lib/content/classes";
 import { media } from "@/lib/content/media";
 import { pageMetadata } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
@@ -15,7 +22,7 @@ export const metadata: Metadata = {
   ...pageMetadata({
     title: "Training Classes",
     description:
-      "Proposed training class categories for Young & Elevated Sports Performance in Dallas–Fort Worth — speed, strength, agility, power, vertical jump, sport-specific, youth, small-group, and team training.",
+      "Approved small-group training classes at Young & Elevated Sports Performance in Dallas–Fort Worth — Speed & Agility, Explosive Force & Vertical Jump Mechanics, Multi-Directional Agility & Deceleration, and Athletic Strength & Conditioning. All sessions are 75 minutes.",
     path: "/classes",
   }),
   alternates: {
@@ -78,7 +85,7 @@ export default async function ClassesPage() {
                         className="object-cover transition duration-500 group-hover:scale-[1.03]"
                         loading={i < 3 ? "eager" : "lazy"}
                       />
-                      <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent" />
+                      <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-transparent to-transparent" />
                       <span
                         className={`absolute left-3 top-3 rounded-full border bg-ink/85 px-3 py-1 text-[0.6rem] font-semibold uppercase tracking-[0.16em] ${statusTone[cls.status]}`}
                       >
@@ -90,8 +97,8 @@ export default async function ClassesPage() {
                     </div>
 
                     <div className="flex flex-1 flex-col p-5">
-                      <h2 className="font-display text-2xl uppercase leading-none text-white">{cls.title}</h2>
-                      <p className="mt-3 flex-1 font-sans text-sm leading-6 text-silver/85">{cls.summary}</p>
+                      <h2 className="font-display text-2xl uppercase leading-none text-white">{classTitle(cls, locale)}</h2>
+                      <p className="mt-3 flex-1 font-sans text-sm leading-6 text-silver/85">{classSummary(cls, locale)}</p>
 
                       <dl className="mt-5 space-y-2 border-t border-white/10 pt-4 text-xs">
                         <div className="flex justify-between gap-3">
@@ -99,12 +106,12 @@ export default async function ClassesPage() {
                           <dd className="text-right text-silver">{cls.level}</dd>
                         </div>
                         <div className="flex justify-between gap-3">
-                          <dt className="text-white/60">{t("classes.ageGroup")}</dt>
-                          <dd className="text-right text-silver">{cls.proposedAgeGroup}</dd>
+                          <dt className="text-white/60">{t("classes.duration")}</dt>
+                          <dd className="text-right text-silver">{t("classes.duration75")}</dd>
                         </div>
                         <div className="flex justify-between gap-3">
                           <dt className="text-white/60">{t("classes.price")}</dt>
-                          <dd className="text-right text-white/65">{t("classes.schedulePending")}</dd>
+                          <dd className="text-right text-gold">{formatPrice(35)}</dd>
                         </div>
                       </dl>
 
@@ -131,10 +138,16 @@ export default async function ClassesPage() {
         </div>
       </section>
 
+      <section id="pricing" className="border-t border-white/10 py-16 lg:py-24">
+        <div className="shell">
+          <ClassPricing locale={locale} t={t} />
+        </div>
+      </section>
+
       <section className="border-t border-white/10 py-16 lg:py-24">
         <div className="shell">
           <SectionHeading
-            index="02"
+            index="03"
             eyebrow={t("classes.scheduleTitle")}
             title={t("classes.scheduleTitle")}
             intro={t("classes.scheduleIntro")}

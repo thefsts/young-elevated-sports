@@ -50,11 +50,20 @@ export function middleware(request: NextRequest) {
   }
 
   const headers = new Headers(request.headers);
+  // A locale rewrite re-enters middleware for the internal path. Respect the
+  // locale that the first pass already resolved so the second pass cannot
+  // clobber it back to the default (which rendered Spanish URLs in English).
+  const resolvedLocale = request.headers.get(LOCALE_HEADER);
   const cookieLocale = request.cookies.get(LOCALE_COOKIE)?.value;
-  headers.set(LOCALE_HEADER, isLocale(cookieLocale) ? cookieLocale : DEFAULT_LOCALE);
+  const active = isLocale(resolvedLocale)
+    ? resolvedLocale
+    : isLocale(cookieLocale)
+      ? cookieLocale
+      : DEFAULT_LOCALE;
+  headers.set(LOCALE_HEADER, active);
 
   const response = NextResponse.next({ request: { headers } });
-  response.headers.set("content-language", DEFAULT_LOCALE);
+  response.headers.set("content-language", active);
   return response;
 }
 

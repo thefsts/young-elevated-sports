@@ -116,7 +116,7 @@ export default async function MediaPage() {
                   sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
-                <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-90" />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent opacity-80" />
                 {"authentic" in item && item.authentic ? (
                   <span className="absolute left-4 top-4 border border-gold/40 bg-ink/80 px-3 py-1 font-sans text-[0.55rem] uppercase tracking-[0.2em] text-gold backdrop-blur">
                     Client photograph

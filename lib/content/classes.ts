@@ -1,15 +1,22 @@
 /**
- * Training class templates.
+ * Training classes — CONFIRMED CATALOG (Checkpoint 005).
  *
- * IMPORTANT — these are PROPOSED categories, not confirmed offerings.
- * Coach Reggie Young must approve every class, age range, capacity, schedule,
- * and price before any of it is presented as bookable. Until then every
- * template carries `proposed: true`, `price: null`, `schedule: null`, and a
- * status that never claims live enrollment.
+ * The client has approved exactly four small-group class tracks and an official
+ * price sheet. Everything in `classes` and `pricing` below is approved content.
  *
- * Nothing in this file may be used to imply confirmed availability, confirmed
- * dates, or confirmed pricing. See docs/operon-integration-contract.md for how
- * real schedules and capacity will be supplied once approved.
+ * What is still NOT approved, and therefore still absent:
+ *   - a weekly schedule (no dates, no times, no capacity)
+ *   - live enrollment (class interest remains an inquiry only)
+ *   - age-band placement (confirmed with the coach on inquiry)
+ *
+ * Nothing in this file may be used to imply a confirmed session time, a
+ * confirmed seat, or a completed registration. See
+ * docs/operon-integration-contract.md for how real schedules will arrive.
+ *
+ * The ten previously *proposed* class categories have been removed from this
+ * catalog at the client's direction. Other established training services
+ * (private training, team training, camps, school partnerships, assessments)
+ * live in `programs.ts` and are untouched.
  */
 
 import type { MediaCategory } from "./media";
@@ -27,255 +34,272 @@ export type TrainingLevel = "foundational" | "developmental" | "advanced" | "mix
 
 export type ClassAudience = "adult" | "minor" | "school";
 
+/* ------------------------------------------------------------------ pricing */
+
+export type PriceOption = {
+  id: string;
+  label: string;
+  labelEs: string;
+  /** Whole US dollars. Approved figures — never computed or inferred. */
+  price: number;
+  unit: string;
+  unitEs: string;
+  note?: string;
+  noteEs?: string;
+};
+
+export type PriceGroup = {
+  id: "single" | "flex" | "monthly";
+  title: string;
+  titleEs: string;
+  intro: string;
+  introEs: string;
+  options: PriceOption[];
+};
+
+/** Approved price sheet. Every figure here came from the client in writing. */
+export const pricing: PriceGroup[] = [
+  {
+    id: "single",
+    title: "Single session",
+    titleEs: "Sesión individual",
+    intro: "One 75-minute session, any class track.",
+    introEs: "Una sesión de 75 minutos, en cualquier clase.",
+    options: [
+      {
+        id: "single-1",
+        label: "Single session",
+        labelEs: "Sesión individual",
+        price: 35,
+        unit: "per session",
+        unitEs: "por sesión",
+      },
+    ],
+  },
+  {
+    id: "flex",
+    title: "Flex bundles",
+    titleEs: "Paquetes flexibles",
+    intro:
+      "Prepaid sessions you can use at your own pace. Flex bundles expire 60 days after purchase.",
+    introEs:
+      "Sesiones prepagadas que puedes usar a tu ritmo. Los paquetes flexibles vencen 60 días después de la compra.",
+    options: [
+      {
+        id: "flex-4",
+        label: "Four-session flex",
+        labelEs: "Paquete flexible de cuatro sesiones",
+        price: 130,
+        unit: "four sessions",
+        unitEs: "cuatro sesiones",
+        note: "Expires 60 days after purchase.",
+        noteEs: "Vence 60 días después de la compra.",
+      },
+      {
+        id: "flex-8",
+        label: "Eight-session flex",
+        labelEs: "Paquete flexible de ocho sesiones",
+        price: 230,
+        unit: "eight sessions",
+        unitEs: "ocho sesiones",
+        note: "Expires 60 days after purchase.",
+        noteEs: "Vence 60 días después de la compra.",
+      },
+    ],
+  },
+  {
+    id: "monthly",
+    title: "Monthly training",
+    titleEs: "Entrenamiento mensual",
+    intro: "A fixed number of sessions each month, billed monthly.",
+    introEs: "Un número fijo de sesiones cada mes, facturado mensualmente.",
+    options: [
+      {
+        id: "monthly-4",
+        label: "Monthly — 4 sessions",
+        labelEs: "Mensual — 4 sesiones",
+        price: 120,
+        unit: "per month",
+        unitEs: "por mes",
+      },
+      {
+        id: "monthly-8",
+        label: "Monthly — 8 sessions",
+        labelEs: "Mensual — 8 sesiones",
+        price: 200,
+        unit: "per month",
+        unitEs: "por mes",
+      },
+      {
+        id: "monthly-12",
+        label: "Monthly — 12 sessions",
+        labelEs: "Mensual — 12 sesiones",
+        price: 250,
+        unit: "per month",
+        unitEs: "por mes",
+      },
+      {
+        id: "monthly-16",
+        label: "Monthly — 16 sessions",
+        labelEs: "Mensual — 16 sesiones",
+        price: 300,
+        unit: "per month",
+        unitEs: "por mes",
+      },
+    ],
+  },
+];
+
+/** Approved policy statements that accompany the price sheet. */
+export const pricingPolicy = {
+  sessionLength: 75,
+  flexExpiryDays: 60,
+  mixing: {
+    en: "You may mix class tracks within any purchased package.",
+    es: "Puedes combinar clases dentro de cualquier paquete comprado.",
+  },
+  family: {
+    en: "Family and sibling discounts are available on inquiry. Ask about them when you submit a class interest request.",
+    es: "Los descuentos para familias y hermanos están disponibles al consultar. Pregunta por ellos cuando envíes una solicitud de interés.",
+  },
+  payment: {
+    en: "Online payment is not enabled on this site. Pricing is shown for review; payment is arranged directly with the coach.",
+    es: "El pago en línea no está habilitado en este sitio. Los precios se muestran para revisión; el pago se coordina directamente con el entrenador.",
+  },
+};
+
+export function formatPrice(value: number): string {
+  return `$${value}`;
+}
+
+/* ------------------------------------------------------------------ classes */
+
 export type ClassTemplate = {
   slug: string;
   index: string;
   title: string;
-  /** Short label used on cards and in navigation breadcrumbs. */
+  titleEs: string;
   shortTitle: string;
   summary: string;
+  summaryEs: string;
   description: string;
+  descriptionEs: string;
   focus: string[];
+  focusEs: string[];
   level: TrainingLevel;
-  /** Proposed age band — NOT confirmed. */
-  proposedAgeGroup: string;
   audience: ClassAudience[];
-  /** Proposed session format — NOT confirmed. */
-  proposedFormat: string;
-  /** Proposed session length in minutes — NOT confirmed. */
-  proposedDuration: string;
-  /** Always null until Reggie approves pricing. Never invent a number. */
-  price: null;
-  /** Always null until a real schedule is supplied. Never invent dates. */
-  schedule: null;
+  /** Approved session length. */
+  durationMinutes: number;
+  /** Age placement is confirmed with the coach on inquiry — never assumed. */
+  ageGroup: null;
+  /** Approved: these four tracks are official offerings. */
+  approved: true;
+  /** Enrollment is still closed; interest requests only. */
   status: ClassStatus;
-  /** True while the class-interest form may accept an inquiry for this class. */
   interestEnabled: boolean;
-  /** True for every template in this build — nothing is confirmed. */
-  proposed: true;
   image: MediaCategory;
 };
 
 export const classes: ClassTemplate[] = [
   {
-    slug: "speed-acceleration",
+    slug: "speed-agility",
     index: "01",
-    title: "Speed & Acceleration",
-    shortTitle: "Speed",
+    title: "Speed & Agility",
+    titleEs: "Velocidad y agilidad",
+    shortTitle: "Speed & Agility",
     summary:
-      "Sprint mechanics, first-step quickness, and acceleration patterns built through structured, repeatable drills rather than random conditioning.",
+      "Sprint mechanics, first-step quickness, and the change-of-direction control that turns straight-line speed into usable speed.",
+    summaryEs:
+      "Mecánica de sprint, rapidez del primer paso y el control de cambio de dirección que convierte la velocidad lineal en velocidad útil.",
     description:
-      "Speed is a skill before it is a quality. This proposed class would break sprinting into its component positions — posture, shin angle, ground contact, and rhythm — then rebuild them under progressively faster conditions. Athletes would work on acceleration out of athletic stances, top-speed exposure with full recovery, and the mechanics that let them repeat quality efforts instead of accumulating fatigue.",
-    focus: ["Sprint mechanics", "First-step quickness", "Acceleration mechanics", "Top-speed exposure"],
+      "Speed is a skill before it is a quality. This class breaks sprinting into its component positions — posture, shin angle, ground contact, and rhythm — then rebuilds them under progressively faster conditions. Athletes work on acceleration out of athletic stances, top-speed exposure with full recovery, and the mechanics that let them repeat quality efforts instead of accumulating fatigue.",
+    descriptionEs:
+      "La velocidad es una habilidad antes que una cualidad. Esta clase descompone el sprint en sus posiciones fundamentales — postura, ángulo de la espinilla, contacto con el suelo y ritmo — y las reconstruye bajo condiciones progresivamente más rápidas. Los atletas trabajan la aceleración desde posturas atléticas, la exposición a velocidad máxima con recuperación completa y la mecánica que les permite repetir esfuerzos de calidad en lugar de acumular fatiga.",
+    focus: ["Sprint mechanics", "First-step quickness", "Acceleration", "Top-speed exposure"],
+    focusEs: ["Mecánica de sprint", "Rapidez del primer paso", "Aceleración", "Velocidad máxima"],
     level: "mixed",
-    proposedAgeGroup: "Ages 12–18 (proposed)",
     audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "60 minutes (proposed)",
-    price: null,
-    schedule: null,
+    durationMinutes: 75,
+    ageGroup: null,
+    approved: true,
     status: "interest-open",
     interestEnabled: true,
-    proposed: true,
     image: "sprinting",
   },
   {
-    slug: "strength-conditioning",
+    slug: "explosive-force-vertical-jump",
     index: "02",
-    title: "Strength & Conditioning",
-    shortTitle: "Strength",
+    title: "Explosive Force & Vertical Jump Mechanics",
+    titleEs: "Fuerza explosiva y mecánica del salto vertical",
+    shortTitle: "Explosive Force",
     summary:
-      "Progressive resistance training built around fundamental movement patterns and long-term athletic development.",
+      "Jump progressions, loaded explosive work, and the approach mechanics that decide how high an athlete actually gets.",
+    summaryEs:
+      "Progresiones de salto, trabajo explosivo con carga y la mecánica de aproximación que determina qué tan alto salta realmente un atleta.",
     description:
-      "Strength is the foundation that makes speed, power, and durability possible. This proposed class would teach the squat, hinge, push, pull, and carry patterns with technique quality treated as the gate for adding load. Programming would be progressed deliberately across a training block rather than chased session to session, with an emphasis on positions an athlete can own under fatigue.",
-    focus: ["Squat pattern", "Hinge pattern", "Upper-body push & pull", "Trunk control"],
-    level: "foundational",
-    proposedAgeGroup: "Ages 13–18 (proposed)",
+      "Power is force expressed quickly. This class combines jump progressions, medicine-ball throws, and loaded explosive work to improve rate of force development, with landing mechanics treated as seriously as takeoff. Approach rhythm, penultimate-step timing, arm swing, and takeoff angle are coached alongside the strength qualities that support them. Jump testing is used to measure change, not to promise a specific number of inches.",
+    descriptionEs:
+      "La potencia es fuerza expresada rápidamente. Esta clase combina progresiones de salto, lanzamientos con balón medicinal y trabajo explosivo con carga para mejorar la tasa de desarrollo de fuerza, tratando la mecánica de aterrizaje con la misma seriedad que el despegue. Se entrenan el ritmo de aproximación, el tiempo del penúltimo paso, el balanceo de brazos y el ángulo de despegue junto con las cualidades de fuerza que los sostienen. Las pruebas de salto sirven para medir cambios, no para prometer un número específico de pulgadas.",
+    focus: ["Rate of force development", "Jump progressions", "Approach mechanics", "Landing mechanics"],
+    focusEs: ["Tasa de desarrollo de fuerza", "Progresiones de salto", "Mecánica de aproximación", "Mecánica de aterrizaje"],
+    level: "developmental",
     audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "60 minutes (proposed)",
-    price: null,
-    schedule: null,
+    durationMinutes: 75,
+    ageGroup: null,
+    approved: true,
     status: "interest-open",
     interestEnabled: true,
-    proposed: true,
-    image: "strength",
+    image: "vertical-jump",
   },
   {
-    slug: "agility-footwork",
+    slug: "multi-directional-agility-deceleration",
     index: "03",
-    title: "Agility & Footwork",
-    shortTitle: "Agility",
+    title: "Multi-Directional Agility & Deceleration",
+    titleEs: "Agilidad multidireccional y desaceleración",
+    shortTitle: "Multi-Directional",
     summary:
-      "Deceleration, re-acceleration, and cutting mechanics that reflect the chaotic demands of field and court sport.",
+      "Stopping, cutting, and re-accelerating under control — the qualities that decide who wins the space between two cones.",
+    summaryEs:
+      "Detenerse, cortar y volver a acelerar con control: las cualidades que deciden quién gana el espacio entre dos conos.",
     description:
-      "Most athletes can accelerate. Fewer can stop, redirect, and accelerate again without losing position. This proposed class would train deceleration control, cutting mechanics, and reactive footwork in patterns that mirror game chaos, with an emphasis on body positions athletes can repeat at speed rather than choreographed ladder drills that never appear in competition.",
+      "Most athletes can accelerate. Fewer can stop, redirect, and accelerate again without losing position. This class trains deceleration control, cutting mechanics, and reactive footwork in patterns that mirror game chaos, with an emphasis on body positions athletes can repeat at speed rather than choreographed ladder drills that never appear in competition. Deceleration is coached as a skill in its own right, because it is where most non-contact injuries begin.",
+    descriptionEs:
+      "La mayoría de los atletas pueden acelerar. Menos pueden detenerse, redirigirse y volver a acelerar sin perder la posición. Esta clase entrena el control de la desaceleración, la mecánica de corte y el trabajo de pies reactivo en patrones que reflejan el caos del juego, con énfasis en posiciones corporales que los atletas pueden repetir a velocidad en lugar de ejercicios coreografiados de escalera que nunca aparecen en la competencia. La desaceleración se entrena como una habilidad propia, porque es donde comienzan la mayoría de las lesiones sin contacto.",
     focus: ["Deceleration control", "Cutting mechanics", "Reactive agility", "Body control"],
+    focusEs: ["Control de desaceleración", "Mecánica de corte", "Agilidad reactiva", "Control corporal"],
     level: "developmental",
-    proposedAgeGroup: "Ages 11–18 (proposed)",
     audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "45–60 minutes (proposed)",
-    price: null,
-    schedule: null,
+    durationMinutes: 75,
+    ageGroup: null,
+    approved: true,
     status: "interest-open",
     interestEnabled: true,
-    proposed: true,
     image: "agility-footwork",
   },
   {
-    slug: "explosive-power",
+    slug: "athletic-strength-conditioning",
     index: "04",
-    title: "Explosive Power",
-    shortTitle: "Power",
+    title: "Athletic Strength & Conditioning",
+    titleEs: "Fuerza y acondicionamiento atlético",
+    shortTitle: "Strength & Conditioning",
     summary:
-      "Jumping, throwing, and loaded explosive work designed to improve the rate at which an athlete can produce force.",
+      "Progressive resistance training built around fundamental movement patterns and long-term athletic development.",
+    summaryEs:
+      "Entrenamiento de resistencia progresivo basado en patrones de movimiento fundamentales y desarrollo atlético a largo plazo.",
     description:
-      "Power is force expressed quickly. This proposed class would combine jump progressions, medicine-ball throws, and loaded explosive work to improve rate of force development, with landing mechanics treated as seriously as takeoff. Complexity and load would be added only when an athlete demonstrates control, so the class stays a development tool rather than a performance shortcut.",
-    focus: ["Rate of force development", "Jump progressions", "Med-ball power", "Landing mechanics"],
-    level: "advanced",
-    proposedAgeGroup: "Ages 14–18 (proposed)",
-    audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "45 minutes (proposed)",
-    price: null,
-    schedule: null,
-    status: "schedule-pending",
-    interestEnabled: true,
-    proposed: true,
-    image: "vertical-jump",
-  },
-  {
-    slug: "vertical-jump-development",
-    index: "05",
-    title: "Vertical Jump Development",
-    shortTitle: "Vertical",
-    summary:
-      "A focused block on approach mechanics, penultimate-step timing, and the force expression that drives a higher jump.",
-    description:
-      "A higher vertical is the visible result of a chain of mechanical decisions. This proposed class would work backward from the jump — approach rhythm, penultimate step, arm swing, and takeoff angle — while building the strength and power qualities that support it. Jump testing would be used to measure change, not to make promises about a specific number of inches.",
-    focus: ["Approach mechanics", "Penultimate step", "Force expression", "Jump testing"],
-    level: "developmental",
-    proposedAgeGroup: "Ages 13–18 (proposed)",
-    audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "45 minutes (proposed)",
-    price: null,
-    schedule: null,
-    status: "schedule-pending",
-    interestEnabled: true,
-    proposed: true,
-    image: "vertical-jump",
-  },
-  {
-    slug: "football-performance",
-    index: "06",
-    title: "Football Performance",
-    shortTitle: "Football",
-    summary:
-      "Position-aware speed, strength, and contact preparation for football athletes, built around the demands of the sport.",
-    description:
-      "Football rewards athletes who can produce force in tight spaces, absorb contact, and repeat high-intensity efforts. This proposed class would blend acceleration work, lower-body strength, neck and trunk preparation, and position-specific movement patterns. It is a performance class, not a medical or rehabilitation service, and it makes no guarantee about injury outcomes.",
-    focus: ["Position-specific speed", "Lower-body strength", "Contact preparation", "Repeat-effort capacity"],
-    level: "mixed",
-    proposedAgeGroup: "Ages 13–18 (proposed)",
-    audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "60–75 minutes (proposed)",
-    price: null,
-    schedule: null,
-    status: "interest-open",
-    interestEnabled: true,
-    proposed: true,
-    image: "football",
-  },
-  {
-    slug: "basketball-performance",
-    index: "07",
-    title: "Basketball Performance",
-    shortTitle: "Basketball",
-    summary:
-      "Lateral quickness, first-step burst, and landing control for basketball athletes who live in small spaces.",
-    description:
-      "Basketball is played in a phone booth. This proposed class would emphasize lateral quickness, first-step burst, deceleration on contact, and the single-leg strength and landing control that support repeated jumps and closeouts. Conditioning would be structured around the sport's intermittent rhythm rather than generic running.",
-    focus: ["Lateral quickness", "First-step burst", "Single-leg strength", "Landing control"],
-    level: "developmental",
-    proposedAgeGroup: "Ages 12–18 (proposed)",
-    audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "60 minutes (proposed)",
-    price: null,
-    schedule: null,
-    status: "interest-open",
-    interestEnabled: true,
-    proposed: true,
-    image: "basketball",
-  },
-  {
-    slug: "youth-athletic-development",
-    index: "08",
-    title: "Youth Athletic Development",
-    shortTitle: "Youth",
-    summary:
-      "Movement literacy, coordination, and confidence for younger athletes — built on play, not on max-effort testing.",
-    description:
-      "Young athletes need broad movement experience before they need specialized training. This proposed class would focus on coordination, balance, landing, and fundamental strength through age-appropriate games and progressions. The goal is a confident, physically literate athlete who enjoys training — not a miniature version of an adult strength program.",
-    focus: ["Movement literacy", "Coordination", "Balance & landing", "Confidence"],
+      "Strength is the foundation that makes speed, power, and durability possible. This class teaches the squat, hinge, push, pull, and carry patterns with technique quality treated as the gate for adding load. Programming progresses deliberately across a training block rather than being chased session to session, with an emphasis on positions an athlete can own under fatigue.",
+    descriptionEs:
+      "La fuerza es la base que hace posibles la velocidad, la potencia y la durabilidad. Esta clase enseña los patrones de sentadilla, bisagra de cadera, empuje, tracción y carga, tratando la calidad técnica como el requisito para añadir carga. La programación progresa de forma deliberada a lo largo de un bloque de entrenamiento en lugar de perseguirse sesión a sesión, con énfasis en posiciones que el atleta puede dominar bajo fatiga.",
+    focus: ["Squat pattern", "Hinge pattern", "Upper-body push & pull", "Trunk control"],
+    focusEs: ["Patrón de sentadilla", "Patrón de bisagra", "Empuje y tracción del tren superior", "Control del tronco"],
     level: "foundational",
-    proposedAgeGroup: "Ages 7–11 (proposed)",
-    audience: ["minor"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "45 minutes (proposed)",
-    price: null,
-    schedule: null,
-    status: "coming-soon",
-    interestEnabled: true,
-    proposed: true,
-    image: "youth-development",
-  },
-  {
-    slug: "small-group-performance",
-    index: "09",
-    title: "Small-Group Performance Training",
-    shortTitle: "Small Group",
-    summary:
-      "A blended performance session for athletes across sports who want coached speed, strength, and power work together.",
-    description:
-      "Not every athlete wants a single-sport lane. This proposed class would bring a small group of athletes together for a blended session covering speed, strength, and power, with individual loads and progressions adjusted within the group. It is designed for athletes who want consistent coached training with peers rather than a one-on-one model.",
-    focus: ["Blended speed work", "Strength progressions", "Power development", "Group accountability"],
-    level: "mixed",
-    proposedAgeGroup: "Ages 12–18 (proposed)",
     audience: ["minor", "adult"],
-    proposedFormat: "Small-group session",
-    proposedDuration: "60 minutes (proposed)",
-    price: null,
-    schedule: null,
+    durationMinutes: 75,
+    ageGroup: null,
+    approved: true,
     status: "interest-open",
     interestEnabled: true,
-    proposed: true,
-    image: "group-sessions",
-  },
-  {
-    slug: "team-school-training",
-    index: "10",
-    title: "Team & School Training",
-    shortTitle: "Team / School",
-    summary:
-      "On-site or facility-based performance training for school teams, clubs, and organizations, scoped around the group's needs.",
-    description:
-      "Teams have different constraints than individuals — roster size, season timing, facility access, and coaching staff. This proposed offering would be scoped with a school or organization's authorized representative, then delivered around the group's schedule and goals. Every engagement would start with a conversation about logistics, group size, and what the program is actually for.",
-    focus: ["Team speed & strength", "Season-aware programming", "Group logistics", "Coach collaboration"],
-    level: "mixed",
-    proposedAgeGroup: "Middle school through college (proposed)",
-    audience: ["school"],
-    proposedFormat: "Team / organization engagement",
-    proposedDuration: "Scoped per engagement (proposed)",
-    price: null,
-    schedule: null,
-    status: "schedule-pending",
-    interestEnabled: true,
-    proposed: true,
-    image: "coach-instruction",
+    image: "strength",
   },
 ];
 
@@ -287,29 +311,47 @@ export function classSlugs(): string[] {
   return classes.map((c) => c.slug);
 }
 
+/** Locale-aware accessors so the catalog reads correctly in Spanish. */
+export function classTitle(c: ClassTemplate, locale: string): string {
+  return locale === "es" ? c.titleEs : c.title;
+}
+export function classSummary(c: ClassTemplate, locale: string): string {
+  return locale === "es" ? c.summaryEs : c.summary;
+}
+export function classDescription(c: ClassTemplate, locale: string): string {
+  return locale === "es" ? c.descriptionEs : c.description;
+}
+export function classFocus(c: ClassTemplate, locale: string): string[] {
+  return locale === "es" ? c.focusEs : c.focus;
+}
+
 export const classCategories = [
-  { value: "speed", label: "Speed", slugs: ["speed-acceleration"] },
-  { value: "strength", label: "Strength", slugs: ["strength-conditioning"] },
-  { value: "agility", label: "Agility", slugs: ["agility-footwork"] },
-  { value: "power", label: "Power", slugs: ["explosive-power", "vertical-jump-development"] },
-  { value: "sport", label: "Sport-Specific", slugs: ["football-performance", "basketball-performance"] },
-  { value: "youth", label: "Youth", slugs: ["youth-athletic-development"] },
-  { value: "group", label: "Group", slugs: ["small-group-performance"] },
-  { value: "team", label: "Team / School", slugs: ["team-school-training"] },
+  { value: "speed", label: "Speed & Agility", labelEs: "Velocidad y agilidad", slugs: ["speed-agility"] },
+  {
+    value: "power",
+    label: "Explosive Force",
+    labelEs: "Fuerza explosiva",
+    slugs: ["explosive-force-vertical-jump"],
+  },
+  {
+    value: "agility",
+    label: "Multi-Directional",
+    labelEs: "Multidireccional",
+    slugs: ["multi-directional-agility-deceleration"],
+  },
+  {
+    value: "strength",
+    label: "Strength & Conditioning",
+    labelEs: "Fuerza y acondicionamiento",
+    slugs: ["athletic-strength-conditioning"],
+  },
 ] as const;
 
-export const classAgeGroups = [
-  { value: "youth", label: "Youth (7–11)", slugs: ["youth-athletic-development"] },
-  { value: "middle", label: "Middle school (11–14)", slugs: ["agility-footwork", "basketball-performance", "speed-acceleration", "small-group-performance"] },
-  { value: "high", label: "High school (14–18)", slugs: ["speed-acceleration", "strength-conditioning", "explosive-power", "vertical-jump-development", "football-performance", "basketball-performance", "small-group-performance"] },
-  { value: "team", label: "Team / organization", slugs: ["team-school-training"] },
-] as const;
-
-export const classLevels: { value: TrainingLevel; label: string }[] = [
-  { value: "foundational", label: "Foundational" },
-  { value: "developmental", label: "Developmental" },
-  { value: "advanced", label: "Advanced" },
-  { value: "mixed", label: "Mixed level" },
+export const classLevels: { value: TrainingLevel; label: string; labelEs: string }[] = [
+  { value: "foundational", label: "Foundational", labelEs: "Fundacional" },
+  { value: "developmental", label: "Developmental", labelEs: "De desarrollo" },
+  { value: "advanced", label: "Advanced", labelEs: "Avanzado" },
+  { value: "mixed", label: "Mixed level", labelEs: "Nivel mixto" },
 ];
 
 export const classStatusLabels: Record<ClassStatus, string> = {
@@ -322,11 +364,9 @@ export const classStatusLabels: Record<ClassStatus, string> = {
 /**
  * Schedule preview.
  *
- * This is DESIGN-PREVIEW DATA ONLY. It exists to demonstrate the schedule
- * layout, filters, and session-detail surfaces. It is not a bookable schedule,
- * it does not represent confirmed sessions, and every entry is explicitly
- * flagged `preview: true` / `bookable: false` so no component can accidentally
- * present it as real availability.
+ * DESIGN-PREVIEW DATA ONLY. It demonstrates the schedule layout and filters.
+ * It is not a bookable schedule and does not represent confirmed sessions;
+ * every entry is flagged `preview: true` / `bookable: false`.
  */
 export type ScheduleEntry = {
   id: string;
@@ -338,23 +378,21 @@ export type ScheduleEntry = {
   level: TrainingLevel;
   ageGroup: string;
   location: string;
-  /** Literal — preview data is never bookable. */
   preview: true;
-  /** Literal — preview data is never bookable. */
   bookable: false;
 };
 
 export const schedulePreview: ScheduleEntry[] = [
-  { id: "pv-01", day: "Mon", start: "4:00 PM", end: "5:00 PM", classSlug: "speed-acceleration", category: "speed", level: "mixed", ageGroup: "high", location: "Performance floor", preview: true, bookable: false },
-  { id: "pv-02", day: "Mon", start: "5:15 PM", end: "6:15 PM", classSlug: "strength-conditioning", category: "strength", level: "foundational", ageGroup: "high", location: "Strength bay", preview: true, bookable: false },
-  { id: "pv-03", day: "Tue", start: "4:00 PM", end: "4:45 PM", classSlug: "agility-footwork", category: "agility", level: "developmental", ageGroup: "middle", location: "Turf lane", preview: true, bookable: false },
-  { id: "pv-04", day: "Tue", start: "5:00 PM", end: "5:45 PM", classSlug: "vertical-jump-development", category: "power", level: "developmental", ageGroup: "high", location: "Jump zone", preview: true, bookable: false },
-  { id: "pv-05", day: "Wed", start: "4:00 PM", end: "5:00 PM", classSlug: "basketball-performance", category: "sport", level: "developmental", ageGroup: "middle", location: "Court side", preview: true, bookable: false },
-  { id: "pv-06", day: "Wed", start: "5:15 PM", end: "6:15 PM", classSlug: "football-performance", category: "sport", level: "mixed", ageGroup: "high", location: "Performance floor", preview: true, bookable: false },
-  { id: "pv-07", day: "Thu", start: "4:00 PM", end: "4:45 PM", classSlug: "youth-athletic-development", category: "youth", level: "foundational", ageGroup: "youth", location: "Movement studio", preview: true, bookable: false },
-  { id: "pv-08", day: "Thu", start: "5:00 PM", end: "6:00 PM", classSlug: "small-group-performance", category: "group", level: "mixed", ageGroup: "high", location: "Performance floor", preview: true, bookable: false },
-  { id: "pv-09", day: "Fri", start: "4:00 PM", end: "4:45 PM", classSlug: "explosive-power", category: "power", level: "advanced", ageGroup: "high", location: "Power rack bay", preview: true, bookable: false },
-  { id: "pv-10", day: "Sat", start: "9:00 AM", end: "10:30 AM", classSlug: "team-school-training", category: "team", level: "mixed", ageGroup: "team", location: "Full facility", preview: true, bookable: false },
+  { id: "pv-01", day: "Mon", start: "4:00 PM", end: "5:15 PM", classSlug: "speed-agility", category: "speed", level: "mixed", ageGroup: "all", location: "Performance floor", preview: true, bookable: false },
+  { id: "pv-02", day: "Mon", start: "5:30 PM", end: "6:45 PM", classSlug: "athletic-strength-conditioning", category: "strength", level: "foundational", ageGroup: "all", location: "Strength bay", preview: true, bookable: false },
+  { id: "pv-03", day: "Tue", start: "4:00 PM", end: "5:15 PM", classSlug: "multi-directional-agility-deceleration", category: "agility", level: "developmental", ageGroup: "all", location: "Turf lane", preview: true, bookable: false },
+  { id: "pv-04", day: "Tue", start: "5:30 PM", end: "6:45 PM", classSlug: "explosive-force-vertical-jump", category: "power", level: "developmental", ageGroup: "all", location: "Jump zone", preview: true, bookable: false },
+  { id: "pv-05", day: "Wed", start: "4:00 PM", end: "5:15 PM", classSlug: "speed-agility", category: "speed", level: "mixed", ageGroup: "all", location: "Performance floor", preview: true, bookable: false },
+  { id: "pv-06", day: "Wed", start: "5:30 PM", end: "6:45 PM", classSlug: "athletic-strength-conditioning", category: "strength", level: "foundational", ageGroup: "all", location: "Strength bay", preview: true, bookable: false },
+  { id: "pv-07", day: "Thu", start: "4:00 PM", end: "5:15 PM", classSlug: "multi-directional-agility-deceleration", category: "agility", level: "developmental", ageGroup: "all", location: "Turf lane", preview: true, bookable: false },
+  { id: "pv-08", day: "Thu", start: "5:30 PM", end: "6:45 PM", classSlug: "explosive-force-vertical-jump", category: "power", level: "developmental", ageGroup: "all", location: "Jump zone", preview: true, bookable: false },
+  { id: "pv-09", day: "Fri", start: "4:00 PM", end: "5:15 PM", classSlug: "speed-agility", category: "speed", level: "mixed", ageGroup: "all", location: "Performance floor", preview: true, bookable: false },
+  { id: "pv-10", day: "Sat", start: "9:00 AM", end: "10:15 AM", classSlug: "athletic-strength-conditioning", category: "strength", level: "foundational", ageGroup: "all", location: "Strength bay", preview: true, bookable: false },
 ];
 
 export const scheduleDays = ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat"] as const;

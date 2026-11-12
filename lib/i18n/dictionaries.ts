@@ -83,6 +83,23 @@ export const en = {
   "classes.audience.minor": "Minor athlete (parent or guardian)",
   "classes.audience.school": "School or team",
   "classes.audience.label": "Who is this request for?",
+  "classes.ageOnInquiry": "Confirmed on inquiry",
+  "classes.formatSmallGroup": "Small-group session",
+  "classes.duration75": "75 minutes",
+  "classes.priceFrom": "From $35 per session",
+  "classes.pricing.eyebrow": "Official pricing",
+  "classes.pricing.title": "Approved class pricing.",
+  "classes.pricing.intro":
+    "Every class is 75 minutes. Choose a single session, a flex bundle, or a monthly plan. You may mix class tracks within any purchased package.",
+  "classes.pricing.flexExpiry": "Flex bundles expire 60 days after purchase.",
+  "classes.pricing.mixing": "You may mix class tracks within any purchased package.",
+  "classes.pricing.family":
+    "Family and sibling discounts are available on inquiry. Ask about them when you submit a class interest request.",
+  "classes.pricing.payment":
+    "Online payment is not enabled on this site. Pricing is shown for review; payment is arranged directly with the coach.",
+  "classes.pricing.perSession": "per session",
+  "classes.pricing.perMonth": "per month",
+  "classes.pricing.sessions": "sessions",
 
   "form.firstName": "First name",
   "form.lastName": "Last name",
@@ -357,6 +374,23 @@ export const es: Record<TranslationKey, string> = {
   "classes.audience.minor": "Atleta menor de edad (padre o tutor)",
   "classes.audience.school": "Escuela o equipo",
   "classes.audience.label": "¿Para quién es esta solicitud?",
+  "classes.ageOnInquiry": "Se confirma al consultar",
+  "classes.formatSmallGroup": "Sesión en grupo pequeño",
+  "classes.duration75": "75 minutos",
+  "classes.priceFrom": "Desde $35 por sesión",
+  "classes.pricing.eyebrow": "Precios oficiales",
+  "classes.pricing.title": "Precios aprobados de las clases.",
+  "classes.pricing.intro":
+    "Todas las clases duran 75 minutos. Elige una sesión individual, un paquete flexible o un plan mensual. Puedes combinar clases dentro de cualquier paquete comprado.",
+  "classes.pricing.flexExpiry": "Los paquetes flexibles vencen 60 días después de la compra.",
+  "classes.pricing.mixing": "Puedes combinar clases dentro de cualquier paquete comprado.",
+  "classes.pricing.family":
+    "Los descuentos para familias y hermanos están disponibles al consultar. Pregunta por ellos cuando envíes una solicitud de interés.",
+  "classes.pricing.payment":
+    "El pago en línea no está habilitado en este sitio. Los precios se muestran para revisión; el pago se coordina directamente con el entrenador.",
+  "classes.pricing.perSession": "por sesión",
+  "classes.pricing.perMonth": "por mes",
+  "classes.pricing.sessions": "sesiones",
 
   "form.firstName": "Nombre",
   "form.lastName": "Apellido",

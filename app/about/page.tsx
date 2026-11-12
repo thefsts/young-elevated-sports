@@ -100,7 +100,7 @@ export default async function AboutPage() {
                 sizes="(max-width: 1024px) 100vw, 33vw"
                 className="object-cover object-top"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
               <p className="absolute bottom-4 left-4 right-4 font-sans text-[0.58rem] uppercase leading-4 tracking-[0.16em] text-gold/80">
                 {coachPortrait.caption}
               </p>

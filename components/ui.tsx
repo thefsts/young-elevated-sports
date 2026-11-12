@@ -67,11 +67,13 @@ export function PageHero({
           <img
             src={image}
             alt={imageAlt ?? ""}
-            className="absolute inset-0 h-full w-full object-cover opacity-40"
+            className="absolute inset-0 h-full w-full object-cover opacity-90"
             fetchPriority="high"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/60" />
+          {/* Left-weighted scrim keeps headline contrast; the right side is left
+              open so the photograph is actually visible. */}
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/92 via-ink/50 to-ink/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-ink/25" />
         </>
       ) : (
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(214,167,59,0.12),transparent_60%)]" />

@@ -3,7 +3,17 @@ import Image from "next/image";
 import Link from "next/link";
 import { notFound } from "next/navigation";
 import { Eyebrow, Notice, PageHero, SectionHeading } from "@/components/ui";
-import { classes, classStatusLabels, getClass } from "@/lib/content/classes";
+import { ClassPricing } from "@/components/ClassPricing";
+import {
+  classes,
+  classStatusLabels,
+  getClass,
+  classTitle,
+  classSummary,
+  classDescription,
+  classFocus,
+  formatPrice,
+} from "@/lib/content/classes";
 import { media } from "@/lib/content/media";
 import { pageMetadata } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
@@ -59,8 +69,8 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
     <>
       <PageHero
         eyebrow={`${t("classes.eyebrow")} · ${cls.index}`}
-        title={cls.title}
-        intro={cls.summary}
+        title={classTitle(cls, locale)}
+        intro={classSummary(cls, locale)}
         image={asset.srcMedium}
         imageAlt={asset.alt}
         actions={
@@ -90,14 +100,14 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
       <section className="py-16 lg:py-24">
         <div className="shell grid gap-12 lg:grid-cols-[1.5fr_1fr] lg:gap-16">
           <div>
-            <SectionHeading index="01" eyebrow={t("classes.focus")} title={cls.title} />
-            <p className="mt-6 font-sans text-base leading-7 text-silver">{cls.description}</p>
+            <SectionHeading index="01" eyebrow={t("classes.focus")} title={classTitle(cls, locale)} />
+            <p className="mt-6 font-sans text-base leading-7 text-silver">{classDescription(cls, locale)}</p>
 
             <h2 className="mt-10 font-sans text-[0.66rem] font-semibold uppercase tracking-[0.24em] text-gold">
               {t("classes.focus")}
             </h2>
             <ul className="mt-4 grid gap-2 sm:grid-cols-2">
-              {cls.focus.map((f) => (
+              {classFocus(cls, locale).map((f) => (
                 <li key={f} className="flex items-start gap-2 font-sans text-sm text-silver/85">
                   <span aria-hidden="true" className="mt-2 h-px w-3 shrink-0 bg-gold" />
                   {f}
@@ -117,11 +127,11 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
               <Eyebrow>{t("classes.availability")}</Eyebrow>
               <dl className="mt-5 space-y-4 text-sm">
                 <Row label={t("classes.level")} value={cls.level} />
-                <Row label={t("classes.ageGroup")} value={cls.proposedAgeGroup} />
-                <Row label={t("classes.format")} value={cls.proposedFormat} />
-                <Row label={t("classes.duration")} value={cls.proposedDuration} />
+                <Row label={t("classes.ageGroup")} value={t("classes.ageOnInquiry")} />
+                <Row label={t("classes.format")} value={t("classes.formatSmallGroup")} />
+                <Row label={t("classes.duration")} value={t("classes.duration75")} />
                 <Row label={t("classes.schedule")} value={t("classes.schedulePending")} muted />
-                <Row label={t("classes.price")} value={t("classes.schedulePending")} muted />
+                <Row label={t("classes.priceFrom")} value={formatPrice(35)} />
               </dl>
               <Link href={`${lp("/classes/register")}?class=${cls.slug}`} className="btn-primary mt-6 w-full justify-center">
                 {t("classes.cta")}
@@ -134,10 +144,16 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
         </div>
       </section>
 
+      <section id="pricing" className="border-t border-white/10 py-16 lg:py-24">
+        <div className="shell">
+          <ClassPricing locale={locale} t={t} />
+        </div>
+      </section>
+
       {related.length > 0 ? (
         <section className="border-t border-white/10 py-16 lg:py-20">
           <div className="shell">
-            <SectionHeading index="02" eyebrow={t("nav.classes")} title={t("classes.title")} />
+            <SectionHeading index="03" eyebrow={t("nav.classes")} title={t("classes.title")} />
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
               {related.map((r) => (
                 <Link
@@ -153,7 +169,7 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
                       sizes="(max-width: 640px) 100vw, 33vw"
                       className="object-cover transition duration-500 group-hover:scale-[1.03]"
                     />
-                    <div className="absolute inset-0 bg-gradient-to-t from-ink to-transparent" />
+                    <div className="absolute inset-0 bg-gradient-to-t from-ink/85 to-transparent" />
                   </div>
                   <div className="p-5">
                     <h3 className="font-display text-xl uppercase text-white">{r.title}</h3>
