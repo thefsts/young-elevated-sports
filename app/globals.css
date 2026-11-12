@@ -231,10 +231,27 @@
     transform: none;
   }
 
+  .ticker {
+    animation: ticker 38s linear infinite;
+  }
+
+  @keyframes ticker {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(-100%);
+    }
+  }
+
   @media (prefers-reduced-motion: reduce) {
     .reveal {
       opacity: 1;
       transform: none;
+    }
+
+    .ticker {
+      animation: none;
     }
   }
 }

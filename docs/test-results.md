@@ -74,3 +74,27 @@ Note: the repository bootstrap commit (`b6395ec`) was created on top of the Batc
 ## Local production server verification
 
 `next start` was run against the production build and returned HTTP 200 for `/`, `/contact`, and `/waivers/parent-guardian-consent`. Public port exposure through the sandbox proxy returned HTTP 403 and is recorded as a blocker (B6); no public preview URL is claimed.
+
+---
+
+## Brand correction run (approved runner mark)
+
+| Check | Result |
+| --- | --- |
+| `python3 scripts/trace-brand.py` | ✔ 2 masters written |
+| Trace fidelity, mark | ✔ overall pixel IoU **0.978** (gold 0.957 / silver 0.938) |
+| Trace fidelity, full lockup | ✔ overall pixel IoU **0.980** (gold 0.959 / silver 0.948) |
+| Variant build | ✔ 18 SVG variants generated |
+| Raster export | ✔ 19 PNG/ICO outputs generated |
+| Variant render coverage | ✔ every variant renders expected ink; single-colour variants verified |
+| `tsc --noEmit` | ✔ exit 0 |
+| `next lint` | ✔ no warnings or errors |
+| `vitest run` | ✔ 25/25 passing |
+| `next build` | ✔ 39 static pages + 2 API routes |
+| Route check | ✔ 19 routes + 4 special files |
+| Asset check | ✔ all referenced assets exist |
+| Production server | ✔ `/`, `/about`, `/training`, `/registration/athlete` return 200 |
+| Logo asset served | ✔ `/brand/ye-runner-mark.svg` 200, `/brand/favicon.ico` 200 |
+| Homepage sections present | ✔ ticker, five pillars, DFW section render |
+
+Not run (unchanged): Lighthouse, axe, device-matrix responsive smoke, live Resend send.

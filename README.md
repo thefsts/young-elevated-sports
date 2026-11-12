@@ -62,7 +62,7 @@ lib/
   rate-limit.ts      In-memory fixed-window limiter (best effort)
   seo.tsx            Metadata helpers + JSON-LD
 public/
-  brand/             16 SVG logo variants + PNG exports + OG image
+  brand/             approved runner-mark SVG masters, PNG exports, favicons, OG image
   media/             Illustrative imagery (not client athletes)
 scripts/             Brand build, asset and route checks
 tests/               Vitest suites

@@ -1,39 +1,37 @@
 type MonogramProps = {
   className?: string;
-  mark?: string;
-  accent?: string;
+  /** Visual context: dark surfaces use the silver/gold mark, light uses graphite/gold. */
+  tone?: "light" | "dark";
   title?: string;
 };
 
 /**
- * The YE monogram, drawn as live vector geometry so it inherits colour and
- * stays crisp at any size. Geometry is identical to public/brand/ye-monogram.svg.
+ * The client-approved YE runner mark: the runner silhouette inside the YE with
+ * the upward elevation arrow. Rendered from the traced vector master in
+ * public/brand so the same artwork is used everywhere.
+ *
+ * The retired plain YE monogram must not be used.
  */
 export function Monogram({
   className,
-  mark = "#D6A73B",
-  accent = "#F4CC64",
-  title = "Young & Elevated monogram",
+  tone = "light",
+  title = "Young & Elevated runner mark",
 }: MonogramProps) {
+  const src =
+    tone === "light"
+      ? "/brand/ye-runner-mark.svg"
+      : "/brand/ye-runner-mark-on-light.svg";
+
   return (
-    <svg
-      viewBox="0 0 128 128"
+    // eslint-disable-next-line @next/next/no-img-element -- fixed-aspect brand SVG, no optimisation needed
+    <img
+      src={src}
+      alt={title}
       className={className}
-      role="img"
-      aria-label={title}
-      focusable="false"
-    >
-      <g fill={mark}>
-        <polygon points="11.4,30 22.6,20 57.6,59 46.4,69" />
-        <polygon points="92.6,30 81.4,20 46.4,59 57.6,69" />
-        <rect x="44.5" y="56" width="15" height="48" />
-        <rect x="94" y="25" width="13" height="79" />
-        <rect x="94" y="25" width="26" height="13" />
-        <rect x="94" y="58" width="20" height="13" />
-        <rect x="94" y="91" width="26" height="13" />
-      </g>
-      <polygon points="40,101 52,89 64,101 64,108 52,96 40,108" fill={accent} />
-    </svg>
+      width={495}
+      height={282}
+      decoding="async"
+    />
   );
 }
 
@@ -45,13 +43,21 @@ type LogoProps = {
   compact?: boolean;
 };
 
-export function Logo({ className = "", tone = "light", showDescriptor = true, compact = false }: LogoProps) {
+export function Logo({
+  className = "",
+  tone = "light",
+  showDescriptor = true,
+  compact = false,
+}: LogoProps) {
   const wordColor = tone === "light" ? "#FFFFFF" : "#080808";
   const subColor = tone === "light" ? "#D6A73B" : "#8A6A1E";
 
   return (
     <span className={`inline-flex items-center gap-3 ${className}`}>
-      <Monogram className={compact ? "h-9 w-9" : "h-11 w-11"} />
+      <Monogram
+        tone={tone}
+        className={compact ? "h-8 w-auto" : "h-10 w-auto"}
+      />
       <span className="flex flex-col leading-none">
         <span
           className="font-display font-bold uppercase leading-none"

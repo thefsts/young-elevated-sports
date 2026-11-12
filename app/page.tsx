@@ -63,8 +63,56 @@ export default function HomePage() {
         </div>
       </section>
 
+      {/* ------------------------------------------------------------- ticker */}
+      <section
+        aria-label="Training qualities"
+        className="overflow-hidden border-y border-white/10 bg-graphite/60"
+      >
+        <div className="flex whitespace-nowrap py-4">
+          <ul className="ticker flex shrink-0 items-center gap-10 pr-10 font-display text-sm uppercase tracking-[0.28em] text-silver/70">
+            {[
+              "Speed",
+              "Strength",
+              "Agility",
+              "Explosive Power",
+              "Injury Prevention",
+              "Vertical Jump",
+              "Mobility",
+              "Conditioning",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-10">
+                <span>{item}</span>
+                <span aria-hidden="true" className="text-gold">
+                  /
+                </span>
+              </li>
+            ))}
+          </ul>
+          <ul
+            aria-hidden="true"
+            className="ticker flex shrink-0 items-center gap-10 pr-10 font-display text-sm uppercase tracking-[0.28em] text-silver/70"
+          >
+            {[
+              "Speed",
+              "Strength",
+              "Agility",
+              "Explosive Power",
+              "Injury Prevention",
+              "Vertical Jump",
+              "Mobility",
+              "Conditioning",
+            ].map((item) => (
+              <li key={item} className="flex items-center gap-10">
+                <span>{item}</span>
+                <span className="text-gold">/</span>
+              </li>
+            ))}
+          </ul>
+        </div>
+      </section>
+
       {/* -------------------------------------------------------------- stats */}
-      <section aria-label="At a glance" className="border-y border-white/10 bg-graphite/40">
+      <section aria-label="At a glance" className="border-b border-white/10 bg-graphite/40">
         <div className="shell py-2">
           <StatStrip items={stats} />
         </div>
@@ -271,6 +319,73 @@ export default function HomePage() {
                 ))}
               </ul>
             </Reveal>
+          </div>
+        </div>
+      </section>
+
+      {/* ----------------------------------------------------- tech pillars */}
+      <section className="border-t border-white/10 py-20 lg:py-28">
+        <div className="shell">
+          <Reveal>
+            <Eyebrow>Data-driven training</Eyebrow>
+            <h2 className="display-lg mt-6 max-w-3xl text-white">
+              Data-driven training for <span className="text-gold">measurable results.</span>
+            </h2>
+          </Reveal>
+          <div className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2 lg:grid-cols-5">
+            {[
+              { title: "Movement Analysis", body: "Screening how the athlete moves before loading it." },
+              { title: "Performance Tracking", body: "Repeatable metrics recorded across the training block." },
+              { title: "Recovery & Readiness", body: "Load and readiness considered before intensity is assigned." },
+              { title: "Sports Technology", body: "Velocity, jump, and output tools used with coaching judgment." },
+              { title: "Training Intelligence", body: "Assessment data translated into the next program." },
+            ].map((pillar, i) => (
+              <Reveal key={pillar.title} delay={i * 50}>
+                <div className="h-full bg-ink p-6">
+                  <span className="font-sans text-[0.62rem] font-semibold tracking-[0.28em] text-gold/70">
+                    {String(i + 1).padStart(2, "0")}
+                  </span>
+                  <h3 className="mt-4 font-display text-lg uppercase leading-tight text-white">
+                    {pillar.title}
+                  </h3>
+                  <p className="mt-3 font-sans text-sm leading-6 text-silver/75">{pillar.body}</p>
+                </div>
+              </Reveal>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* ---------------------------------------------------------------- DFW */}
+      <section className="relative overflow-hidden border-t border-white/10 bg-graphite/40 py-24 lg:py-32">
+        <div
+          aria-hidden="true"
+          className="absolute inset-0 bg-[radial-gradient(ellipse_at_left,rgba(214,167,59,0.10),transparent_60%)]"
+        />
+        <div className="shell relative">
+          <Reveal>
+            <Eyebrow>Training in</Eyebrow>
+            <h2 className="display-xl mt-5 text-white">
+              Dallas<span className="text-gold">–</span>Fort Worth
+            </h2>
+            <p className="lede mt-6 max-w-2xl">
+              Built for athletes across the metroplex. Sessions are programmed around the sport,
+              the season, and the individual — with objective measurement guiding the work.
+            </p>
+          </Reveal>
+          <div className="mt-14 grid gap-10 border-t border-white/10 pt-10 sm:grid-cols-3">
+            {[
+              { label: "Elite Training", body: "Structured, coached sessions — not open gym time." },
+              { label: "Elite Facility", body: "A performance environment built for speed, strength, and power." },
+              { label: "DFW Athletes", body: "Serving Dallas–Fort Worth and the surrounding communities." },
+            ].map((item, i) => (
+              <Reveal key={item.label} delay={i * 60}>
+                <h3 className="font-display text-2xl uppercase leading-none text-gold">
+                  {item.label}
+                </h3>
+                <p className="mt-3 font-sans text-sm leading-6 text-silver/80">{item.body}</p>
+              </Reveal>
+            ))}
           </div>
         </div>
       </section>
