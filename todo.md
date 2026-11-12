@@ -2,32 +2,32 @@
 
 ## Phase B — Remaining public pages
 - [x] Home, About, Training, Performance Technology, Athletes, Results, Media
-- [ ] Contact + Start Training (Class A inquiry form)
-- [ ] Policies, Privacy, Terms, Accessibility
-- [ ] not-found, error
-- [ ] sitemap.ts, robots.ts, og-image
+- [x] Contact + Start Training (Class A inquiry form)
+- [x] Policies, Privacy, Terms, Accessibility
+- [x] not-found, error
+- [x] sitemap.ts, robots.ts, og-image
 
 ## Phase C — Registration frontend
-- [ ] /registration hub
-- [ ] /registration/athlete (disabled sensitive form)
-- [ ] /registration/parent
-- [ ] /registration/school (Class A school inquiry)
-- [ ] /registration/partner
+- [x] /registration hub
+- [x] /registration/athlete (disabled sensitive form)
+- [x] /registration/parent
+- [x] /registration/school (Class A school inquiry)
+- [x] /registration/partner
 
 ## Phase D — Waivers & compliance
-- [ ] /waivers index
-- [ ] /waivers/[slug] printable draft
+- [x] /waivers index
+- [x] /waivers/[slug] printable draft
 
 ## Phase E — Integration prep
-- [ ] API routes (inquiry, school inquiry)
-- [ ] Resend email module + templates
-- [ ] OPERON + TAYA contract docs
+- [x] API routes (inquiry, school inquiry)
+- [x] Resend email module + templates
+- [x] OPERON + TAYA contract docs
 
 ## Phase F — QA / docs / deploy
-- [ ] 16 docs + .env.example
-- [ ] scripts check-assets / check-routes
-- [ ] unit tests
-- [ ] lint / typecheck / build / test
-- [ ] commit + push + PR
-- [ ] Vercel preview
-- [ ] final report
+- [x] 16 docs + .env.example
+- [x] scripts check-assets / check-routes
+- [x] unit tests
+- [x] lint / typecheck / build / test
+- [x] commit + push + PR
+- [x] Vercel preview
+- [x] final report
