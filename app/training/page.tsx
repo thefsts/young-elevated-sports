@@ -7,7 +7,8 @@ import {
   localizedPrograms,
   localizedTrainingPrinciples,
 } from "@/lib/content/programs";
-import { media } from "@/lib/content/media";
+import { media, coachPortraitCutout } from "@/lib/content/media";
+import Image from "next/image";
 import { pageMetadata } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
 import { LOCALE_LABELS, LOCALES, absoluteLocalized, localizedPath } from "@/lib/i18n/config";
@@ -69,7 +70,7 @@ export default async function TrainingPage() {
               <Reveal key={program.slug} delay={i * 30}>
                 <article id={program.slug} className="scroll-mt-28 py-10 lg:py-12">
                   <div className="grid gap-8 lg:grid-cols-[0.16fr_0.84fr_1fr] lg:gap-12">
-                    <div className="font-sans text-[0.68rem] font-semibold tracking-[0.28em] text-gold/70">
+                    <div className="font-sans text-[0.68rem] font-semibold tracking-[0.28em] text-gold">
                       {program.index}
                     </div>
 
@@ -82,7 +83,7 @@ export default async function TrainingPage() {
 
                     <div className="grid gap-6 sm:grid-cols-2">
                       <div>
-                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/40">
+                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/60">
                           {t("training.focus")}
                         </h3>
                         <ul className="mt-3 space-y-2">
@@ -95,7 +96,7 @@ export default async function TrainingPage() {
                         </ul>
                       </div>
                       <div>
-                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/40">
+                        <h3 className="font-sans text-[0.64rem] font-semibold uppercase tracking-[0.24em] text-white/60">
                           {t("training.why")}
                         </h3>
                         <p className="mt-3 font-sans text-sm leading-6 text-silver/85">
@@ -130,7 +131,7 @@ export default async function TrainingPage() {
                   <p className="mt-4 flex-1 font-sans text-sm leading-6 text-silver/80">
                     {format.summary}
                   </p>
-                  <p className="mt-6 border-t border-white/10 pt-4 font-sans text-[0.66rem] uppercase leading-5 tracking-[0.16em] text-gold/70">
+                  <p className="mt-6 border-t border-white/10 pt-4 font-sans text-[0.66rem] uppercase leading-5 tracking-[0.16em] text-gold">
                     {format.availability}
                   </p>
                 </div>
@@ -168,6 +169,36 @@ export default async function TrainingPage() {
               </Link>
               <Link href={lp("/performance-technology")} className="btn-ghost">
                 {t("nav.technology")}
+              </Link>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* coach introduction -------------------------------------------------- */}
+      <section className="border-t border-white/10 bg-ink py-20 lg:py-24">
+        <div className="shell grid items-center gap-10 lg:grid-cols-[320px_1fr] lg:gap-16">
+          <div className="relative mx-auto w-full max-w-[320px]">
+            <div className="absolute -inset-3 border border-gold/25" aria-hidden="true" />
+            <Image
+              src={coachPortraitCutout.src}
+              alt={coachPortraitCutout.alt}
+              width={coachPortraitCutout.width}
+              height={coachPortraitCutout.height}
+              sizes="(max-width: 1024px) 60vw, 320px"
+              className="relative h-auto w-full"
+              loading="lazy"
+            />
+          </div>
+          <div>
+            <Eyebrow>{t("training.coach.eyebrow")}</Eyebrow>
+            <h2 className="display-md mt-5 text-white">{t("training.coach.title")}</h2>
+            <p className="mt-5 max-w-xl font-sans text-base leading-7 text-silver">
+              {t("training.coach.body")}
+            </p>
+            <div className="mt-7">
+              <Link href={lp("/about")} className="btn-ghost">
+                {t("training.coach.link")}
               </Link>
             </div>
           </div>

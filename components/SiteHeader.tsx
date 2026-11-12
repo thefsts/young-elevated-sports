@@ -54,7 +54,7 @@ export function SiteHeader() {
       }`}
     >
       <div className="shell flex h-[4.5rem] items-center justify-between gap-4 lg:h-20">
-        <Link href={path("/")} aria-label={`${t("nav.home")} — Young & Elevated Sports Performance`} className="shrink-0">
+        <Link href={path("/")} className="shrink-0">
           <Logo compact />
         </Link>
 

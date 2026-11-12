@@ -55,7 +55,7 @@ export function ClassScheduleExplorer() {
       <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-graphite/40 p-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="grid flex-1 gap-3 sm:grid-cols-3">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/45">
+            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
               {t("classes.filter.category")}
             </span>
             <select className={selectClass} value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -68,7 +68,7 @@ export function ClassScheduleExplorer() {
             </select>
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/45">
+            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
               {t("classes.filter.age")}
             </span>
             <select className={selectClass} value={age} onChange={(e) => setAge(e.target.value)}>
@@ -81,7 +81,7 @@ export function ClassScheduleExplorer() {
             </select>
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/45">
+            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
               {t("classes.filter.level")}
             </span>
             <select className={selectClass} value={level} onChange={(e) => setLevel(e.target.value)}>
@@ -139,7 +139,7 @@ export function ClassScheduleExplorer() {
                 </h3>
                 <div className="space-y-2">
                   {entries.length === 0 ? (
-                    <p className="rounded-lg border border-dashed border-white/10 p-3 text-center text-[0.6rem] text-white/30">
+                    <p className="rounded-lg border border-dashed border-white/10 p-3 text-center text-[0.6rem] text-white/60">
                       —
                     </p>
                   ) : (
@@ -192,7 +192,7 @@ export function ClassScheduleExplorer() {
         ))}
       </ul>
 
-      <p className="mt-4 text-[0.65rem] leading-relaxed text-white/40">
+      <p className="mt-4 text-[0.65rem] leading-relaxed text-white/60">
         {t("classes.scheduleIntro")} {t("classes.notBooking")}
       </p>
     </div>

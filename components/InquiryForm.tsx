@@ -175,7 +175,7 @@ export function InquiryForm({
                 className="field-input"
               />
               {field.help ? (
-                <p id={`${id}-help`} className="mt-1.5 font-sans text-xs text-white/40">
+                <p id={`${id}-help`} className="mt-1.5 font-sans text-xs text-white/60">
                   {field.help}
                 </p>
               ) : null}
@@ -245,7 +245,7 @@ export function InquiryForm({
         <button type="submit" disabled={status === "submitting"} className="btn-primary disabled:opacity-60">
           {status === "submitting" ? "Sending\u2026" : submitLabel}
         </button>
-        <p className="font-sans text-xs leading-5 text-white/40">
+        <p className="font-sans text-xs leading-5 text-white/60">
           Please do not include medical, injury, or health details in this form. Those are collected
           only through the secure registration process.
         </p>

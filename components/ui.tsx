@@ -29,7 +29,7 @@ export function SectionHeading({
       {(index || eyebrow) && (
         <div className={`flex items-center gap-4 ${align === "center" ? "justify-center" : ""}`}>
           {index ? (
-            <span className="font-sans text-[0.68rem] font-semibold tracking-[0.3em] text-white/35">
+            <span className="font-sans text-[0.68rem] font-semibold tracking-[0.3em] text-white/60">
               {index}
             </span>
           ) : null}
@@ -135,7 +135,7 @@ export function StatStrip({ items }: { items: { value: string; label: string }[]
           <dt className="sr-only">{item.label}</dt>
           <dd>
             <span className="block font-display text-3xl leading-none text-gold-bright">{item.value}</span>
-            <span className="mt-2 block font-sans text-[0.66rem] uppercase leading-4 tracking-[0.18em] text-white/50">
+            <span className="mt-2 block font-sans text-[0.66rem] uppercase leading-4 tracking-[0.18em] text-white/65">
               {item.label}
             </span>
           </dd>

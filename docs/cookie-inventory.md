@@ -8,9 +8,27 @@ checkpoint, and the site does not claim otherwise anywhere in the UI.
 | --- | --- | --- | --- | --- |
 | `yesp_consent_v1` | `localStorage` | Essential | Records the visitor's consent choices and version. | Until cleared |
 | `yesp_cookie_notice_v1` | `localStorage` | Essential | Remembers that the first-visit banner was dismissed. | Until cleared |
-| `yesp_locale` | Cookie | Functional | Remembers the chosen language (`en` / `es`). | 1 year |
-| `yesp_a11y_prefs_v1` | `localStorage` | Functional | Accessibility toolbar preferences. | Until cleared |
-| `yesp_a11y_pos_v1` | `localStorage` | Functional | Position of the floating accessibility launcher. | Until cleared |
+| `yesp_a11y_prefs_v1` | `localStorage` | Essential | Accessibility toolbar preferences (contrast, text size, motion, spacing). | Until cleared |
+| `yesp_a11y_pos_v1` | `localStorage` | Essential | Position of the floating accessibility launcher. | Until cleared |
+| `yesp_locale` | Cookie | Functional | Remembers the chosen language (`en` / `es`). | 1 year with functional consent; session-only otherwise |
+
+## Category reconciliation (Checkpoint 002 correction 3)
+
+The categories above now match what the code actually does:
+
+- **Accessibility preferences are essential.** `yesp_a11y_prefs_v1` and
+  `yesp_a11y_pos_v1` are written only when a visitor uses the accessibility
+  toolbar, and they are the mechanism that delivers the accommodation. Gating
+  them behind optional consent would mean that rejecting optional cookies
+  disables a disability accommodation. They are therefore strictly necessary and
+  always honoured, regardless of the optional categories.
+- **Language persistence is functional and genuinely optional.** The language
+  selector always works — it navigates to the locale-prefixed URL. The
+  `yesp_locale` cookie is written with a one-year expiry **only** when the
+  visitor has granted `functional`. Without that consent the selector writes a
+  session-only cookie, so the choice is honoured for the visit and then
+  discarded. Rejecting functional therefore has a real, observable effect
+  without breaking navigation.
 
 ## Consent model
 

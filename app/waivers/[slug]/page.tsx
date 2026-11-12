@@ -86,7 +86,7 @@ export default async function WaiverDetailPage({ params }: { params: Promise<{ s
               ["Status", waiver.status],
             ].map(([label, value]) => (
               <div key={label}>
-                <dt className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-white/40">{label}</dt>
+                <dt className="font-sans text-[0.6rem] uppercase tracking-[0.18em] text-white/60">{label}</dt>
                 <dd className="mt-1 font-sans text-sm text-white">{value}</dd>
               </div>
             ))}

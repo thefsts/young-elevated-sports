@@ -95,16 +95,16 @@ export default async function ClassesPage() {
 
                       <dl className="mt-5 space-y-2 border-t border-white/10 pt-4 text-xs">
                         <div className="flex justify-between gap-3">
-                          <dt className="text-white/40">{t("classes.level")}</dt>
+                          <dt className="text-white/60">{t("classes.level")}</dt>
                           <dd className="text-right text-silver">{cls.level}</dd>
                         </div>
                         <div className="flex justify-between gap-3">
-                          <dt className="text-white/40">{t("classes.ageGroup")}</dt>
+                          <dt className="text-white/60">{t("classes.ageGroup")}</dt>
                           <dd className="text-right text-silver">{cls.proposedAgeGroup}</dd>
                         </div>
                         <div className="flex justify-between gap-3">
-                          <dt className="text-white/40">{t("classes.price")}</dt>
-                          <dd className="text-right text-white/50">{t("classes.schedulePending")}</dd>
+                          <dt className="text-white/60">{t("classes.price")}</dt>
+                          <dd className="text-right text-white/65">{t("classes.schedulePending")}</dd>
                         </div>
                       </dl>
 

@@ -308,7 +308,7 @@ export function ClassInterestForm({ initialClass = "" }: { initialClass?: string
         <button type="submit" className="btn-primary">
           {t("form.reviewTitle")}
         </button>
-        <p className="text-[0.68rem] uppercase tracking-[0.14em] text-white/40">{t("form.notConfirmed")}</p>
+        <p className="text-[0.68rem] uppercase tracking-[0.14em] text-white/60">{t("form.notConfirmed")}</p>
       </div>
     </form>
   );
@@ -372,7 +372,7 @@ function Checkbox({
 function ReviewRow({ label, value }: { label: string; value: string }) {
   return (
     <div className="flex justify-between gap-4 border-b border-white/10 pb-2">
-      <dt className="text-white/45">{label}</dt>
+      <dt className="text-white/65">{label}</dt>
       <dd className="text-right text-silver">{value || "—"}</dd>
     </div>
   );

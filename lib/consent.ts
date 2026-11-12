@@ -8,10 +8,22 @@
  *
  * Current storage (all first-party, no third-party trackers):
  *   yesp_consent_v1        localStorage   essential   — records this choice
- *   yesp_locale            cookie         functional  — language preference
- *   yesp_a11y_prefs_v1     localStorage   functional  — accessibility prefs
- *   yesp_a11y_pos_v1       localStorage   functional  — launcher position
  *   yesp_cookie_notice_v1  localStorage   essential   — banner dismissed state
+ *   yesp_a11y_prefs_v1     localStorage   essential   — accessibility prefs
+ *   yesp_a11y_pos_v1       localStorage   essential   — launcher position
+ *   yesp_locale            cookie         functional  — language preference
+ *
+ * Why the accessibility keys are essential rather than functional: they are
+ * written only when a visitor actively uses the accessibility toolbar, and they
+ * are the mechanism that delivers the accommodation the visitor asked for. If
+ * they were gated behind optional consent, rejecting optional cookies would
+ * switch off a disability accommodation. That is not a permissible trade, so
+ * they are treated as strictly necessary and always honoured.
+ *
+ * The only genuinely optional preference is `yesp_locale`. It is written with a
+ * one-year expiry only when the visitor grants `functional`; otherwise the
+ * language selector writes a session-only cookie and the locale-prefixed URL
+ * carries the choice. See components/LanguageSelector.tsx.
  *
  * See docs/cookie-inventory.md for the maintained table.
  */

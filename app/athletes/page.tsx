@@ -2,6 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, Notice, PageHero, SectionHeading } from "@/components/ui";
+import { pageCopy } from "@/lib/content/page-copy-es";
+import { getTranslator } from "@/lib/i18n/server";
+import { localizedPath } from "@/lib/i18n/config";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -11,7 +14,7 @@ export const metadata: Metadata = pageMetadata({
   path: "/athletes",
 });
 
-const stages = [
+const stagesEn = [
   {
     label: "Foundation",
     ages: "Youth athletes",
@@ -42,28 +45,60 @@ const stages = [
   },
 ];
 
-export default function AthletesPage() {
+const learnEn = [
+  {
+    t: "How to prepare",
+    b: "A warm-up is not a formality. Athletes learn a repeatable preparation routine they can use in any setting.",
+  },
+  {
+    t: "How to train",
+    b: "Intent, tempo, rest, and technique are coached explicitly. Athletes understand what quality work looks like.",
+  },
+  {
+    t: "How to recover",
+    b: "Sleep, nutrition basics, and load management are discussed as part of performance — not as an afterthought.",
+  },
+  {
+    t: "How to compete",
+    b: "Training includes moments of pressure and measurement so athletes practise performing, not just exercising.",
+  },
+];
+
+export default async function AthletesPage() {
+  const { locale } = await getTranslator();
+  const c = pageCopy(locale);
+  const lp = (p: string) => localizedPath(locale, p);
+  const copy = c?.athletes;
+  const stages = c?.stages ?? stagesEn;
+  const learn = c?.learn ?? learnEn;
+
   return (
     <>
       <PageHero
-        eyebrow="Athletes · Development"
+        eyebrow={copy?.eyebrow ?? "Athletes · Development"}
         title={
           <>
-            The long game
+            {copy?.titleLines[0] ?? "The long game"}
             <br />
-            of development.
+            {copy?.titleLines[1] ?? "of development."}
           </>
         }
-        intro="Athletes are not finished products. Development is a progression — built stage by stage, with the athlete's age, training history, and sport shaping the work."
+        intro={
+          copy?.intro ??
+          "Athletes are not finished products. Development is a progression — built stage by stage, with the athlete's age, training history, and sport shaping the work."
+        }
         image="/media/facility.jpg"
-        imageAlt="Illustrative image: an empty indoor training facility with turf and overhead lighting."
+        imageAlt={
+          copy?.imageAlt ??
+          "Illustrative image: an empty indoor training facility with turf and overhead lighting."
+        }
         actions={
           <>
-            <Link href="/start-training" className="btn-primary">
-              Start Training
+            <Link href={lp("/start-training")} className="btn-primary">
+              {copy?.ctaPrimary ?? "Start Training"}
             </Link>
-            <Link href="/results" className="btn-ghost">
-              Athlete Results
+            <Link href={lp("/results")} className="btn-ghost">
+              {copy?.ctaSecondary ?? "Athlete Results"}
             </Link>
           </>
         }
@@ -73,9 +108,12 @@ export default function AthletesPage() {
         <div className="shell">
           <SectionHeading
             index="01"
-            eyebrow="Pathway"
-            title="Stages, not shortcuts"
-            intro="Each stage has a different priority. The goal is not to rush an athlete into advanced work — it is to build the qualities that make advanced work productive later."
+            eyebrow={copy?.s1Eyebrow ?? "Pathway"}
+            title={copy?.s1Title ?? "Stages, not shortcuts"}
+            intro={
+              copy?.s1Intro ??
+              "Each stage has a different priority. The goal is not to rush an athlete into advanced work — it is to build the qualities that make advanced work productive later."
+            }
           />
 
           <div className="mt-14 grid gap-px bg-white/10 sm:grid-cols-2">
@@ -86,7 +124,7 @@ export default function AthletesPage() {
                     <span className="font-sans text-[0.62rem] font-semibold uppercase tracking-[0.26em] text-gold">
                       {stage.label}
                     </span>
-                    <span className="font-sans text-[0.62rem] uppercase tracking-[0.18em] text-white/35">
+                    <span className="font-sans text-[0.62rem] uppercase tracking-[0.18em] text-white/60">
                       {stage.ages}
                     </span>
                   </div>
@@ -114,32 +152,15 @@ export default function AthletesPage() {
       <section className="border-t border-white/10 bg-graphite/30 py-20 lg:py-28">
         <div className="shell grid gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <div>
-            <Eyebrow>What athletes learn</Eyebrow>
+            <Eyebrow>{copy?.learnEyebrow ?? "What athletes learn"}</Eyebrow>
             <h2 className="display-md mt-5 text-white">
-              Habits travel
+              {copy?.learnTitleLines[0] ?? "Habits travel"}
               <br />
-              further than talent.
+              {copy?.learnTitleLines[1] ?? "further than talent."}
             </h2>
           </div>
           <div className="space-y-8">
-            {[
-              {
-                t: "How to prepare",
-                b: "A warm-up is not a formality. Athletes learn a repeatable preparation routine they can use in any setting.",
-              },
-              {
-                t: "How to train",
-                b: "Intent, tempo, rest, and technique are coached explicitly. Athletes understand what quality work looks like.",
-              },
-              {
-                t: "How to recover",
-                b: "Sleep, nutrition basics, and load management are discussed as part of performance — not as an afterthought.",
-              },
-              {
-                t: "How to compete",
-                b: "Training includes moments of pressure and measurement so athletes practise performing, not just exercising.",
-              },
-            ].map((item) => (
+            {learn.map((item) => (
               <div key={item.t} className="border-l border-gold/40 pl-6">
                 <h3 className="font-display text-xl uppercase text-white">{item.t}</h3>
                 <p className="mt-2 font-sans text-sm leading-6 text-silver/85">{item.b}</p>
@@ -151,20 +172,18 @@ export default function AthletesPage() {
 
       <section className="border-t border-white/10 py-20">
         <div className="shell max-w-4xl">
-          <Notice tone="draft" title="Guardian-led for minors">
+          <Notice tone="draft" title={copy?.guardianTitle ?? "Guardian-led for minors"}>
             <p>
-              Registration for athletes under 18 is designed to be completed with a parent or legal
-              guardian. Guardian consent, medical disclosure, and waiver acknowledgment are part of the
-              registration process. Sensitive submissions are not enabled until a secure, approved
-              record-keeping workflow is in place.
+              {copy?.guardianBody ??
+                "Registration for athletes under 18 is designed to be completed with a parent or legal guardian. Guardian consent, medical disclosure, and waiver acknowledgment are part of the registration process. Sensitive submissions are not enabled until a secure, approved record-keeping workflow is in place."}
             </p>
           </Notice>
           <div className="mt-10 flex flex-wrap gap-3">
-            <Link href="/registration" className="btn-primary">
-              Registration Options
+            <Link href={lp("/registration")} className="btn-primary">
+              {copy?.regCta ?? "Registration Options"}
             </Link>
-            <Link href="/waivers" className="btn-ghost">
-              Waiver Information
+            <Link href={lp("/waivers")} className="btn-ghost">
+              {copy?.waiverCta ?? "Waiver Information"}
             </Link>
           </div>
         </div>

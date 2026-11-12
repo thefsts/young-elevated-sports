@@ -132,7 +132,7 @@
   }
 
   .field-input {
-    @apply w-full border border-white/15 bg-ink/60 px-4 py-3 font-sans text-[0.95rem] text-white placeholder:text-white/30;
+    @apply w-full border border-white/15 bg-ink/60 px-4 py-3 font-sans text-[0.95rem] text-white placeholder:text-white/55;
   }
 
   .field-input:focus {

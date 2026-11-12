@@ -5,6 +5,7 @@ import { Eyebrow, GoldRule, SectionHeading, StatStrip, ArrowLink } from "@/compo
 import { localizedPrograms, localizedTrainingPrinciples } from "@/lib/content/programs";
 import { technology } from "@/lib/content/technology";
 import { stats } from "@/lib/content/site";
+import { coachPortrait } from "@/lib/content/media";
 import { JsonLd, organizationSchema } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
 import { localizedPath } from "@/lib/i18n/config";
@@ -178,7 +179,7 @@ export default async function HomePage() {
                   className="group flex h-full flex-col justify-between bg-ink p-7 transition-colors hover:bg-graphite"
                 >
                   <div>
-                    <span className="font-sans text-[0.66rem] font-semibold tracking-[0.28em] text-gold/70">
+                    <span className="font-sans text-[0.66rem] font-semibold tracking-[0.28em] text-gold">
                       {program.index}
                     </span>
                     <h3 className="mt-5 font-display text-2xl uppercase leading-none text-white">
@@ -202,15 +203,16 @@ export default async function HomePage() {
         <div className="grid lg:grid-cols-2">
           <div className="relative min-h-[380px] lg:min-h-[620px]">
             <Image
-              src="/media/facility.jpg"
-              alt={t("home.coach.imageAlt")}
+              src={coachPortrait.src}
+              alt={t("home.coach.portraitAlt")}
               fill
               sizes="(max-width: 1024px) 100vw, 50vw"
-              className="object-cover"
+              className="object-cover object-top"
+              priority={false}
             />
             <div className="absolute inset-0 bg-gradient-to-r from-ink/40 to-ink/10" />
-            <div className="absolute bottom-6 left-6 border border-white/15 bg-ink/70 px-4 py-2 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-white/50 backdrop-blur">
-              {t("home.illustrative")}
+            <div className="absolute bottom-6 left-6 border border-gold/30 bg-ink/70 px-4 py-2 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-gold backdrop-blur">
+              {t("home.coach.portraitCaption")}
             </div>
           </div>
 
@@ -241,7 +243,7 @@ export default async function HomePage() {
             {trainingPrinciples.map((item, i) => (
               <Reveal key={item.title} delay={i * 60}>
                 <div className="border-t border-white/15 pt-6">
-                  <span className="font-sans text-[0.66rem] font-semibold tracking-[0.28em] text-gold/70">
+                  <span className="font-sans text-[0.66rem] font-semibold tracking-[0.28em] text-gold">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-4 font-display text-xl uppercase leading-tight text-white">
@@ -279,7 +281,7 @@ export default async function HomePage() {
                       <p className="font-display text-xl uppercase text-white">{item.name}</p>
                       <p className="mt-1 font-sans text-sm text-silver/70">{item.role}</p>
                     </div>
-                    <span className="shrink-0 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-gold/70">
+                    <span className="shrink-0 font-sans text-[0.6rem] uppercase tracking-[0.2em] text-gold">
                       {item.category}
                     </span>
                   </li>
@@ -301,13 +303,13 @@ export default async function HomePage() {
             {pillars.map((pillar, i) => (
               <Reveal key={pillar.title} delay={i * 50}>
                 <div className="h-full bg-ink p-6">
-                  <span className="font-sans text-[0.62rem] font-semibold tracking-[0.28em] text-gold/70">
+                  <span className="font-sans text-[0.62rem] font-semibold tracking-[0.28em] text-gold">
                     {String(i + 1).padStart(2, "0")}
                   </span>
                   <h3 className="mt-4 font-display text-lg uppercase leading-tight text-white">
                     {pillar.title}
                   </h3>
-                  <p className="mt-3 font-sans text-sm leading-6 text-silver/75">{pillar.body}</p>
+                  <p className="mt-3 font-sans text-sm leading-6 text-silver/85">{pillar.body}</p>
                 </div>
               </Reveal>
             ))}

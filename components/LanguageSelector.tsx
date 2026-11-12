@@ -4,13 +4,17 @@ import { usePathname, useRouter } from "next/navigation";
 import { useTransition } from "react";
 import { LOCALES, LOCALE_COOKIE, LOCALE_LABELS, localizedPath, stripLocale, type Locale } from "@/lib/i18n/config";
 import { useI18n } from "@/lib/i18n/client";
+import { hasConsent } from "@/lib/consent";
 
 /**
  * Visible language selector for desktop and mobile headers.
  *
  * Switching navigates to the same page in the other locale, so the visitor does
- * not lose their place. The choice is also written to the locale cookie so the
- * middleware can honour it on unprefixed URLs.
+ * not lose their place. The choice is persisted in the `yesp_locale` cookie only
+ * when the visitor has granted the optional **functional** category. Without
+ * that consent the preference still works for the current session (a session
+ * cookie with no expiry) and the locale-prefixed URL is authoritative, so the
+ * language selector never stops working — it simply stops remembering.
  */
 export function LanguageSelector({ variant = "desktop" }: { variant?: "desktop" | "mobile" }) {
   const { locale, t } = useI18n();
@@ -20,7 +24,12 @@ export function LanguageSelector({ variant = "desktop" }: { variant?: "desktop" 
 
   function choose(target: Locale) {
     if (target === locale) return;
-    document.cookie = `${LOCALE_COOKIE}=${target}; path=/; max-age=${60 * 60 * 24 * 365}; samesite=lax`;
+    // Functional consent decides whether the locale is *remembered* across
+    // visits. Without it we write a session cookie only, so the choice is
+    // honoured for this visit and then discarded.
+    const persist = hasConsent("functional");
+    const maxAge = persist ? `; max-age=${60 * 60 * 24 * 365}` : "";
+    document.cookie = `${LOCALE_COOKIE}=${target}; path=/; samesite=lax${maxAge}`;
     const { path } = stripLocale(pathname);
     const href = localizedPath(target, path);
     startTransition(() => {

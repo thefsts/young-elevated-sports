@@ -126,7 +126,7 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
               <Link href={`${lp("/classes/register")}?class=${cls.slug}`} className="btn-primary mt-6 w-full justify-center">
                 {t("classes.cta")}
               </Link>
-              <p className="mt-3 text-center text-[0.62rem] leading-relaxed text-white/40">
+              <p className="mt-3 text-center text-[0.62rem] leading-relaxed text-white/60">
                 {t("classes.notBooking")}
               </p>
             </div>
@@ -172,8 +172,8 @@ export default async function ClassDetailPage({ params }: { params: Promise<{ sl
 function Row({ label, value, muted }: { label: string; value: string; muted?: boolean }) {
   return (
     <div className="flex items-start justify-between gap-4 border-b border-white/10 pb-3">
-      <dt className="text-white/45">{label}</dt>
-      <dd className={`text-right ${muted ? "text-white/50" : "text-silver"}`}>{value}</dd>
+      <dt className="text-white/65">{label}</dt>
+      <dd className={`text-right ${muted ? "text-white/65" : "text-silver"}`}>{value}</dd>
     </div>
   );
 }

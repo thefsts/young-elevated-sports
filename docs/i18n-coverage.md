@@ -57,10 +57,30 @@
 - No Spanish waiver is presented as legally reviewed, and no signature field is
   enabled on an unreviewed translation.
 
+## Long-form body copy (Checkpoint 002 correction 2 — complete)
+
+The six pages that previously shipped English-only body copy now render fully in
+Spanish:
+
+| Route | Spanish source |
+| --- | --- |
+| `/es/about` | `pageCopy("es").about` + `bio` overlay |
+| `/es/performance-technology` | `pageCopy("es").technology` + `techItems` |
+| `/es/athletes` | `pageCopy("es").athletes` + `stages` / `learn` |
+| `/es/contact` | `pageCopy("es").contact` + form labels |
+| `/es/results` | `pageCopy("es").results` + `reportingStandards` |
+| `/es/media` | `pageCopy("es").media` + `gallery` captions |
+
+The overlay lives in `lib/content/page-copy-es.ts`. Each page is an async server
+component that calls `getTranslator()` for the locale and then falls back to the
+English constants when `pageCopy(locale)` returns `null`, so English output is
+unchanged. Authentic client photography keeps its own caption and is never
+overwritten by the Spanish gallery overlay.
+
 ## Known gaps
 
-1. Long-form body copy on About, Performance Technology, Athletes, Contact,
-   Results, and Media is still English. Chrome, navigation, forms, classes, and
-   all interactive controls are translated.
-2. Legal documents are not translated. This is intentional until counsel
+1. Legal documents are not translated. This is intentional until counsel
    approves a Spanish version.
+2. Coach biography copy added in Checkpoint 003 (`training.coach.*`) is
+   translated. Any new body copy must be added to both dictionaries and, where it
+   is long-form, to the `page-copy-es.ts` overlay.

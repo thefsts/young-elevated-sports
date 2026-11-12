@@ -36,7 +36,7 @@ export type MediaAsset = {
   width: number;
   height: number;
   /** True while the image is a brand-directed placeholder. */
-  placeholder: true;
+  placeholder: boolean;
   credit: string;
 };
 
@@ -125,3 +125,130 @@ export const mediaList: MediaAsset[] = Object.values(media);
 /** Placeholder disclosure used wherever imagery is shown to the client. */
 export const MEDIA_DISCLOSURE =
   "Photography on this preview is brand-directed placeholder imagery. The people shown are not YESP athletes, coaches, employees, or clients.";
+
+/* ------------------------------------------------------------------------- *
+ * Real client photography (Checkpoint 003)
+ *
+ * These entries are genuine photographs supplied by the client. They are the
+ * only assets in this file with `placeholder: false`. Every export is
+ * EXIF-stripped, so no capture device, timestamp, or GPS location is published.
+ *
+ * Clearance status is tracked per photograph. A photograph may only be listed
+ * in `coachPhotos` once the client has confirmed the right to publish it,
+ * including releases from every identifiable person pictured.
+ * ------------------------------------------------------------------------- */
+
+export type PublicationStatus =
+  /** Client supplied it and cleared it for public use. */
+  | "cleared"
+  /** Client supplied it; releases from people pictured still outstanding. */
+  | "pending-release"
+  /** Held privately for review only. */
+  | "private-review";
+
+export type CoachPhoto = {
+  id: string;
+  /** Public path. Only present for `cleared` assets. */
+  src: string;
+  srcMedium: string;
+  srcSmall: string;
+  alt: string;
+  caption: string;
+  width: number;
+  height: number;
+  placeholder: false;
+  credit: string;
+  status: PublicationStatus;
+  /** Surfaces this photograph is approved to appear on. */
+  usage: string[];
+};
+
+const COACH_CREDIT = "Photograph supplied by Young & Elevated Sports Performance";
+
+/**
+ * Primary coach portrait. `Young2.jpg` is a single-subject frame — an
+ * automated face scan (OpenCV YuNet) found exactly one face, so no third-party
+ * release is required. Client designated this frame as the primary profile.
+ */
+export const coachPortrait: CoachPhoto = {
+  id: "coach-young-portrait",
+  src: "/media/coach/coach-young-portrait.jpg",
+  srcMedium: "/media/coach/coach-young-portrait-md.jpg",
+  srcSmall: "/media/coach/coach-young-portrait-sm.jpg",
+  alt: "Coach Young of Young & Elevated Sports Performance, portrait against a dark background",
+  caption: "Coach Young",
+  width: 1200,
+  height: 1500,
+  placeholder: false,
+  credit: COACH_CREDIT,
+  status: "cleared",
+  usage: ["about", "home", "coach-card", "program-intro"],
+};
+
+/** Transparent-background cutout of the primary portrait, for layered layouts. */
+export const coachPortraitCutout = {
+  src: "/media/coach/coach-young-cutout.png",
+  srcSmall: "/media/coach/coach-young-cutout-sm.png",
+  alt: "Coach Young, cut out against a transparent background",
+  width: 1200,
+  height: 1500,
+  placeholder: false as const,
+  credit: COACH_CREDIT,
+  status: "cleared" as PublicationStatus,
+};
+
+/** Restrained black-and-gold branded treatment of the primary portrait. */
+export const coachPortraitBrand = {
+  src: "/media/coach/coach-young-portrait-brand.jpg",
+  alt: "Coach Young in a black-and-gold branded portrait treatment",
+  width: 1200,
+  height: 1500,
+  placeholder: false as const,
+  credit: COACH_CREDIT,
+  status: "cleared" as PublicationStatus,
+};
+
+/** Cleared photographs that may be rendered on the public site. */
+export const coachPhotos: CoachPhoto[] = [coachPortrait];
+
+/**
+ * Photographs received but NOT yet publishable. Metadata only — no public path
+ * is exposed, so these cannot be rendered by accident. They live in
+ * `review/coach-photos/` for private review.
+ */
+export const coachPhotoQueue: Array<{
+  source: string;
+  identifiableFaces: number;
+  status: PublicationStatus;
+  note: string;
+}> = [
+  {
+    source: "IMG_3643.jpeg",
+    identifiableFaces: 9,
+    status: "pending-release",
+    note: "Group frame. Nine faces detected; releases required before publication.",
+  },
+  {
+    source: "IMG_1652.jpg",
+    identifiableFaces: 3,
+    status: "pending-release",
+    note: "Three faces detected; releases required before publication.",
+  },
+  {
+    source: "IMG_0232.jpeg",
+    identifiableFaces: 5,
+    status: "pending-release",
+    note: "Five faces detected; byte-identical duplicate of IMG_0232 (1).jpeg.",
+  },
+  {
+    source: "IMG_8097.jpeg",
+    identifiableFaces: 8,
+    status: "pending-release",
+    note: "Eight faces detected; releases required before publication.",
+  },
+];
+
+/** True when a media asset is authentic client photography. */
+export function isAuthentic(asset: { placeholder: boolean }): boolean {
+  return asset.placeholder === false;
+}

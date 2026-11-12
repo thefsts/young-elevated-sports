@@ -148,3 +148,88 @@ Run locally against branch `feature/batch-001-foundation` on the sandbox.
   a delivery failure can never render a success screen.
 - **Device-matrix testing**: replaced with headless Chromium viewport captures at
   three widths; no physical-device testing was performed.
+
+---
+
+## Checkpoint 003 — coach photography integration
+
+Run on Node **v26.13.1** (npm 11.20.0) against commit built from `feature/batch-001-foundation`.
+
+| Gate | Command | Result |
+| --- | --- | --- |
+| Lint | `npm run lint` | ✔ No ESLint warnings or errors |
+| Types | `npm run typecheck` | ✔ exit 0 |
+| Unit tests | `npm run test` | ✔ 60 passed (4 files) |
+| Brand assets | `npm run check:brand` | ✔ All brand assets verified |
+| Asset references | `npm run check:assets` | ✔ 20 references, all exist |
+| Routes | `npm run check:routes` | ✔ 21 routes + 4 special files |
+| Production build | `npm run build` | ✔ 52 pages, middleware 34.3 kB, shared JS 103 kB |
+
+New tests in `tests/checkpoint-003.test.ts` (7) lock the publication gate: only one
+cleared photograph is public, every placeholder stays flagged, every referenced
+file exists, no uncleared photograph exposes a `src`, and the untouched originals
+are absent from `public/`.
+
+### axe (WCAG 2.0/2.1 A + AA + best practice)
+
+Eight routes audited at 1440 × 1000 with axe-core injected after a full scroll.
+
+| Route | Passes | Violations |
+| --- | --- | --- |
+| `/` | 43 | 0 |
+| `/about` | 41 | 0 |
+| `/training` | 41 | 0 |
+| `/media` | 41 | 0 |
+| `/classes` | 46 | 0 (static state) |
+| `/contact` | 46 | 0 |
+| `/es/about` | 41 | 0 |
+| `/es/media` | 41 | 0 |
+
+Two violation classes were found on the first run and fixed:
+
+1. **`label-content-name-mismatch` ×2** — the header and footer logo links carried
+   an `aria-label` that did not contain the visible wordmark. The mark is now
+   `aria-hidden` and the redundant `aria-label` was removed, so the visible text
+   is the accessible name.
+2. **`color-contrast`** — 14 nodes on `/`, 27 on `/training`, 40 on `/classes` and
+   smaller counts elsewhere were below 4.5:1 because muted labels sat at
+   `text-white/30`–`/45` and `text-gold/70`. Those were raised to
+   `text-white/60`–`/65` and `text-gold` (full), and input placeholders to
+   `text-white/55`. The palette and hierarchy are unchanged; only the muted
+   steps moved up.
+
+Residual `/classes` hits vary between runs (8 → 6 → 0) and are caused by the
+scroll-reveal animation sampling a partially transparent card. Forcing
+`.reveal { opacity: 1 }` before the audit yields **0 violations**.
+
+### Lighthouse
+
+Lighthouse could not complete a run against the Next server in this sandbox. It
+exits with `net::ERR_ABORTED` on every application route, including after
+stripping CSP and `X-Frame-Options` through a local proxy, while the same Chrome
+instance loads the same URLs successfully over CDP and Lighthouse completes
+normally against a plain static file server. This is an environment limitation,
+not a site failure, and is reported as a blocker rather than a score.
+
+Core Web Vitals were measured directly instead, via `PerformanceObserver` in
+Chrome at a 412 × 823 mobile viewport with cache disabled:
+
+| Route | LCP | CLS | TBT | TTFB | Transfer |
+| --- | --- | --- | --- | --- | --- |
+| `/` | 208 ms | 0 | 0 ms | 19 ms | 425 kB |
+| `/about` | 212 ms | 0 | 0 ms | 17 ms | 732 kB |
+| `/training` | 172 ms | 0 | 0 ms | 15 ms | 583 kB |
+| `/media` | 188 ms | 0 | 0 ms | 13 ms | 513 kB |
+| `/classes` | 280 ms | 0 | 20 ms | 16 ms | 617 kB |
+| `/contact` | 208 ms | 0 | 6 ms | 16 ms | 746 kB |
+
+These are same-host measurements with no network latency, so they are a floor,
+not a field estimate. CLS of 0 on every route is the meaningful result.
+
+### Responsive rendering
+
+Screenshots captured at 1440 × 1000, 834 × 1112 and 390 × 844 for `/`, `/about`,
+`/training`, `/media` and `/es/about`. The coach portrait and cutout were
+confirmed to load (`naturalWidth > 0`) at every breakpoint after lazy loading was
+triggered by scrolling; below-the-fold images correctly defer until scrolled into
+view.

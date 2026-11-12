@@ -15,14 +15,14 @@ export function SiteFooter() {
       <div className="shell py-16 lg:py-20">
         <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
           <div>
-            <Link href={path("/")} aria-label={`${t("nav.home")} — Young & Elevated Sports Performance`}>
+            <Link href={path("/")}>
               <Logo />
             </Link>
             <p className="mt-6 max-w-xs font-sans text-sm leading-6 text-silver">
               Elite athletic development in {site.region}. Built on speed, strength, discipline, and
               measurable performance.
             </p>
-            <p className="mt-6 font-sans text-[0.7rem] uppercase tracking-[0.22em] text-white/40">
+            <p className="mt-6 font-sans text-[0.7rem] uppercase tracking-[0.22em] text-white/60">
               {t("footer.serving")} {site.region}
             </p>
           </div>
@@ -33,17 +33,17 @@ export function SiteFooter() {
         </div>
 
         <div className="mt-14 border-t border-white/10 pt-8">
-          <p className="max-w-4xl font-sans text-xs leading-6 text-white/40">
+          <p className="max-w-4xl font-sans text-xs leading-6 text-white/60">
             <strong className="font-semibold text-white/60">{t("legal.draft")}:</strong>{" "}
             {t("footer.draftNotice")} Athletic training involves inherent risk and is not medical
             treatment. No training outcome, scholarship, recruiting result, or professional contract is
             promised.
           </p>
           <div className="mt-8 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-            <p className="font-sans text-xs text-white/40">
+            <p className="font-sans text-xs text-white/60">
               © {year} {site.legalName}. {t("footer.rights")}
             </p>
-            <div className="flex flex-wrap gap-5 font-sans text-[0.7rem] uppercase tracking-[0.18em] text-white/50">
+            <div className="flex flex-wrap gap-5 font-sans text-[0.7rem] uppercase tracking-[0.18em] text-white/65">
               <Link href={path("/privacy")} className="hover:text-gold">
                 {t("footer.privacy")}
               </Link>

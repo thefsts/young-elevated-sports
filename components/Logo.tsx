@@ -3,6 +3,8 @@ type MonogramProps = {
   /** Visual context: dark surfaces use the silver/gold mark, light uses graphite/gold. */
   tone?: "light" | "dark";
   title?: string;
+  /** Mark is purely decorative because adjacent text already names the brand. */
+  decorative?: boolean;
 };
 
 /**
@@ -16,6 +18,7 @@ export function Monogram({
   className,
   tone = "light",
   title = "Young & Elevated runner mark",
+  decorative = false,
 }: MonogramProps) {
   const src =
     tone === "light"
@@ -26,7 +29,8 @@ export function Monogram({
     // eslint-disable-next-line @next/next/no-img-element -- fixed-aspect brand SVG, no optimisation needed
     <img
       src={src}
-      alt={title}
+      alt={decorative ? "" : title}
+      aria-hidden={decorative ? true : undefined}
       className={className}
       width={495}
       height={282}
@@ -56,6 +60,7 @@ export function Logo({
     <span className={`inline-flex items-center gap-3 ${className}`}>
       <Monogram
         tone={tone}
+        decorative
         className={compact ? "h-8 w-auto" : "h-10 w-auto"}
       />
       <span className="flex flex-col leading-none">

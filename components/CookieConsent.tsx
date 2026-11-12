@@ -127,6 +127,7 @@ export function CookieConsent() {
               <button
                 type="button"
                 onClick={() => {
+                  lastTrigger.current = document.activeElement as HTMLElement | null;
                   setDraft(readConsent() ?? DEFAULT_CONSENT);
                   setPanelOpen(true);
                   setBannerOpen(false);
@@ -183,7 +184,7 @@ export function CookieConsent() {
                     <div className="flex items-start justify-between gap-3">
                       <div>
                         <p className="text-sm font-semibold text-white">{cat.label}</p>
-                        <p className="mt-1 text-xs leading-relaxed text-silver/75">{cat.body}</p>
+                        <p className="mt-1 text-xs leading-relaxed text-silver/85">{cat.body}</p>
                       </div>
                       {isEssential ? (
                         <span className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-[0.65rem] uppercase tracking-widest text-silver/70">

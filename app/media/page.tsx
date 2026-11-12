@@ -2,6 +2,10 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Notice, PageHero, SectionHeading } from "@/components/ui";
+import { pageCopy } from "@/lib/content/page-copy-es";
+import { coachPortrait } from "@/lib/content/media";
+import { getTranslator } from "@/lib/i18n/server";
+import { localizedPath } from "@/lib/i18n/config";
 import { pageMetadata } from "@/lib/seo";
 
 export const metadata: Metadata = pageMetadata({
@@ -11,13 +15,21 @@ export const metadata: Metadata = pageMetadata({
   path: "/media",
 });
 
-const gallery = [
+const galleryEn = [
+  {
+    src: coachPortrait.src,
+    alt: coachPortrait.alt,
+    caption: "Coach Young",
+    meta: "Client photograph",
+    span: "lg:col-span-2 lg:row-span-2",
+    authentic: true,
+  },
   {
     src: "/media/hero-track.jpg",
     alt: "Illustrative image: a lone athlete silhouette sprinting on a floodlit track at night.",
     caption: "Speed work",
     meta: "Track · Night session",
-    span: "lg:col-span-2 lg:row-span-2",
+    span: "",
   },
   {
     src: "/media/barbell.jpg",
@@ -42,28 +54,53 @@ const gallery = [
   },
 ];
 
-export default function MediaPage() {
+export default async function MediaPage() {
+  const { locale } = await getTranslator();
+  const c = pageCopy(locale);
+  const lp = (p: string) => localizedPath(locale, p);
+  const copy = c?.media;
+
+  // Authentic client photography carries its own caption and is never
+  // overwritten by the Spanish overlay (which is indexed against the
+  // placeholder set).
+  const placeholders = galleryEn.filter((item) => !("authentic" in item && item.authentic));
+  const gallery = galleryEn.map((item) => {
+    if ("authentic" in item && item.authentic) return item;
+    const i = placeholders.indexOf(item);
+    return {
+      ...item,
+      caption: c?.gallery[i]?.caption ?? item.caption,
+      meta: c?.gallery[i]?.meta ?? item.meta,
+    };
+  });
+
   return (
     <>
       <PageHero
-        eyebrow="Media · Gallery"
+        eyebrow={copy?.eyebrow ?? "Media · Gallery"}
         title={
           <>
-            Inside the
+            {copy?.titleLines[0] ?? "Inside the"}
             <br />
-            environment.
+            {copy?.titleLines[1] ?? "environment."}
           </>
         }
-        intro="Training is built on repetition, detail, and intensity. This gallery shows the environment and the work — and will be replaced with licensed client photography as it becomes available."
+        intro={
+          copy?.intro ??
+          "Training is built on repetition, detail, and intensity. This gallery shows the environment and the work — and will be replaced with licensed client photography as it becomes available."
+        }
       />
 
       <section className="py-20 lg:py-28">
         <div className="shell">
           <SectionHeading
             index="01"
-            eyebrow="Gallery"
-            title="The work"
-            intro="The images below are art-directed placeholders created for this build. They do not depict the client, actual athletes, or an actual facility."
+            eyebrow={copy?.s1Eyebrow ?? "Gallery"}
+            title={copy?.s1Title ?? "The work"}
+            intro={
+              copy?.s1Intro ??
+              "The images below are art-directed placeholders created for this build. They do not depict the client, actual athletes, or an actual facility."
+            }
           />
 
           <div className="mt-12 grid auto-rows-[240px] grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -80,6 +117,11 @@ export default function MediaPage() {
                   className="object-cover transition-transform duration-700 group-hover:scale-[1.04]"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-ink via-ink/20 to-transparent opacity-90" />
+                {"authentic" in item && item.authentic ? (
+                  <span className="absolute left-4 top-4 border border-gold/40 bg-ink/80 px-3 py-1 font-sans text-[0.55rem] uppercase tracking-[0.2em] text-gold backdrop-blur">
+                    Client photograph
+                  </span>
+                ) : null}
                 <figcaption className="absolute inset-x-0 bottom-0 p-5">
                   <p className="font-display text-lg uppercase leading-none text-white">{item.caption}</p>
                   <p className="mt-1.5 font-sans text-[0.6rem] uppercase tracking-[0.18em] text-gold/80">
@@ -91,13 +133,10 @@ export default function MediaPage() {
           </div>
 
           <div className="mt-10 max-w-3xl">
-            <Notice tone="info" title="Imagery status">
+            <Notice tone="info" title={copy?.statusTitle ?? "Imagery status"}>
               <p>
-                No authentic client photography or video has been supplied for Batch 001. The images on
-                this page are illustrative placeholders generated for layout purposes and are labelled
-                as such. They must be replaced with properly licensed client or stock photography before
-                production launch, and any athlete depicted in published media requires documented
-                consent.
+                {copy?.statusBody ??
+                  "Client photography is now being introduced. The portrait of Coach Young is an authentic client photograph. Every other image on this page remains a brand-directed placeholder and is labelled as such. Additional client photographs showing athletes are held for private review until media releases are confirmed for each identifiable person, and no image is presented as evidence of a coaching relationship, athletic result, endorsement, or partnership."}
               </p>
             </Notice>
           </div>
@@ -107,13 +146,14 @@ export default function MediaPage() {
       <section className="border-t border-white/10 bg-graphite/30 py-20">
         <div className="shell flex flex-col items-start justify-between gap-8 md:flex-row md:items-center">
           <div>
-            <h2 className="display-md text-white">Want to train here?</h2>
+            <h2 className="display-md text-white">{copy?.ctaTitle ?? "Want to train here?"}</h2>
             <p className="mt-3 max-w-lg font-sans text-sm leading-6 text-silver">
-              Start with an inquiry and we will share current availability and next steps.
+              {copy?.ctaBody ??
+                "Start with an inquiry and we will share current availability and next steps."}
             </p>
           </div>
-          <Link href="/start-training" className="btn-primary">
-            Start Training
+          <Link href={lp("/start-training")} className="btn-primary">
+            {copy?.ctaPrimary ?? "Start Training"}
           </Link>
         </div>
       </section>
