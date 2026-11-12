@@ -54,3 +54,23 @@ All 19 required routes plus not-found, error, sitemap, robots, and the waiver `[
 - No analytics/ad pixels installed; no localStorage for sensitive data.
 - Registration/waiver submission disabled; no sensitive persistence.
 - Waiver pages render draft status and never present binding terms.
+
+## Repository & pull request status (verified)
+
+| Item | Value |
+| --- | --- |
+| Repository | https://github.com/thefsts/young-elevated-sports |
+| Canonical branch | `main` |
+| Feature branch | `feature/batch-001-foundation` |
+| Feature branch HEAD | `c22cbe370b4654762fe91a166e8831d3b3411543` |
+| Bootstrap `main` HEAD | `b6395ec01ec81e7192850086e2b3a12df6ffdec4` |
+| Pull request | https://github.com/thefsts/young-elevated-sports/pull/1 |
+| PR state | OPEN, MERGEABLE |
+
+Push verification: `git rev-parse HEAD` and `git ls-remote origin feature/batch-001-foundation` both returned `c22cbe3…`, confirming the remote received the commit.
+
+Note: the repository bootstrap commit (`b6395ec`) was created on top of the Batch 001 commit to give `main` an initial commit, which temporarily replaced `README.md` and `.gitignore` with minimal versions. Commit `c22cbe3` restores the full Batch 001 versions. The PR diff therefore shows the complete Batch 001 tree.
+
+## Local production server verification
+
+`next start` was run against the production build and returned HTTP 200 for `/`, `/contact`, and `/waivers/parent-guardian-consent`. Public port exposure through the sandbox proxy returned HTTP 403 and is recorded as a blocker (B6); no public preview URL is claimed.
