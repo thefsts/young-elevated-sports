@@ -49,7 +49,7 @@ export function ClassScheduleExplorer() {
       <div className="flex flex-col gap-4 rounded-2xl border border-white/10 bg-graphite/40 p-4 lg:flex-row lg:items-end lg:justify-between">
         <div className="grid flex-1 gap-3 sm:grid-cols-2">
           <label className="flex flex-col gap-1.5">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
+            <span className="text-[0.72rem] sm:text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
               {t("classes.filter.category")}
             </span>
             <select className={selectClass} value={category} onChange={(e) => setCategory(e.target.value)}>
@@ -62,7 +62,7 @@ export function ClassScheduleExplorer() {
             </select>
           </label>
           <label className="flex flex-col gap-1.5">
-            <span className="text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
+            <span className="text-[0.72rem] sm:text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65">
               {t("classes.filter.level")}
             </span>
             <select className={selectClass} value={level} onChange={(e) => setLevel(e.target.value)}>
@@ -82,7 +82,7 @@ export function ClassScheduleExplorer() {
               type="button"
               onClick={() => setView("week")}
               aria-pressed={view === "week"}
-              className={`rounded-md px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] ${
+              className={`rounded-md px-3 py-1.5 text-[0.72rem] sm:text-[0.62rem] font-semibold uppercase tracking-[0.14em] ${
                 view === "week" ? "bg-gold text-ink" : "text-white/70"
               }`}
             >
@@ -92,14 +92,14 @@ export function ClassScheduleExplorer() {
               type="button"
               onClick={() => setView("list")}
               aria-pressed={view === "list"}
-              className={`rounded-md px-3 py-1.5 text-[0.62rem] font-semibold uppercase tracking-[0.14em] ${
+              className={`rounded-md px-3 py-1.5 text-[0.72rem] sm:text-[0.62rem] font-semibold uppercase tracking-[0.14em] ${
                 view === "list" ? "bg-gold text-ink" : "text-white/70"
               }`}
             >
               {t("classes.mobileList")}
             </button>
           </div>
-          <span className="rounded-full border border-gold/50 px-3 py-1 text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-gold">
+          <span className="rounded-full border border-gold/50 px-3 py-1 text-[0.68rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.16em] text-gold">
             {t("classes.previewBadge")}
           </span>
         </div>
@@ -115,25 +115,25 @@ export function ClassScheduleExplorer() {
             const entries = filtered.filter((e) => e.day === day);
             return (
               <div key={day} className="min-w-[9rem]">
-                <h3 className="mb-2 text-center text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold">
+                <h3 className="mb-2 text-center text-[0.72rem] sm:text-[0.62rem] font-semibold uppercase tracking-[0.2em] text-gold">
                   {day}
                 </h3>
                 <div className="space-y-2">
                   {entries.length === 0 ? (
-                    <p className="rounded-lg border border-dashed border-white/10 p-3 text-center text-[0.6rem] text-white/60">
+                    <p className="rounded-lg border border-dashed border-white/10 p-3 text-center text-[0.7rem] sm:text-[0.6rem] text-white/60">
                       —
                     </p>
                   ) : (
                     entries.map((entry) => (
                       <div key={entry.id} className="rounded-lg border border-white/10 bg-graphite/60 p-3">
-                        <p className="text-[0.62rem] font-semibold text-white/70">
+                        <p className="text-[0.72rem] sm:text-[0.62rem] font-semibold text-white/70">
                           {entry.start}–{entry.end}
                         </p>
                         <p className="mt-1 text-xs font-semibold text-white">{classTitle[entry.classSlug]}</p>
-                        <p className="mt-1 text-[0.6rem] text-silver/60">{entry.location}</p>
+                        <p className="mt-1 text-[0.7rem] sm:text-[0.6rem] text-silver/60">{entry.location}</p>
                         <Link
                           href={`${path("/classes/register")}?class=${entry.classSlug}`}
-                          className="mt-2 inline-block text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-gold hover:text-gold-bright"
+                          className="mt-2 inline-block text-[0.68rem] sm:text-[0.58rem] font-semibold uppercase tracking-[0.12em] text-gold hover:text-gold-bright"
                         >
                           {t("classes.cta")} →
                         </Link>
@@ -155,17 +155,17 @@ export function ClassScheduleExplorer() {
             className="flex flex-col gap-2 rounded-xl border border-white/10 bg-graphite/40 p-4 sm:flex-row sm:items-center sm:justify-between"
           >
             <div>
-              <p className="text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-gold">
+              <p className="text-[0.72rem] sm:text-[0.62rem] font-semibold uppercase tracking-[0.16em] text-gold">
                 {entry.day} · {entry.start}–{entry.end}
               </p>
               <p className="mt-1 text-sm font-semibold text-white">{classTitle[entry.classSlug]}</p>
-              <p className="text-[0.65rem] text-silver/60">
+              <p className="text-[0.75rem] sm:text-[0.65rem] text-silver/60">
                 {entry.location} · {entry.level}
               </p>
             </div>
             <Link
               href={`${path("/classes/register")}?class=${entry.classSlug}`}
-              className="shrink-0 self-start rounded-full border border-white/20 px-3 py-1.5 text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-white hover:border-gold hover:text-gold sm:self-auto"
+              className="shrink-0 self-start rounded-full border border-white/20 px-3 py-1.5 text-[0.7rem] sm:text-[0.6rem] font-semibold uppercase tracking-[0.12em] text-white hover:border-gold hover:text-gold sm:self-auto"
             >
               {t("classes.cta")}
             </Link>
@@ -173,7 +173,7 @@ export function ClassScheduleExplorer() {
         ))}
       </ul>
 
-      <p className="mt-4 text-[0.65rem] leading-relaxed text-white/60">
+      <p className="mt-4 text-[0.75rem] sm:text-[0.65rem] leading-relaxed text-white/60">
         {t("classes.scheduleIntro")} {t("classes.notBooking")}
       </p>
     </div>

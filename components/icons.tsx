@@ -126,6 +126,15 @@ export const DISCIPLINE_ICONS = [
   IconShield,
 ] as const;
 
+/** Ordered to match the five performance-technology pillars. */
+export const TECH_ICONS = [
+  IconSpeed,
+  IconPower,
+  IconStrength,
+  IconJump,
+  IconConditioning,
+] as const;
+
 /** Ordered to match the eight training objectives. */
 export const OBJECTIVE_ICONS = [
   IconSpeed,

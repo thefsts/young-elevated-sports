@@ -397,7 +397,7 @@ export function AccessibilityToolbar() {
             {t("a11y.reset")}
           </button>
 
-          <p className="mt-3 text-[0.68rem] leading-relaxed text-silver/60">{t("a11y.dragHint")}</p>
+          <p className="mt-3 text-[0.8rem] leading-relaxed text-silver/60 sm:text-[0.68rem]">{t("a11y.dragHint")}</p>
           <p className="sr-only" role="status" aria-live="polite">{announcement}</p>
         </div>
       )}

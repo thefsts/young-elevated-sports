@@ -29,7 +29,7 @@ export function SectionHeading({
       {(index || eyebrow) && (
         <div className={`flex items-center gap-4 ${align === "center" ? "justify-center" : ""}`}>
           {index ? (
-            <span className="font-sans text-[0.68rem] font-semibold tracking-[0.3em] text-white/60">
+            <span className="font-sans text-[0.78rem] font-semibold tracking-[0.3em] text-white/70 sm:text-[0.68rem] sm:text-white/60">
               {index}
             </span>
           ) : null}
@@ -102,7 +102,7 @@ export function ArrowLink({
   return (
     <Link
       href={href}
-      className={`group inline-flex items-center gap-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.2em] transition-colors ${className}`}
+      className={`group inline-flex items-center gap-3 font-sans text-[0.82rem] font-semibold uppercase tracking-[0.2em] transition-colors sm:text-[0.72rem] ${className}`}
     >
       {children}
       <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
@@ -129,7 +129,7 @@ export function Notice({
 
   return (
     <div className={`border-l-2 ${styles} px-5 py-4`}>
-      <p className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">
+      <p className="font-sans text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-gold sm:text-[0.68rem]">
         {title}
       </p>
       <div className="mt-2 font-sans text-sm leading-6 text-silver">{children}</div>
@@ -145,7 +145,7 @@ export function StatStrip({ items }: { items: { value: string; label: string }[]
           <dt className="sr-only">{item.label}</dt>
           <dd>
             <span className="block font-display text-3xl leading-none text-gold-bright">{item.value}</span>
-            <span className="mt-2 block font-sans text-[0.66rem] uppercase leading-4 tracking-[0.18em] text-white/65">
+            <span className="mt-2 block font-sans text-[0.76rem] uppercase leading-4 tracking-[0.18em] text-white/70 sm:text-[0.66rem] sm:text-white/65">
               {item.label}
             </span>
           </dd>

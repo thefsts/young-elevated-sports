@@ -64,7 +64,7 @@ export function ClassPricing({
                       <p className="font-sans text-sm font-medium text-white">
                         {es ? opt.labelEs : opt.label}
                       </p>
-                      <p className="mt-1 font-sans text-[0.62rem] uppercase tracking-[0.14em] text-white/50">
+                      <p className="mt-1 font-sans text-[0.72rem] uppercase tracking-[0.14em] text-white/50 lg:text-[0.62rem]">
                         {es ? opt.unitEs : opt.unit}
                       </p>
                     </div>
@@ -88,7 +88,7 @@ export function ClassPricing({
         </p>
       </div>
 
-      <p className="mt-6 max-w-3xl font-sans text-[0.68rem] leading-5 text-white/50">
+      <p className="mt-6 max-w-3xl font-sans text-[0.8rem] leading-5 text-white/60 lg:text-[0.68rem] lg:text-white/50">
         {pricingPolicy.payment[locale]}
       </p>
     </div>

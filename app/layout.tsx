@@ -20,6 +20,20 @@ const display = localFont({
   fallback: ["Arial Narrow", "Arial", "sans-serif"],
 });
 
+/**
+ * Wide athletic display face, used for the homepage headline and the header
+ * wordmark only. The approved reference sets these in a heavy, wide, italic
+ * grotesque; Barlow Condensed is too narrow to reproduce that footprint.
+ * Archivo Black (SIL OFL 1.1) supplies the width and weight; the italic slant
+ * is applied with a CSS skew so the letterforms stay crisp.
+ */
+const displayWide = localFont({
+  src: [{ path: "./fonts/ArchivoBlack-Regular.ttf", weight: "400", style: "normal" }],
+  variable: "--font-display-wide",
+  display: "swap",
+  fallback: ["Arial Black", "Impact", "sans-serif"],
+});
+
 const sans = localFont({
   src: [
     { path: "./fonts/Barlow-Regular.ttf", weight: "400", style: "normal" },
@@ -89,7 +103,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
   const locale = await getLocale();
 
   return (
-    <html lang={LOCALE_LABELS[locale].htmlLang} className={`${display.variable} ${sans.variable}`}>
+    <html lang={LOCALE_LABELS[locale].htmlLang} className={`${display.variable} ${displayWide.variable} ${sans.variable}`}>
       <body>
         <I18nProvider locale={locale}>
           <a

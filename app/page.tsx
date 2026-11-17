@@ -2,8 +2,8 @@ import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, ArrowLink } from "@/components/ui";
-import { DISCIPLINE_ICONS, OBJECTIVE_ICONS } from "@/components/icons";
-import { coachPortrait, dfwSkyline, heroAthlete } from "@/lib/content/media";
+import { DISCIPLINE_ICONS, OBJECTIVE_ICONS, TECH_ICONS } from "@/components/icons";
+import { coachPortrait, dfwSkyline, dfwSkylinePhoto, heroAthlete } from "@/lib/content/media";
 import { JsonLd, organizationSchema } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
 import { localizedPath } from "@/lib/i18n/config";
@@ -11,8 +11,25 @@ import type { TranslationKey } from "@/lib/i18n/dictionaries";
 
 /* ------------------------------------------------------------------- page */
 
-export default async function HomePage() {
+export default async function HomePage({
+  searchParams,
+}: {
+  searchParams?: Promise<{ skyline?: string }>;
+}) {
   const { t, locale } = await getTranslator();
+
+  /**
+   * Skyline candidate switch.
+   *
+   * The PM directive asks for two Dallas skyline candidates presented inside
+   * the same angled gold panel so the client can choose between them. Rather
+   * than maintaining two divergent builds, the band reads `?skyline=photo` to
+   * render the licensed photograph and falls back to the in-house generated
+   * illustration for every other request. Layout, crop, grade and panel are
+   * identical either way, so the only variable is the source image.
+   */
+  const params = (await searchParams) ?? {};
+  const skyline = params.skyline === "photo" ? dfwSkylinePhoto : dfwSkyline;
   const lp = (p: string) => localizedPath(locale, p);
 
   const disciplines = [
@@ -56,7 +73,7 @@ export default async function HomePage() {
       {/* The header is fixed, so the section reserves its height and the
           photograph begins exactly where the black bar ends — the same
           relationship as the approved reference. */}
-      <section className="relative isolate overflow-hidden bg-ink pt-14">
+      <section className="relative isolate overflow-hidden bg-ink pt-16">
         <div className="relative flex min-h-[36rem] flex-col sm:min-h-[38rem] lg:h-[27rem] lg:min-h-0">
           <Image
             src={heroAthlete.src}
@@ -66,9 +83,10 @@ export default async function HomePage() {
             sizes="100vw"
             className="object-cover object-[64%_36%] lg:object-[62%_34%]"
           />
-          {/* Scrim is weighted to the left where the headline sits, and lifts to
-              nothing by 60% so the athlete is never covered by a dark overlay. */}
-          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,8,0.86)_0%,rgba(8,8,8,0.66)_22%,rgba(8,8,8,0.34)_42%,rgba(8,8,8,0.06)_58%,rgba(8,8,8,0)_72%)]" />
+          {/* Scrim is weighted to the left where the headline sits and lifts to
+              nothing by 58%, so neither the athlete nor the illuminated wall
+              sign is covered by a dark overlay. */}
+          <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(8,8,8,0.82)_0%,rgba(8,8,8,0.56)_20%,rgba(8,8,8,0.24)_38%,rgba(8,8,8,0.05)_50%,rgba(8,8,8,0)_58%)]" />
           {/* Bottom fade only so the discipline row sits on the photograph. */}
           <div className="absolute inset-x-0 bottom-0 h-40 bg-gradient-to-t from-ink via-ink/30 to-transparent lg:h-24" />
 
@@ -77,7 +95,9 @@ export default async function HomePage() {
               <Eyebrow>{t("home.hero.eyebrow")}</Eyebrow>
               <h1 className="mt-4 fade-in lg:mt-5">
                 <span className="display-hero block text-white">{t("home.hero.headline1")}</span>
-                <span className="display-hero block text-[#e9bb59]">{t("home.hero.headline2")}</span>
+                <span className="display-hero block text-white">{t("home.hero.headline2")}</span>
+                <span className="display-hero block text-[#e9bb59]">{t("home.hero.headline3")}</span>
+                <span className="display-hero block text-white">{t("home.hero.headline4")}</span>
               </h1>
               <p className="mt-4 max-w-[26rem] font-sans text-[0.86rem] leading-6 text-silver/90 lg:mt-5">
                 {t("home.hero.intro")}
@@ -85,13 +105,13 @@ export default async function HomePage() {
               <div className="mt-6 flex flex-wrap gap-3 lg:mt-7">
                 <Link
                   href={lp("/start-training")}
-                  className="btn-primary !min-h-[2.6rem] !px-6 !text-[0.66rem]"
+                  className="btn-primary !min-h-[2.9rem] !px-6 !text-[0.875rem] lg:!min-h-[2.6rem] lg:!text-[0.68rem]"
                 >
                   {t("home.hero.cta")}
                 </Link>
                 <Link
                   href={lp("/registration/athlete")}
-                  className="btn-ghost !min-h-[2.6rem] !px-6 !text-[0.66rem]"
+                  className="btn-ghost !min-h-[2.9rem] !px-6 !text-[0.875rem] lg:!min-h-[2.6rem] lg:!text-[0.68rem]"
                 >
                   {t("home.hero.ctaIntake")}
                 </Link>
@@ -130,36 +150,36 @@ export default async function HomePage() {
         <div className="shell-wide relative grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:gap-10 lg:py-[0.55rem]">
           {/* left: the coach */}
           <Reveal className="lg:pr-6">
-            <div className="flex items-start gap-6 lg:gap-7">
+            <div className="flex items-start gap-6 lg:gap-8">
               {/* diagonal gold accent behind the portrait */}
               <div className="relative shrink-0">
                 <div
                   aria-hidden="true"
-                  className="absolute -left-3 -top-2 h-[104%] w-[9.5rem] -skew-x-[9deg] bg-[linear-gradient(165deg,#f0cd7c_0%,#c79a34_46%,#8a6a1e_100%)] sm:w-[11rem] lg:w-[13.4rem]"
+                  className="absolute -left-3 -top-2 h-[104%] w-[11rem] -skew-x-[9deg] bg-[linear-gradient(165deg,#f0cd7c_0%,#c79a34_46%,#8a6a1e_100%)] sm:w-[13rem] lg:w-[16.2rem]"
                 />
-                <div className="relative aspect-[4/5] w-[8.5rem] overflow-hidden border border-white/15 sm:w-[10rem] lg:w-[12rem]">
+                <div className="relative aspect-[4/5] w-[9.5rem] overflow-hidden border border-white/15 sm:w-[11.5rem] lg:w-[14.6rem]">
                   <Image
                     src={coachPortrait.src}
                     alt={t("home.coach.portraitAlt")}
                     fill
-                    sizes="(max-width: 640px) 136px, (max-width: 1024px) 160px, 192px"
-                    className="object-cover object-top"
+                    sizes="(max-width: 640px) 152px, (max-width: 1024px) 184px, 234px"
+                    className="object-cover object-[50%_18%]"
                   />
                 </div>
               </div>
 
               <div className="min-w-0 flex-1 pt-0.5">
                 <Eyebrow>{t("home.coach.eyebrow")}</Eyebrow>
-                <h2 className="mt-1.5 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[2.35rem]">
+                <h2 className="mt-1.5 font-display text-[2.1rem] uppercase leading-[0.92] text-white lg:text-[2.5rem]">
                   {t("home.coach.title")}
                 </h2>
-                <p className="mt-2 font-sans text-[0.6rem] font-semibold uppercase tracking-[0.24em] text-gold">
+                <p className="mt-2 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.24em] text-gold lg:text-[0.62rem]">
                   {t("home.coach.role")}
                 </p>
-                <p className="mt-3 max-w-xl font-sans text-[0.76rem] leading-[1.6] text-silver/85">
+                <p className="mt-3 max-w-xl font-sans text-[0.8rem] leading-[1.6] text-silver/85">
                   {t("home.coach.p1")}
                 </p>
-                <p className="mt-2 hidden max-w-xl font-sans text-[0.76rem] leading-[1.6] text-silver/85 sm:block">
+                <p className="mt-2 hidden max-w-xl font-sans text-[0.8rem] leading-[1.6] text-silver/85 sm:block">
                   {t("home.coach.p2")}
                 </p>
                 <div className="mt-3">
@@ -175,26 +195,29 @@ export default async function HomePage() {
             <h2 className="mt-1.5 font-display text-[1.9rem] uppercase leading-[0.92] text-white lg:text-[1.95rem]">
               {t("home.pillars.title")}
             </h2>
-            <p className="mt-1.5 max-w-xl font-sans text-[0.7rem] leading-[1.5] text-silver/85">
+            <p className="mt-1.5 max-w-xl font-sans text-[0.72rem] leading-[1.5] text-silver/85">
               {t("home.tech.intro")}
             </p>
-            <ul className="mt-4 grid grid-cols-2 gap-2 sm:grid-cols-3 lg:grid-cols-5">
-              {techPillars.map((pillar, i) => (
-                <li
-                  key={pillar.title}
-                  className="border border-gold/45 bg-white/[0.02] p-2 transition-colors duration-300 hover:border-gold/80"
-                >
-                  <span className="font-sans text-[0.5rem] font-semibold tracking-[0.24em] text-gold">
-                    {String(i + 1).padStart(2, "0")}
-                  </span>
-                  <h3 className="mt-1 font-display text-[0.74rem] uppercase leading-[1.12] text-white">
-                    {pillar.title}
-                  </h3>
-                  <p className="mt-1 font-sans text-[0.6rem] leading-[1.4] text-silver/70">
-                    {pillar.body}
-                  </p>
-                </li>
-              ))}
+            <ul className="mt-4 grid grid-cols-2 gap-2.5 sm:grid-cols-3 lg:grid-cols-5">
+              {techPillars.map((pillar, i) => {
+                const Icon = TECH_ICONS[i];
+                return (
+                  <li
+                    key={pillar.title}
+                    className="group border border-gold/55 bg-white/[0.03] px-3 pb-4 pt-3 transition-colors duration-300 hover:border-gold hover:bg-white/[0.06]"
+                  >
+                    <span className="block text-gold-bright transition-transform duration-300 group-hover:scale-105">
+                      <Icon width={30} height={30} />
+                    </span>
+                    <h3 className="mt-2.5 font-display text-[0.86rem] uppercase leading-[1.1] text-white">
+                      {pillar.title}
+                    </h3>
+                    <p className="mt-1.5 font-sans text-[0.62rem] uppercase tracking-[0.16em] text-gold/80">
+                      {String(i + 1).padStart(2, "0")}
+                    </p>
+                  </li>
+                );
+              })}
             </ul>
             <div className="mt-3">
               <ArrowLink href={lp("/performance-technology")}>{t("home.tech.link")}</ArrowLink>
@@ -208,7 +231,7 @@ export default async function HomePage() {
         <div className="shell-wide py-9 lg:py-6">
           <div className="grid gap-8 lg:grid-cols-[21rem_minmax(0,1fr)] lg:items-center lg:gap-8">
             <div>
-              <p className="font-sans text-[0.56rem] font-semibold uppercase tracking-[0.3em] text-[#6f5416]">
+              <p className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.3em] text-[#6f5416] lg:text-[0.56rem]">
                 {t("home.objectives.eyebrow")}
               </p>
               <h2 className="mt-1.5 font-display text-[1.9rem] uppercase leading-[0.9] text-ink lg:text-[2.15rem]">
@@ -241,15 +264,18 @@ export default async function HomePage() {
         {/* Downtown Dallas including Reunion Tower across the left of the band. */}
         <div className="absolute inset-x-0 top-0 h-[220px] sm:h-[260px] lg:inset-0 lg:h-auto">
           <Image
-            src={dfwSkyline.src}
-            alt={dfwSkyline.alt}
+            src={skyline.src}
+            alt={skyline.alt}
             fill
             sizes="100vw"
-            className="object-cover object-[34%_center] brightness-[0.57] saturate-[1.04]"
+            className="object-cover object-[34%_center] brightness-[0.74] saturate-[1.02]"
           />
-          {/* warm gold duotone rather than a black overlay */}
-          <div className="absolute inset-0 bg-[#c89a4a] opacity-22 mix-blend-screen" />
-          <div className="absolute inset-0 bg-[#2b1c05] opacity-[0.22]" />
+          {/* Warm gold duotone, dialled back: the previous 22% screen pass plus
+              a 0.57 brightness crush flattened the towers into a gold haze.
+              Keeping the warmth but preserving midtone contrast lets the
+              skyline read as architecture rather than a wash. */}
+          <div className="absolute inset-0 bg-[#c89a4a] opacity-[0.10] mix-blend-screen" />
+          <div className="absolute inset-0 bg-[#2b1c05] opacity-[0.12]" />
           <div className="absolute inset-0 bg-[linear-gradient(90deg,rgba(107,74,16,0.06)_0%,rgba(107,74,16,0.14)_38%,rgba(107,74,16,0.62)_56%,rgba(107,74,16,0.95)_68%,rgba(107,74,16,1)_100%)]" />
         </div>
 
@@ -269,7 +295,7 @@ export default async function HomePage() {
           <div className="dfw-panel bg-[linear-gradient(180deg,#c99a45_0%,#a5761f_38%,#74500f_72%,#63440e_100%)] px-5 pb-9 pt-7 sm:px-8 lg:bg-none lg:px-0 lg:py-0">
             <div className="shell-wide lg:py-2">
               <div className="lg:ml-auto lg:w-[40%]">
-                <p className="font-sans text-[0.58rem] font-semibold uppercase tracking-[0.3em] text-[#fbe6b4]">
+                <p className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#fbe6b4] lg:text-[0.58rem]">
                   {t("home.dfw.eyebrow")}
                 </p>
                 <h2 className="mt-1 font-display text-[2.1rem] uppercase leading-[0.88] text-white lg:text-[2.45rem]">
@@ -293,8 +319,8 @@ export default async function HomePage() {
                   {t("home.dfw.intro")}
                 </p>
 
-                <p className="mt-3 font-sans text-[0.5rem] uppercase leading-[1.4] tracking-[0.12em] text-[#fdf3dd]/55">
-                  {dfwSkyline.credit}
+                <p className="mt-3 font-sans text-[0.62rem] uppercase leading-[1.4] tracking-[0.12em] text-[#fdf3dd]/60 lg:text-[0.5rem] lg:text-[#fdf3dd]/55">
+                  {skyline.credit}
                 </p>
               </div>
             </div>

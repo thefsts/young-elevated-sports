@@ -32,7 +32,31 @@ export function CookieConsent() {
   const titleId = useId();
   const descId = useId();
   const panelRef = useRef<HTMLDivElement>(null);
+  const bannerRef = useRef<HTMLDivElement>(null);
   const lastTrigger = useRef<HTMLElement | null>(null);
+
+  /**
+   * Publish the banner's height as a custom property while it is on screen.
+   * The accessibility launcher is fixed to the bottom-right corner; without
+   * this it renders over the consent buttons on a narrow viewport and makes
+   * them hard to hit. The launcher reads the variable in globals.css.
+   */
+  useEffect(() => {
+    const root = document.documentElement;
+    const el = bannerRef.current;
+    if (!bannerOpen || panelOpen || !el) {
+      root.style.setProperty("--cookie-banner-offset", "0px");
+      return;
+    }
+    const publish = () => root.style.setProperty("--cookie-banner-offset", `${el.offsetHeight}px`);
+    publish();
+    const ro = new ResizeObserver(publish);
+    ro.observe(el);
+    return () => {
+      ro.disconnect();
+      root.style.setProperty("--cookie-banner-offset", "0px");
+    };
+  }, [bannerOpen, panelOpen]);
 
   useEffect(() => {
     const stored = readConsent();
@@ -104,23 +128,24 @@ export function CookieConsent() {
     <>
       {bannerOpen && !panelOpen && (
         <div
+          ref={bannerRef}
           role="region"
           aria-label={t("cookies.title")}
           className="fixed inset-x-0 bottom-0 z-[80] border-t border-gold/30 bg-[#0b0b0b]/98 backdrop-blur"
           style={{ paddingBottom: "env(safe-area-inset-bottom)" }}
         >
-          <div className="shell flex flex-col gap-4 py-4 lg:flex-row lg:items-center lg:justify-between">
-            <p className="max-w-3xl text-xs leading-relaxed text-silver/85">
+          <div className="shell flex flex-col gap-3 py-3 sm:gap-4 sm:py-4 lg:flex-row lg:items-center lg:justify-between">
+            <p className="max-w-3xl text-[0.82rem] leading-relaxed text-silver/85 sm:text-xs">
               {t("cookies.bannerText")}{" "}
               <a href="/privacy" className="text-gold underline underline-offset-2 hover:text-gold-bright">
                 {t("cookies.policyLink")}
               </a>
             </p>
-            <div className="flex flex-wrap gap-2">
+            <div className="flex flex-wrap gap-2 [&>button]:min-h-[2.75rem] sm:[&>button]:min-h-0">
               <button
                 type="button"
                 onClick={rejectOptional}
-                className="rounded-full border border-white/25 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
+                className="rounded-full border border-white/25 px-4 py-2 text-[0.78rem] font-semibold uppercase tracking-widest text-white sm:text-xs hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
               >
                 {t("cookies.rejectAll")}
               </button>
@@ -132,14 +157,14 @@ export function CookieConsent() {
                   setPanelOpen(true);
                   setBannerOpen(false);
                 }}
-                className="rounded-full border border-white/25 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
+                className="rounded-full border border-white/25 px-4 py-2 text-[0.78rem] font-semibold uppercase tracking-widest text-white sm:text-xs hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
               >
                 {t("cookies.customize")}
               </button>
               <button
                 type="button"
                 onClick={acceptOptional}
-                className="rounded-full bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-widest text-ink hover:bg-gold-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
+                className="rounded-full bg-gold px-4 py-2 text-[0.78rem] font-semibold uppercase tracking-widest text-ink sm:text-xs hover:bg-gold-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
               >
                 {t("cookies.acceptAll")}
               </button>
@@ -187,7 +212,7 @@ export function CookieConsent() {
                         <p className="mt-1 text-xs leading-relaxed text-silver/85">{cat.body}</p>
                       </div>
                       {isEssential ? (
-                        <span className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-[0.65rem] uppercase tracking-widest text-silver/70">
+                        <span className="shrink-0 rounded-full border border-white/20 px-3 py-1 text-[0.75rem] uppercase tracking-widest text-silver/70 sm:text-[0.65rem]">
                           {t("cookies.alwaysOn")}
                         </span>
                       ) : (
@@ -217,7 +242,7 @@ export function CookieConsent() {
               })}
             </div>
 
-            <p className="mt-3 text-[0.68rem] leading-relaxed text-silver/60">
+            <p className="mt-3 text-[0.8rem] leading-relaxed text-silver/60 sm:text-[0.68rem]">
               {t("cookies.noPrechecked")} {t("cookies.notInstalled")}
             </p>
 
@@ -225,14 +250,14 @@ export function CookieConsent() {
               <button
                 type="button"
                 onClick={() => commit({ ...draft, functional: false, analytics: false, marketing: false })}
-                className="rounded-full border border-white/25 px-4 py-2 text-xs font-semibold uppercase tracking-widest text-white hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
+                className="rounded-full border border-white/25 px-4 py-2 text-[0.78rem] font-semibold uppercase tracking-widest text-white sm:text-xs hover:border-gold hover:text-gold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
               >
                 {t("cookies.rejectAll")}
               </button>
               <button
                 type="button"
                 onClick={() => commit(draft)}
-                className="rounded-full bg-gold px-4 py-2 text-xs font-semibold uppercase tracking-widest text-ink hover:bg-gold-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
+                className="rounded-full bg-gold px-4 py-2 text-[0.78rem] font-semibold uppercase tracking-widest text-ink sm:text-xs hover:bg-gold-bright focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-gold-bright"
               >
                 {t("cookies.save")}
               </button>

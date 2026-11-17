@@ -90,27 +90,34 @@ export function Logo({
   const subColor = tone === "light" ? "#D6A73B" : "#8A6A1E";
 
   return (
-    <span className={`inline-flex items-center gap-3 ${className}`}>
-      <Monogram
-        tone={tone}
-        decorative
-        className={compact ? "h-7 w-auto" : "h-10 w-auto"}
-      />
-      <span className="flex flex-col leading-none">
+    <span className={`inline-flex items-center gap-2.5 sm:gap-3 ${className}`}>
+      {/*
+        Mark and wordmark scale together. At 1536px the mark renders 84x56 and
+        the wordmark 336px wide, which reproduces the approved reference lockup
+        almost exactly. The clamps keep the whole lockup inside a 390px viewport
+        instead of letting the wordmark run off the right edge.
+      */}
+      <Monogram tone={tone} decorative className="h-9 w-auto shrink-0 sm:h-11 lg:h-14" />
+      <span className="flex min-w-0 flex-col leading-none">
         <span
-          className="font-display font-bold uppercase leading-none"
+          className="font-display-wide whitespace-nowrap uppercase leading-none"
           style={{
             color: wordColor,
-            fontSize: compact ? "0.95rem" : "1.2rem",
-            letterSpacing: "0.02em",
+            fontSize: compact ? "clamp(1.02rem, 4.5vw, 1.85rem)" : "clamp(1.02rem, 4.5vw, 2.1rem)",
+            letterSpacing: "0em",
           }}
         >
-          Young <span style={{ color: subColor }}>&amp;</span> Elevated
+          Young <span style={{ color: subColor }}>&</span> Elevated
         </span>
         {showDescriptor ? (
           <span
-            className="mt-1 font-sans uppercase"
-            style={{ color: subColor, fontSize: compact ? "0.44rem" : "0.5rem", letterSpacing: "0.34em" }}
+            className="font-sans whitespace-nowrap uppercase"
+            style={{
+              color: subColor,
+              fontSize: "clamp(0.42rem, 1.45vw, 0.6rem)",
+              letterSpacing: "0.36em",
+              marginTop: "clamp(0.2rem, 0.5vw, 0.34rem)",
+            }}
           >
             Sports Performance
           </span>
