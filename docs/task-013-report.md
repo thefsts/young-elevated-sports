@@ -179,7 +179,7 @@ Neither was closed — the directive requires approval before cleanup. PR #1 is 
 
 | # | Item | Value |
 | --- | --- | --- |
-| 1 | Latest `main` SHA | `54c2daefe3245cc14a1c3e5f450b2adb8f0b543a` |
+| 1 | Latest `main` SHA | `94691ba3c1020e0e60e7b8dac2f4cdf060ae522b` (this report, docs-only) — release commit `54c2daefe3245cc14a1c3e5f450b2adb8f0b543a` |
 | 2 | Final integration SHA | `224b44fed2f6742d9e30d59e957fe2af4ee0562b` |
 | 3 | PR #7 resolution and merge | union resolution of `docs/media-inventory.md`; merge commit `e604add` |
 | 4 | PR #4 merge status and commit | **MERGED** as `54c2dae` |
@@ -187,7 +187,7 @@ Neither was closed — the directive requires approval before cleanup. PR #1 is 
 | 6 | GitHub default branch | `feature/batch-001-foundation` — **still wrong, 403 on change** |
 | 7 | Vercel production branch | `main` |
 | 8 | Vercel deployment URL and status | https://youngelevatedsports.com — **200, live, serving the new build** |
-| 9 | Production commit SHA | `54c2dae` |
+| 9 | Production commit SHA | `54c2dae` (this report is a docs-only commit on top, no code change) |
 | 10 | Tests | tsc clean · lint clean · vitest 69/69 · build 46 pages · links 30/30 local + 30/30 prod · axe 0/0 local + prod · overflow 0 px ×3 · registration 26/26 · Vercel Ready |
 | 11 | Screenshot evidence | desktop / tablet / mobile for homepage, About, coach introduction, cutout close-up |
 | 12 | Coach Young photographs | correct on production — football portrait, transparent cutout, About portrait all verified |
