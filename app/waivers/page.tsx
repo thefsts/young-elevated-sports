@@ -52,7 +52,7 @@ export default function WaiversPage() {
                     <th
                       key={h}
                       scope="col"
-                      className="px-4 py-3 font-sans text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/50"
+                      className="px-4 py-3 font-sans text-[0.62rem] font-semibold uppercase tracking-[0.18em] text-white/65"
                     >
                       {h}
                     </th>
@@ -65,7 +65,7 @@ export default function WaiversPage() {
                     <td className="px-4 py-4 font-display text-lg text-gold">{waiver.id}</td>
                     <td className="px-4 py-4">
                       <span className="block font-sans text-sm text-white">{waiver.title}</span>
-                      <span className="mt-1 block font-sans text-xs text-white/40">v{waiver.version}</span>
+                      <span className="mt-1 block font-sans text-xs text-white/60">v{waiver.version}</span>
                     </td>
                     <td className="px-4 py-4 font-sans text-xs leading-5 text-silver">{waiver.signer}</td>
                     <td className="px-4 py-4 font-sans text-xs text-silver">{waiver.requirement}</td>

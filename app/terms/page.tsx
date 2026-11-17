@@ -99,7 +99,7 @@ export default function TermsPage() {
             </Notice>
           </div>
 
-          <p className="font-sans text-xs uppercase tracking-[0.18em] text-white/40">
+          <p className="font-sans text-xs uppercase tracking-[0.18em] text-white/60">
             {site.legalName} · {site.contact.serviceArea}
           </p>
 

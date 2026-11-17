@@ -59,3 +59,21 @@ Cinematic, low-key, high-contrast. Full-width action imagery, deep blacks, gold 
 ## Voice
 
 Direct, disciplined, confident. Short declarative sentences. No hype, no guaranteed outcomes, no medical claims. "Build winning habits. Reach your next level." is the anchor line.
+
+---
+
+## Approved mark (Batch 001 correction)
+
+The official mark is the **YE with the runner silhouette and the upward elevation
+arrow**. It must appear in every primary icon, app icon, favicon, and social avatar.
+
+- **Do not** substitute the retired plain YE monogram.
+- The runner silhouette and arrow must remain visible and legible at 32 px.
+- Minimum clear space: 25% of the mark's height on all sides.
+- Minimum sizes: 32 px height for the mark, 96 px height for the full lockup.
+- Single-colour use is permitted (black, white, gold, silver) where reproduction
+  requires it; the two-colour silver + gold version is preferred on dark surfaces.
+
+Vector masters are colour-separated traces of the approved raster concept
+(97.8% / 98.0% pixel IoU). See `docs/logo-asset-inventory.md` for provenance and the
+full file list.

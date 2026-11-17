@@ -29,7 +29,7 @@ export function SectionHeading({
       {(index || eyebrow) && (
         <div className={`flex items-center gap-4 ${align === "center" ? "justify-center" : ""}`}>
           {index ? (
-            <span className="font-sans text-[0.68rem] font-semibold tracking-[0.3em] text-white/35">
+            <span className="font-sans text-[0.78rem] font-semibold tracking-[0.3em] text-white/70 sm:text-[0.68rem] sm:text-white/60">
               {index}
             </span>
           ) : null}
@@ -67,11 +67,13 @@ export function PageHero({
           <img
             src={image}
             alt={imageAlt ?? ""}
-            className="absolute inset-0 h-full w-full object-cover opacity-40"
+            className="absolute inset-0 h-full w-full object-cover opacity-90"
             fetchPriority="high"
           />
-          <div className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/40" />
-          <div className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/60" />
+          {/* Left-weighted scrim keeps headline contrast; the right side is left
+              open so the photograph is actually visible. */}
+          <div className="absolute inset-0 bg-gradient-to-r from-ink/92 via-ink/50 to-ink/10" />
+          <div className="absolute inset-0 bg-gradient-to-t from-ink/90 via-transparent to-ink/25" />
         </>
       ) : (
         <div className="absolute inset-0 bg-[radial-gradient(ellipse_at_top_right,rgba(214,167,59,0.12),transparent_60%)]" />
@@ -88,11 +90,19 @@ export function PageHero({
   );
 }
 
-export function ArrowLink({ href, children }: { href: string; children: ReactNode }) {
+export function ArrowLink({
+  href,
+  children,
+  className = "text-gold hover:text-gold-bright",
+}: {
+  href: string;
+  children: ReactNode;
+  className?: string;
+}) {
   return (
     <Link
       href={href}
-      className="group inline-flex items-center gap-3 font-sans text-[0.72rem] font-semibold uppercase tracking-[0.2em] text-gold transition-colors hover:text-gold-bright"
+      className={`group inline-flex items-center gap-3 font-sans text-[0.82rem] font-semibold uppercase tracking-[0.2em] transition-colors sm:text-[0.72rem] ${className}`}
     >
       {children}
       <span aria-hidden="true" className="transition-transform group-hover:translate-x-1">
@@ -119,7 +129,7 @@ export function Notice({
 
   return (
     <div className={`border-l-2 ${styles} px-5 py-4`}>
-      <p className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.24em] text-gold">
+      <p className="font-sans text-[0.78rem] font-semibold uppercase tracking-[0.24em] text-gold sm:text-[0.68rem]">
         {title}
       </p>
       <div className="mt-2 font-sans text-sm leading-6 text-silver">{children}</div>
@@ -135,7 +145,7 @@ export function StatStrip({ items }: { items: { value: string; label: string }[]
           <dt className="sr-only">{item.label}</dt>
           <dd>
             <span className="block font-display text-3xl leading-none text-gold-bright">{item.value}</span>
-            <span className="mt-2 block font-sans text-[0.66rem] uppercase leading-4 tracking-[0.18em] text-white/50">
+            <span className="mt-2 block font-sans text-[0.76rem] uppercase leading-4 tracking-[0.18em] text-white/70 sm:text-[0.66rem] sm:text-white/65">
               {item.label}
             </span>
           </dd>

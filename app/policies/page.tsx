@@ -72,7 +72,7 @@ export default function PoliciesPage() {
                     <li key={item.href} className="py-4">
                       <Link href={item.href} className="group block">
                         <span className="font-sans text-sm text-white group-hover:text-gold">{item.label}</span>
-                        <span className="mt-1 block font-sans text-xs text-white/40">{item.note}</span>
+                        <span className="mt-1 block font-sans text-xs text-white/60">{item.note}</span>
                       </Link>
                     </li>
                   ))}

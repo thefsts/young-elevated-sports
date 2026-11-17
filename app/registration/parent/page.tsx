@@ -83,7 +83,7 @@ export default function ParentRegistrationPage() {
                         <span className="mr-3 font-display text-gold">{waiver.id}</span>
                         {waiver.title}
                       </p>
-                      <p className="mt-1 font-sans text-xs text-white/40">
+                      <p className="mt-1 font-sans text-xs text-white/60">
                         v{waiver.version} · {waiver.status}
                       </p>
                     </div>

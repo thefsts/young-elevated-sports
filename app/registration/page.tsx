@@ -77,7 +77,7 @@ export default function RegistrationPage() {
                   <h3 className="font-display text-xl uppercase tracking-wide text-white">{pathway.t}</h3>
                 </div>
                 <p className="mt-4 flex-1 font-sans text-sm leading-6 text-silver">{pathway.b}</p>
-                <p className="mt-5 font-sans text-[0.62rem] uppercase tracking-[0.2em] text-white/40">
+                <p className="mt-5 font-sans text-[0.62rem] uppercase tracking-[0.2em] text-white/60">
                   {pathway.status}
                 </p>
                 <Link

@@ -2,57 +2,115 @@ import { NextResponse } from "next/server";
 import { inquirySchema, fieldErrors } from "@/lib/validation";
 import { sendInquiryEmails, emailConfigured } from "@/lib/email";
 import { rateLimit, clientKey } from "@/lib/rate-limit";
+import {
+  MAX_BODY_BYTES,
+  checkBodySize,
+  checkContentType,
+  checkFillTime,
+  formHeaders,
+  screenSubmission,
+} from "@/lib/abuse";
 
 export const runtime = "nodejs";
 
-const MAX_BYTES = 16 * 1024; // 16 KB request cap
-
+/**
+ * General inquiry endpoint (contact, training, school and partner categories).
+ *
+ * Layered protection mirrors `/api/class-interest`: content-type check,
+ * body-size cap, per-client rate limit, honeypot, minimum fill time,
+ * disposable-email and content heuristics, then Zod validation. A success
+ * response is returned ONLY after Resend confirms delivery — a failed send
+ * returns an error and never shows the visitor a success state.
+ */
 export async function POST(request: Request) {
-  // 1. Size guard before parsing.
-  const contentLength = Number(request.headers.get("content-length") ?? "0");
-  if (contentLength > MAX_BYTES) {
+  const contentType = checkContentType(request);
+  if (!contentType.ok) {
     return NextResponse.json(
-      { ok: false, message: "That message is too large to submit. Please shorten it and try again." },
-      { status: 413 },
+      { ok: false, message: contentType.reason },
+      { status: contentType.status, headers: formHeaders() },
     );
   }
 
-  // 2. Rate limit per client.
+  const declaredLength = Number(request.headers.get("content-length") ?? "0");
+  if (declaredLength > MAX_BODY_BYTES) {
+    return NextResponse.json(
+      { ok: false, message: "That request is too large to submit." },
+      { status: 413, headers: formHeaders() },
+    );
+  }
+
   const limit = rateLimit(`inquiry:${clientKey(request)}`, 5, 10 * 60 * 1000);
   if (!limit.allowed) {
     return NextResponse.json(
       { ok: false, message: "Too many attempts. Please wait a few minutes and try again." },
-      { status: 429, headers: { "Retry-After": String(Math.ceil((limit.resetAt - Date.now()) / 1000)) } },
+      {
+        status: 429,
+        headers: formHeaders({
+          "Retry-After": String(Math.ceil((limit.resetAt - Date.now()) / 1000)),
+        }),
+      },
     );
   }
 
-  // 3. Parse body safely.
-  let json: unknown;
+  let raw: string;
   try {
-    const raw = await request.text();
-    if (raw.length > MAX_BYTES) {
-      return NextResponse.json({ ok: false, message: "That message is too large." }, { status: 413 });
-    }
-    json = JSON.parse(raw);
+    raw = await request.text();
   } catch {
-    return NextResponse.json({ ok: false, message: "Malformed request." }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, message: "Malformed request." },
+      { status: 400, headers: formHeaders() },
+    );
   }
 
-  // 4. Validate with the shared schema.
+  const size = checkBodySize(raw);
+  if (!size.ok) {
+    return NextResponse.json(
+      { ok: false, message: size.reason },
+      { status: size.status, headers: formHeaders() },
+    );
+  }
+
+  let json: unknown;
+  try {
+    json = JSON.parse(raw);
+  } catch {
+    return NextResponse.json(
+      { ok: false, message: "Malformed request." },
+      { status: 400, headers: formHeaders() },
+    );
+  }
+
   const parsed = inquirySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json(
       { ok: false, message: "Please review the highlighted fields.", errors: fieldErrors(parsed.error) },
-      { status: 422 },
+      { status: 422, headers: formHeaders() },
     );
   }
 
-  // 5. Honeypot — silently accept but do not send.
-  if (parsed.data.website) {
-    return NextResponse.json({ ok: true });
+  const data = parsed.data;
+
+  // Honeypot: silently accept without sending so bots do not learn the trap.
+  if (data.website) {
+    return NextResponse.json({ ok: true }, { headers: formHeaders() });
   }
 
-  // 6. Deliver.
+  const fill = checkFillTime(data.startedAt);
+  if (!fill.ok) {
+    return NextResponse.json(
+      { ok: false, message: fill.reason },
+      { status: fill.status, headers: formHeaders() },
+    );
+  }
+
+  const screen = screenSubmission({ message: data.message, email: data.email });
+  if (!screen.ok) {
+    return NextResponse.json(
+      { ok: false, message: screen.reason },
+      { status: screen.status, headers: formHeaders() },
+    );
+  }
+
   if (!emailConfigured()) {
     // Do not pretend to send. This is a configuration state, not a user error.
     console.error("Inquiry endpoint hit but email is not configured.");
@@ -62,18 +120,19 @@ export async function POST(request: Request) {
         message:
           "Our message system is not connected yet. Please try again later — contact details will be published once verified.",
       },
-      { status: 503 },
+      { status: 503, headers: formHeaders() },
     );
   }
 
   try {
-    await sendInquiryEmails(parsed.data);
-    return NextResponse.json({ ok: true });
+    await sendInquiryEmails(data);
+    return NextResponse.json({ ok: true }, { headers: formHeaders() });
   } catch (error) {
+    // Log the failure reason only — never the payload.
     console.error("Inquiry send failed:", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json(
       { ok: false, message: "We could not send your message just now. Please try again shortly." },
-      { status: 502 },
+      { status: 502, headers: formHeaders() },
     );
   }
 }
