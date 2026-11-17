@@ -11,12 +11,14 @@ This PR brings the **entire approved YESP website lineage** into `main`. It does
 | | Commit | Tree | Files |
 |---|---|---|---|
 | **`main` before** | `b6395ec` chore: initialize repository | `7349801` | 120 |
-| **`integration/yesp-production-sync`** | `cd17bf0` (merge) | `c33fa5a` | 431 |
+| **`integration/yesp-production-sync`** | `b0851db` | `c62a945` | 431 |
 | **Live production today** | `52982f8` | `412c9e0` | — |
 
 `413 files changed, 26,445 insertions(+), 1,220 deletions(-)` relative to `main`.
 
-The merge commit's tree (`c33fa5a`) is **byte-identical** to the pre-consolidation tip `b756a2d`, proving nothing was altered during integration.
+> **Updated:** PR #5 (`fix/about-remove-verification-panel` @ `4f15d94`) was opened after the initial audit and carries one unique commit — removal of the public "Verification status / What we have not published" section from `/about`. It is now **merged into this branch** (`954e7c1`), so no approved work is left behind.
+
+The Task 007/009/010 lineage tree is preserved exactly: merging `b756a2d` produced tree `c33fa5a`, byte-identical to the tip. The only later change is the owner-authored PR #5 About-page fix.
 
 ### Why this is a safe, lossless merge
 
@@ -30,6 +32,7 @@ Every prior branch is a **strict ancestor** of this merge. There are **zero** co
 | `feature/task-007-athlete-skyline-header` | `e8568f7` | 27 | ✅ |
 | `feature/task-009-homepage-complete` | `52982f8` | — | ✅ (via PR #2) |
 | `feature/task-010-spacing-footer-reviews` | `b756a2d` | 28 | ✅ |
+| `fix/about-remove-verification-panel` | `4f15d94` | 1 (on `e8568f7`) | ✅ merged in `954e7c1` |
 
 `git log main..<any branch>` returns **empty** for all of them.
 
