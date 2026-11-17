@@ -13,8 +13,8 @@
 | Repository | `thefsts/young-elevated-sports` |
 | Branch | `feature/task-012-resend-production` |
 | Base commit | `ce914d3` (`integration/yesp-production-sync`) |
-| Feature commit | `__COMMIT__` |
-| Draft PR | `__PR__` |
+| Feature commit | ``1f62b9b` (feature) + `6ccbaee` (docs)` |
+| Draft PR | `#8 (draft)` |
 
 The branch is cut from the integration branch, which carries all approved work from Tasks 009 through 010D. `main` (`b6395ec`) still contains none of that work and was deliberately not used as the base.
 
