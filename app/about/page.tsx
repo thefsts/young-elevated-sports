@@ -5,7 +5,7 @@ import { Reveal } from "@/components/Reveal";
 import { Eyebrow, GoldRule, PageHero } from "@/components/ui";
 import { bio } from "@/lib/content/bio";
 import { pageCopy } from "@/lib/content/page-copy-es";
-import { coachPortrait } from "@/lib/content/media";
+import { coachPortraitAbout } from "@/lib/content/media";
 import { getTranslator } from "@/lib/i18n/server";
 import { localizedPath } from "@/lib/i18n/config";
 import { pageMetadata } from "@/lib/seo";
@@ -93,15 +93,15 @@ export default async function AboutPage() {
           <aside className="space-y-10">
             <div className="relative aspect-[4/5] overflow-hidden border border-white/10">
               <Image
-                src={coachPortrait.src}
-                alt={coachPortrait.alt}
+                src={coachPortraitAbout.src}
+                alt={coachPortraitAbout.alt}
                 fill
                 sizes="(max-width: 1024px) 100vw, 33vw"
                 className="object-cover object-top"
               />
               <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-transparent to-transparent" />
               <p className="absolute bottom-4 left-4 right-4 font-sans text-[0.58rem] uppercase leading-4 tracking-[0.16em] text-gold/80">
-                {coachPortrait.caption}
+                {coachPortraitAbout.caption}
               </p>
             </div>
 

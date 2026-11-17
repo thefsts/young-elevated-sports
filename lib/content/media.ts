@@ -285,6 +285,38 @@ export const coachPortrait: CoachPhoto = {
   usage: ["about", "home", "coach-card", "program-intro"],
 };
 
+/**
+ * About-page profile portrait (Task 010B).
+ *
+ * Owner-supplied frame `Coach Young about us page.png`, approved for the About
+ * page only. The original is preserved at
+ * `assets/photos/originals/coach-young-about.png` and is never modified.
+ *
+ * Preparation: the 2px white artifact line at the top of the supplied PNG was
+ * removed and the frame was padded vertically to the site's 4/5 portrait ratio
+ * using the photograph's own background colour. Nothing was cropped, retouched,
+ * recoloured or sharpened: the black background, white polo, facial features,
+ * glasses and the existing YE watermark (bottom-right) are all intact, and the
+ * full head including hair remains visible.
+ *
+ * Deliberately separate from `coachPortrait`, which the homepage and coach card
+ * still use, so replacing the About photograph cannot change the homepage.
+ */
+export const coachPortraitAbout: CoachPhoto = {
+  id: "coach-young-about",
+  src: "/media/coach/coach-young-about.jpg",
+  srcMedium: "/media/coach/coach-young-about-md.jpg",
+  srcSmall: "/media/coach/coach-young-about-sm.jpg",
+  alt: "Coach Reggie Young of Young & Elevated Sports Performance, wearing a white polo and glasses against a black background",
+  caption: "Coach Young",
+  width: 994,
+  height: 1242,
+  placeholder: false,
+  credit: COACH_CREDIT,
+  status: "cleared",
+  usage: ["about"],
+};
+
 /** Transparent-background cutout of the primary portrait, for layered layouts. */
 export const coachPortraitCutout = {
   src: "/media/coach/coach-young-cutout.png",

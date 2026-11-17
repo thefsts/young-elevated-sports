@@ -104,6 +104,9 @@ frame contains one person.
 | `coach-young-portrait-brand.jpg` | 1200 × 1500 | Restrained black-and-gold duotone treatment |
 | `coach-young-cutout.png` | 1200 × 1500 | Transparent-background cutout (rembg `u2net_human_seg`) |
 | `coach-young-cutout-sm.png` | 500 × 625 | Mobile cutout |
+| `coach-young-about.jpg` | 994 × 1242 | **Task 010B** About-page profile portrait (owner-supplied) |
+| `coach-young-about-md.jpg` | 800 × 1000 | About portrait — tablet |
+| `coach-young-about-sm.jpg` | 400 × 500 | About portrait — mobile |
 
 The crop is derived from the measured face box, not a guess: the face occupies
 approximately 26% of frame height with a small headroom margin, which reads as a
@@ -114,9 +117,30 @@ standard head-and-shoulders portrait at every breakpoint.
 | Surface | Component | Asset |
 | --- | --- | --- |
 | Homepage coach introduction | `app/page.tsx` | `coach-young-portrait.jpg` |
-| About Coach Young profile | `app/about/page.tsx` | `coach-young-portrait.jpg` |
+| About Coach Young profile | `app/about/page.tsx` | `coach-young-about.jpg` **(Task 010B)** |
 | Training programme introduction | `app/training/page.tsx` | `coach-young-cutout.png` |
 | Media gallery | `app/media/page.tsx` | `coach-young-portrait.jpg` |
+
+### Task 010B — About-page portrait replacement
+
+The About page no longer uses the shared `coachPortrait`. It uses the dedicated
+`coachPortraitAbout` export, sourced from the owner-supplied
+`Coach Young about us page.png` (994 × 1024 RGBA, 664,731 bytes).
+
+| Property | Value |
+| --- | --- |
+| Original preserved | `assets/photos/originals/coach-young-about.png` (unmodified) |
+| Preparation | 2px white artifact line at the top of the PNG removed; frame padded vertically to the site's 4/5 ratio with the photograph's own background colour `rgb(13,13,9)` |
+| Cropping | **None** — nothing was cut from the frame |
+| Retouching | **None** — no recolour, no sharpening, no skin/facial alteration |
+| Preserved | Black background, white polo, facial features, glasses, existing YE watermark (bottom-right, x 880–959 / y 921–986 in the source) |
+| Head visibility | Full head including hair; 228 px of headroom in the 1242 px frame |
+| Derivatives | 994 × 1242 (45 KB), 800 × 1000 (33 KB), 400 × 500 (12 KB) — metadata stripped |
+| Homepage | **Unchanged** — `coachPortrait` and `coach-young-portrait.jpg` still serve the homepage, coach card and program intro |
+
+The previous About asset (`coach-young-portrait.jpg`) has **not** been deleted: it
+remains the homepage portrait and stays in place until the new usage is verified
+in production.
 
 The "Illustrative imagery" label was removed from those four surfaces only. Every
 other image on the site keeps its placeholder label and disclosure.
