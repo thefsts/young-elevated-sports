@@ -1,0 +1,137 @@
+{
+  "passed": 26,
+  "total": 26,
+  "results": [
+    {
+      "name": "1. Empty step 1 blocks progression with field errors",
+      "pass": true,
+      "detail": "heading=\"Athlete Information\" errors=5"
+    },
+    {
+      "name": "2. Focus moves to first invalid field",
+      "pass": true,
+      "detail": "focused=athleteName"
+    },
+    {
+      "name": "3. Back button disabled on step 1",
+      "pass": true,
+      "detail": "disabled=true"
+    },
+    {
+      "name": "4. Progress rail blocks forward jumps on step 1",
+      "pass": true,
+      "detail": "blocked=true"
+    },
+    {
+      "name": "5. Valid step 1 advances to Guardian",
+      "pass": true,
+      "detail": "heading=\"Parent/Guardian & Emergency Contact\""
+    },
+    {
+      "name": "6. Invalid phone and email rejected",
+      "pass": true,
+      "detail": "errors=[\"!Enter a 10-digit US phone number.\",\"!Enter a valid email address.\"]"
+    },
+    {
+      "name": "7. Corrected guardian contact advances to Classes",
+      "pass": true,
+      "detail": "heading=\"Classes & Package Selection\""
+    },
+    {
+      "name": "8. ?class= preselects Athletic Strength & Conditioning",
+      "pass": true,
+      "detail": "[\"04 · ATHLETIC STRENGTH & CONDITIONING 75 MIN Progressive res\"]"
+    },
+    {
+      "name": "9. Package selection is required",
+      "pass": true,
+      "detail": "[\"!Select a package.\"]"
+    },
+    {
+      "name": "10. Additional class tracks can be added",
+      "pass": true,
+      "detail": "checked=2"
+    },
+    {
+      "name": "11. All seven approved prices render",
+      "pass": true,
+      "detail": "7 price labels"
+    },
+    {
+      "name": "12. Classes step advances to Objectives",
+      "pass": true,
+      "detail": "heading=\"Training Objectives\""
+    },
+    {
+      "name": "13. At least one objective required",
+      "pass": true,
+      "detail": "[\"!Select at least one training objective.\"]"
+    },
+    {
+      "name": "14. Objectives step advances to Medical",
+      "pass": true,
+      "detail": "heading=\"Medical & Safety Disclosures\""
+    },
+    {
+      "name": "15. Injury detail required when injuries = Yes",
+      "pass": true,
+      "detail": "[\"!Describe the injury, surgery or restriction.\",\"!List allergies and medical conditions, or write “None known”.\"]"
+    },
+    {
+      "name": "16. Medical step advances to Waivers",
+      "pass": true,
+      "detail": "heading=\"Combined Waivers & Agreements\""
+    },
+    {
+      "name": "17. Required agreements block progression",
+      "pass": true,
+      "detail": "[\"!This acknowledgment is required.\",\"!This authorization is required.\",\"!This acknowledgment is required.\"]"
+    },
+    {
+      "name": "18. Media consent is optional and separate from required agreements",
+      "pass": true,
+      "detail": "{\"hasOptional\":true,\"checked\":false}"
+    },
+    {
+      "name": "19. Agreements step advances to Review & Signature",
+      "pass": true,
+      "detail": "heading=\"Review & Signature\""
+    },
+    {
+      "name": "20. Submit registration button present and disabled",
+      "pass": true,
+      "detail": "{\"disabled\":true,\"text\":\"Submit registration — disabled\"}"
+    },
+    {
+      "name": "21. Signature inputs are disabled",
+      "pass": true,
+      "detail": "[true,true]"
+    },
+    {
+      "name": "22. Review summary shows $130, 75 minutes and package label",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "23. Review summary shows athlete and guardian names",
+      "pass": true,
+      "detail": ""
+    },
+    {
+      "name": "24. Back navigation preserves prior selections",
+      "pass": true,
+      "detail": "participationChecked=true"
+    },
+    {
+      "name": "25. No POST/PUT/PATCH requests emitted",
+      "pass": true,
+      "detail": "[]"
+    },
+    {
+      "name": "26. URL carries no personal data",
+      "pass": true,
+      "detail": "http://localhost:3100/classes/register?class=athletic-strength-conditioning"
+    }
+  ],
+  "network": []
+}
