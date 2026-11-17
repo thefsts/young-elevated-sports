@@ -2,17 +2,37 @@ import { NextResponse } from "next/server";
 import { schoolInquirySchema, fieldErrors } from "@/lib/validation";
 import { sendSchoolInquiryEmails, emailConfigured } from "@/lib/email";
 import { rateLimit, clientKey } from "@/lib/rate-limit";
+import {
+  MAX_BODY_BYTES,
+  checkBodySize,
+  checkContentType,
+  checkFillTime,
+  formHeaders,
+  screenSubmission,
+} from "@/lib/abuse";
 
 export const runtime = "nodejs";
 
-const MAX_BYTES = 16 * 1024;
-
+/**
+ * School / team inquiry endpoint.
+ *
+ * Same layered protection as the other public forms. A success response is
+ * returned only after Resend accepts the message.
+ */
 export async function POST(request: Request) {
-  const contentLength = Number(request.headers.get("content-length") ?? "0");
-  if (contentLength > MAX_BYTES) {
+  const contentType = checkContentType(request);
+  if (!contentType.ok) {
     return NextResponse.json(
-      { ok: false, message: "That message is too large to submit. Please shorten it and try again." },
-      { status: 413 },
+      { ok: false, message: contentType.reason },
+      { status: contentType.status, headers: formHeaders() },
+    );
+  }
+
+  const declaredLength = Number(request.headers.get("content-length") ?? "0");
+  if (declaredLength > MAX_BODY_BYTES) {
+    return NextResponse.json(
+      { ok: false, message: "That request is too large to submit." },
+      { status: 413, headers: formHeaders() },
     );
   }
 
@@ -20,31 +40,71 @@ export async function POST(request: Request) {
   if (!limit.allowed) {
     return NextResponse.json(
       { ok: false, message: "Too many attempts. Please wait a few minutes and try again." },
-      { status: 429, headers: { "Retry-After": String(Math.ceil((limit.resetAt - Date.now()) / 1000)) } },
+      {
+        status: 429,
+        headers: formHeaders({
+          "Retry-After": String(Math.ceil((limit.resetAt - Date.now()) / 1000)),
+        }),
+      },
+    );
+  }
+
+  let raw: string;
+  try {
+    raw = await request.text();
+  } catch {
+    return NextResponse.json(
+      { ok: false, message: "Malformed request." },
+      { status: 400, headers: formHeaders() },
+    );
+  }
+
+  const size = checkBodySize(raw);
+  if (!size.ok) {
+    return NextResponse.json(
+      { ok: false, message: size.reason },
+      { status: size.status, headers: formHeaders() },
     );
   }
 
   let json: unknown;
   try {
-    const raw = await request.text();
-    if (raw.length > MAX_BYTES) {
-      return NextResponse.json({ ok: false, message: "That message is too large." }, { status: 413 });
-    }
     json = JSON.parse(raw);
   } catch {
-    return NextResponse.json({ ok: false, message: "Malformed request." }, { status: 400 });
+    return NextResponse.json(
+      { ok: false, message: "Malformed request." },
+      { status: 400, headers: formHeaders() },
+    );
   }
 
   const parsed = schoolInquirySchema.safeParse(json);
   if (!parsed.success) {
     return NextResponse.json(
       { ok: false, message: "Please review the highlighted fields.", errors: fieldErrors(parsed.error) },
-      { status: 422 },
+      { status: 422, headers: formHeaders() },
     );
   }
 
-  if (parsed.data.website) {
-    return NextResponse.json({ ok: true });
+  const data = parsed.data;
+
+  if (data.website) {
+    return NextResponse.json({ ok: true }, { headers: formHeaders() });
+  }
+
+  const fill = checkFillTime(data.startedAt);
+  if (!fill.ok) {
+    return NextResponse.json(
+      { ok: false, message: fill.reason },
+      { status: fill.status, headers: formHeaders() },
+    );
+  }
+
+  const screen = screenSubmission({ message: data.message, email: data.email });
+  if (!screen.ok) {
+    return NextResponse.json(
+      { ok: false, message: screen.reason },
+      { status: screen.status, headers: formHeaders() },
+    );
   }
 
   if (!emailConfigured()) {
@@ -55,18 +115,18 @@ export async function POST(request: Request) {
         message:
           "Our message system is not connected yet. Please try again later — contact details will be published once verified.",
       },
-      { status: 503 },
+      { status: 503, headers: formHeaders() },
     );
   }
 
   try {
-    await sendSchoolInquiryEmails(parsed.data);
-    return NextResponse.json({ ok: true });
+    await sendSchoolInquiryEmails(data);
+    return NextResponse.json({ ok: true }, { headers: formHeaders() });
   } catch (error) {
     console.error("School inquiry send failed:", error instanceof Error ? error.message : "unknown error");
     return NextResponse.json(
       { ok: false, message: "We could not send your inquiry just now. Please try again shortly." },
-      { status: 502 },
+      { status: 502, headers: formHeaders() },
     );
   }
 }
