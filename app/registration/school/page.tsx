@@ -49,7 +49,7 @@ export default function SchoolInquiryPage() {
                 {formats.map((format) => (
                   <li key={format.title} className="font-sans text-sm leading-6 text-silver">
                     <span className="text-white">{format.title}</span>
-                    <span className="block text-xs text-white/40">{format.availability}</span>
+                    <span className="block text-xs text-white/60">{format.availability}</span>
                   </li>
                 ))}
               </ul>

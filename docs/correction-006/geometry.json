@@ -1,0 +1,181 @@
+{
+  "desktop": {
+    "docHeight": 3979,
+    "overflowX": 0,
+    "h1Font": "67.68px",
+    "h1Lines": 2,
+    "techCardCount": 5,
+    "techCardRows": 1,
+    "objectiveCount": 8,
+    "objectiveRows": 1,
+    "objectiveHasIcon": true,
+    "disciplineCount": 5,
+    "dfw": {
+      "top": 1930,
+      "height": 478,
+      "width": 1440,
+      "left": 0
+    },
+    "sections": [
+      {
+        "id": null,
+        "top": 0,
+        "height": 900,
+        "width": 1440,
+        "left": 0
+      },
+      {
+        "id": null,
+        "top": 900,
+        "height": 693,
+        "width": 1440,
+        "left": 0
+      },
+      {
+        "id": "objectives",
+        "top": 1593,
+        "height": 337,
+        "width": 1440,
+        "left": 0
+      },
+      {
+        "id": "dfw",
+        "top": 1930,
+        "height": 478,
+        "width": 1440,
+        "left": 0
+      },
+      {
+        "id": null,
+        "top": 2409,
+        "height": 576,
+        "width": 1440,
+        "left": 0
+      }
+    ]
+  },
+  "tablet": {
+    "docHeight": 4972,
+    "overflowX": 0,
+    "h1Font": "39.198px",
+    "h1Lines": 2,
+    "techCardCount": 5,
+    "techCardRows": 2,
+    "objectiveCount": 8,
+    "objectiveRows": 2,
+    "objectiveHasIcon": true,
+    "disciplineCount": 5,
+    "dfw": {
+      "top": 2696,
+      "height": 622,
+      "width": 834,
+      "left": 0
+    },
+    "sections": [
+      {
+        "id": null,
+        "top": 0,
+        "height": 1112,
+        "width": 834,
+        "left": 0
+      },
+      {
+        "id": null,
+        "top": 1112,
+        "height": 1132,
+        "width": 834,
+        "left": 0
+      },
+      {
+        "id": "objectives",
+        "top": 2244,
+        "height": 452,
+        "width": 834,
+        "left": 0
+      },
+      {
+        "id": "dfw",
+        "top": 2696,
+        "height": 622,
+        "width": 834,
+        "left": 0
+      },
+      {
+        "id": null,
+        "top": 3318,
+        "height": 467,
+        "width": 834,
+        "left": 0
+      }
+    ]
+  },
+  "mobile": {
+    "docHeight": 5586,
+    "overflowX": 0,
+    "h1Font": "34.4px",
+    "h1Lines": 2,
+    "techCardCount": 5,
+    "techCardRows": 3,
+    "objectiveCount": 8,
+    "objectiveRows": 4,
+    "objectiveHasIcon": true,
+    "disciplineCount": 5,
+    "dfw": {
+      "top": 2850,
+      "height": 636,
+      "width": 390,
+      "left": 0
+    },
+    "sections": [
+      {
+        "id": null,
+        "top": 0,
+        "height": 844,
+        "width": 390,
+        "left": 0
+      },
+      {
+        "id": null,
+        "top": 844,
+        "height": 1329,
+        "width": 390,
+        "left": 0
+      },
+      {
+        "id": "objectives",
+        "top": 2173,
+        "height": 677,
+        "width": 390,
+        "left": 0
+      },
+      {
+        "id": "dfw",
+        "top": 2850,
+        "height": 636,
+        "width": 390,
+        "left": 0
+      },
+      {
+        "id": null,
+        "top": 3486,
+        "height": 467,
+        "width": 390,
+        "left": 0
+      }
+    ]
+  },
+  "logos": {
+    "header": {
+      "src": "/brand/ye-runner-mark.svg",
+      "w": 56,
+      "h": 32,
+      "alt": ""
+    },
+    "footer": {
+      "src": "/brand/ye-runner-lockup.svg",
+      "w": 416,
+      "h": 277,
+      "alt": "Young & Elevated Sports Performance — Dallas–Fort Worth"
+    }
+  }
+}

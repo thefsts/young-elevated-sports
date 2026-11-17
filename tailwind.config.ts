@@ -19,6 +19,7 @@ const config: Config = {
       },
       fontFamily: {
         display: ["var(--font-display)", "Arial Narrow", "sans-serif"],
+        "display-wide": ["var(--font-display-wide)", "Arial Black", "Impact", "sans-serif"],
         sans: ["var(--font-sans)", "system-ui", "sans-serif"],
       },
       letterSpacing: {

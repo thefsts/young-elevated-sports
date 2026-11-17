@@ -1,0 +1,71 @@
+{
+  "desktop": {
+    "docHeight": 3979,
+    "overflowX": 0,
+    "dfw": {
+      "top": 1930,
+      "height": 478,
+      "width": 1440,
+      "left": 0
+    },
+    "dfwImg": {
+      "src": "/_next/image?url=%2Fmedia%2Fdfw%2Fdallas-skyline.jpg&w=3840&q=75",
+      "naturalW": 1440,
+      "naturalH": 601,
+      "objectPosition": "38% 50%",
+      "filter": "brightness(1.06)"
+    },
+    "dfwCredit": "AI-generated illustration produced in-house for YESP — not a photograph",
+    "h1Font": "16px",
+    "h1Lines": 8,
+    "disciplines": 5,
+    "techCards": 5,
+    "objectives": 8
+  },
+  "tablet": {
+    "docHeight": 4972,
+    "overflowX": 0,
+    "dfw": {
+      "top": 2696,
+      "height": 622,
+      "width": 834,
+      "left": 0
+    },
+    "dfwImg": {
+      "src": "/_next/image?url=%2Fmedia%2Fdfw%2Fdallas-skyline.jpg&w=3840&q=75",
+      "naturalW": 834,
+      "naturalH": 348,
+      "objectPosition": "38% 50%",
+      "filter": "brightness(1.06)"
+    },
+    "dfwCredit": "AI-generated illustration produced in-house for YESP — not a photograph",
+    "h1Font": "16px",
+    "h1Lines": 5,
+    "disciplines": 5,
+    "techCards": 5,
+    "objectives": 8
+  },
+  "mobile": {
+    "docHeight": 5586,
+    "overflowX": 0,
+    "dfw": {
+      "top": 2850,
+      "height": 636,
+      "width": 390,
+      "left": 0
+    },
+    "dfwImg": {
+      "src": "/_next/image?url=%2Fmedia%2Fdfw%2Fdallas-skyline.jpg&w=3840&q=75",
+      "naturalW": 390,
+      "naturalH": 162,
+      "objectPosition": "38% 50%",
+      "filter": "brightness(1.06)"
+    },
+    "dfwCredit": "AI-generated illustration produced in-house for YESP — not a photograph",
+    "h1Font": "16px",
+    "h1Lines": 4,
+    "disciplines": 5,
+    "techCards": 5,
+    "objectives": 8
+  }
+}

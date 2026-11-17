@@ -29,7 +29,7 @@ function Field({
         {required ? <span className="text-gold"> *</span> : null}
       </label>
       {children}
-      {hint ? <p className="mt-1.5 font-sans text-xs text-white/40">{hint}</p> : null}
+      {hint ? <p className="mt-1.5 font-sans text-xs text-white/60">{hint}</p> : null}
       {error ? (
         <p id={`${id}-error`} className="field-error">
           {error}
@@ -95,14 +95,14 @@ export function AthleteRegistrationForm() {
                     ? "border-gold bg-gold text-ink"
                     : index < step
                       ? "border-gold/50 text-gold"
-                      : "border-white/20 text-white/40"
+                      : "border-white/20 text-white/60"
                 }`}
               >
                 {index + 1}
               </span>
               <span
                 className={`font-sans text-[0.68rem] uppercase tracking-[0.18em] ${
-                  index === step ? "text-white" : "text-white/40"
+                  index === step ? "text-white" : "text-white/60"
                 }`}
               >
                 {label}
@@ -353,7 +353,7 @@ export function AthleteRegistrationForm() {
                   ["Objectives", text("objectives")],
                 ].map(([label, value]) => (
                   <div key={label} className="grid gap-1 py-3 sm:grid-cols-[12rem_1fr] sm:gap-4">
-                    <dt className="font-sans text-xs uppercase tracking-[0.16em] text-white/40">{label}</dt>
+                    <dt className="font-sans text-xs uppercase tracking-[0.16em] text-white/60">{label}</dt>
                     <dd className="font-sans text-sm text-white">{value || "—"}</dd>
                   </div>
                 ))}

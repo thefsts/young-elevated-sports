@@ -1,5 +1,5 @@
 import { Resend } from "resend";
-import type { InquiryInput, SchoolInquiryInput } from "@/lib/validation";
+import type { ClassInterestInput, InquiryInput, SchoolInquiryInput } from "@/lib/validation";
 
 /**
  * Email delivery for Class A public inquiries.
@@ -197,6 +197,91 @@ export async function sendSchoolInquiryEmails(input: SchoolInquiryInput) {
 
   if (ack.error) {
     console.error("School inquiry acknowledgment failed:", ack.error.message);
+  }
+
+  return { internalId: internal.data?.id ?? null };
+}
+
+/**
+ * Class-interest request delivery.
+ *
+ * This is a Class A inquiry flow: it carries only contact details and
+ * non-sensitive training preferences. It never carries medical history,
+ * signatures, payment data, or government identifiers, and it explicitly tells
+ * the recipient that the request is not a confirmed booking.
+ */
+export async function sendClassInterestEmail(input: ClassInterestInput) {
+  if (!emailConfigured()) {
+    throw new Error("Email is not configured.");
+  }
+  const resend = new Resend(apiKey);
+  const contactName = `${input.contactFirstName} ${input.contactLastName}`.trim();
+  const athleteName = `${input.athleteFirstName} ${input.athleteLastName}`.trim();
+
+  const rows: [string, string][] = [
+    ["Audience", input.audience],
+    ["Class", input.classSlug],
+    ["Contact", contactName],
+    ["Email", input.contactEmail],
+    ["Phone", input.contactPhone || "—"],
+    ["Athlete", athleteName || "—"],
+    ["Age group", input.athleteAgeGroup || "—"],
+    ["Sport", input.sport || "—"],
+    ["Experience", input.experience || "—"],
+    ["Session window", input.sessionWindow || "—"],
+    ["Relationship", input.relationship || "—"],
+    ["Organization", input.organization || "—"],
+    ["Athlete count", input.athleteCount ? String(input.athleteCount) : "—"],
+    ["Preferred dates", input.preferredDates || "—"],
+  ];
+
+  const table = rows
+    .map(
+      ([label, value]) =>
+        `<tr><td style="padding:4px 12px 4px 0;color:#8b8f97;white-space:nowrap;">${escapeHtml(
+          label,
+        )}</td><td style="padding:4px 0;color:#ffffff;">${escapeHtml(value)}</td></tr>`,
+    )
+    .join("");
+
+  const internal = await resend.emails.send({
+    from: fromEmail!,
+    to: toEmail!,
+    replyTo: input.contactEmail,
+    subject: `[YESP] Class interest — ${input.classSlug} — ${contactName}`,
+    html: shell(
+      "New class-interest request",
+      `<table style="border-collapse:collapse;font-size:14px;">${table}</table>
+       <p style="margin:18px 0 6px;color:#8b8f97;">Goals / notes</p>
+       <p style="margin:0;color:#ffffff;">${escapeHtml(input.goals || "—").replace(/\n/g, "<br />")}</p>
+       <p style="margin:18px 0 6px;color:#8b8f97;">Scheduling notes</p>
+       <p style="margin:0;color:#ffffff;">${escapeHtml(input.schedulingNotes || "—").replace(/\n/g, "<br />")}</p>
+       <p style="margin:18px 0 0;color:#d6a73b;font-size:12px;">This is an inquiry only. It is not a confirmed booking, enrollment, or payment.</p>`,
+    ),
+  });
+
+  if (internal.error) {
+    throw new Error(internal.error.message);
+  }
+
+  const ack = await resend.emails.send({
+    from: fromEmail!,
+    to: input.contactEmail,
+    subject: "We received your class-interest request — Young & Elevated Sports Performance",
+    html: shell(
+      "Your request is in.",
+      `<p style="margin:0 0 12px;">Hi ${escapeHtml(input.contactFirstName)},</p>
+       <p style="margin:0 0 12px;">Thank you for your interest in ${escapeHtml(
+         input.classSlug,
+       )}. This is an automated acknowledgment. It is <strong>not</strong> a confirmed booking,
+       enrollment, or payment.</p>
+       <p style="margin:0;">A coach will follow up to confirm whether the class, schedule, and age group
+       fit. Please do not reply with medical, injury, or health information.</p>`,
+    ),
+  });
+
+  if (ack.error) {
+    console.error("Class interest acknowledgment failed:", ack.error.message);
   }
 
   return { internalId: internal.data?.id ?? null };

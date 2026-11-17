@@ -25,19 +25,25 @@ export const site = {
   social: [] as { label: string; href: string }[],
 };
 
+/**
+ * Primary navigation — deliberately seven items so the header stays uncluttered
+ * on smaller screens. Results and Media remain reachable from the footer.
+ * `key` maps to the translation dictionary; `label` is the English fallback.
+ */
 export const navigation = [
-  { label: "About", href: "/about" },
-  { label: "Training", href: "/training" },
-  { label: "Technology", href: "/performance-technology" },
-  { label: "Athletes", href: "/athletes" },
-  { label: "Results", href: "/results" },
-  { label: "Media", href: "/media" },
-  { label: "Contact", href: "/contact" },
-];
+  { key: "nav.home", label: "Home", href: "/" },
+  { key: "nav.about", label: "About", href: "/about" },
+  { key: "nav.training", label: "Training", href: "/training" },
+  { key: "nav.classes", label: "Classes", href: "/classes" },
+  { key: "nav.technology", label: "Technology", href: "/performance-technology" },
+  { key: "nav.athletes", label: "Athletes", href: "/athletes" },
+  { key: "nav.contact", label: "Contact", href: "/contact" },
+] as const;
 
 export const footerNavigation = {
   train: [
     { label: "Training Programs", href: "/training" },
+    { label: "Training Classes", href: "/classes" },
     { label: "Performance Technology", href: "/performance-technology" },
     { label: "Athlete Development", href: "/athletes" },
     { label: "Athlete Results", href: "/results" },

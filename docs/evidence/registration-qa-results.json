@@ -1,0 +1,74 @@
+{
+  "desktop": {
+    "h1": "Athlete Registration",
+    "stepButtons": [
+      "01Athlete",
+      "02Guardian",
+      "03Classes",
+      "04Objectives",
+      "05Medical",
+      "06Waivers",
+      "07Review"
+    ],
+    "stepHeading": "Athlete Information",
+    "preselected": [
+      "04 · ATHLETIC STRENGTH & CONDITIONING"
+    ],
+    "prices": [
+      "Single session per session $35",
+      "Four-session flex four sessions · Expires 60 days after purchase. $130",
+      "Eight-session flex eight sessions · Expires 60 days after purchase. $230",
+      "Monthly — 4 sessions per month $120",
+      "Monthly — 8 sessions per month $200",
+      "Monthly — 12 sessions per month $250",
+      "Monthly — 16 sessions per month $300"
+    ],
+    "step7Heading": "Review & Signature",
+    "submitDisabled": true,
+    "signatureDisabled": [
+      true,
+      true
+    ],
+    "mediaConsentChecked": [],
+    "summaryText": "TRAINING CLASSES\n\nATHLETE REGISTRATION\n\nSeven steps: athlete details, guardian and emergency contact, class and package selection, training objectives, medical disclosures, combined waivers, then review and signature.\n\nAN INTEREST REQUEST IS NOT A CONFIRMED BOOKING.\n75-MINUTE SESSIONS\nSUBMISSION DISABLED",
+    "horizontalOverflow": 0,
+    "axe": []
+  },
+  "mobile": {
+    "h1": "Athlete Registration",
+    "stepButtons": [
+      "01Athlete",
+      "02Guardian",
+      "03Classes",
+      "04Objectives",
+      "05Medical",
+      "06Waivers",
+      "07Review"
+    ],
+    "stepHeading": "Athlete Information",
+    "preselected": [
+      "04 · ATHLETIC STRENGTH & CONDITIONING"
+    ],
+    "prices": [
+      "Single session per session $35",
+      "Four-session flex four sessions · Expires 60 days after purchase. $130",
+      "Eight-session flex eight sessions · Expires 60 days after purchase. $230",
+      "Monthly — 4 sessions per month $120",
+      "Monthly — 8 sessions per month $200",
+      "Monthly — 12 sessions per month $250",
+      "Monthly — 16 sessions per month $300"
+    ],
+    "step7Heading": "Review & Signature",
+    "submitDisabled": true,
+    "signatureDisabled": [
+      true,
+      true
+    ],
+    "mediaConsentChecked": [],
+    "summaryText": "TRAINING CLASSES\n\nATHLETE REGISTRATION\n\nSeven steps: athlete details, guardian and emergency contact, class and package selection, training objectives, medical disclosures, combined waivers, then review and signature.\n\nAN INTEREST REQUEST IS NOT A CONFIRMED BOOKING.\n75-MINUTE SESSIONS\nSUBMISSION DISABLED",
+    "horizontalOverflow": 0,
+    "axe": []
+  },
+  "network": [],
+  "console": []
+}
