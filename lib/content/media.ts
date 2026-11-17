@@ -141,17 +141,44 @@ export type LicensedAsset = {
 };
 
 /**
- * Downtown Dallas skyline including Reunion Tower.
+ * Downtown Dallas skyline including Reunion Tower — PRIMARY banner asset.
  *
- * Real, licensed photography is used here rather than an AI placeholder so the
- * skyline is recognisably Dallas. The image shows the city, not a YESP facility,
- * and must never be captioned as YESP premises.
+ * IMPORTANT PROVENANCE: this is an AI-GENERATED illustration, not a photograph.
+ * It was selected as the PM-approved "Variant A — golden hour duotone" candidate
+ * because it places the skyline inside the left 60% of the banner, which the
+ * angled gold panel requires, and because it holds the warm amber/bronze grade
+ * the client approved.
+ *
+ * It must never be captioned or credited as a photograph of Dallas. Reunion
+ * Tower is rendered as a stylised sphere-on-tripod rather than a faithful
+ * reproduction of the real geodesic lattice. `dfwSkylinePhoto` below is the
+ * verifiably accurate licensed alternative.
  */
 export const dfwSkyline: LicensedAsset = {
   src: "/media/dfw/dallas-skyline.jpg",
   srcMedium: "/media/dfw/dallas-skyline-md.jpg",
   srcSmall: "/media/dfw/dallas-skyline-sm.jpg",
-  alt: "Downtown Dallas skyline at dusk, including Reunion Tower.",
+  alt: "Golden-hour illustration of the downtown Dallas skyline with Reunion Tower.",
+  width: 1920,
+  height: 802,
+  placeholder: false,
+  credit: "AI-generated illustration produced in-house for YESP — not a photograph",
+  licence: "AI-generated — no third-party licence required",
+  source: "Generated in-house (Variant A, golden-hour duotone)",
+};
+
+/**
+ * Verifiably accurate licensed photograph of the Dallas CBD at dusk.
+ *
+ * Kept on disk as the fallback required by the directive's accuracy clause: if
+ * the generated banner is rejected on landmark fidelity, swap `dfwSkyline` to
+ * this entry. Attribution must travel with the image (CC BY-SA 4.0).
+ */
+export const dfwSkylinePhoto: LicensedAsset = {
+  src: "/media/dfw/dallas-skyline-photo.jpg",
+  srcMedium: "/media/dfw/dallas-skyline-photo-md.jpg",
+  srcSmall: "/media/dfw/dallas-skyline-photo-sm.jpg",
+  alt: "Photograph of the downtown Dallas skyline at dusk, including Reunion Tower.",
   width: 1920,
   height: 802,
   placeholder: false,
