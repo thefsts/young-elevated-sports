@@ -65,8 +65,8 @@ export function FullLogo({
       src={src}
       alt="Young & Elevated Sports Performance — Dallas–Fort Worth"
       className={className}
-      width={1536}
-      height={1024}
+      width={1393}
+      height={968}
       decoding="async"
     />
   );

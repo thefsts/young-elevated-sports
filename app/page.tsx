@@ -175,7 +175,7 @@ export default async function HomePage({
           aria-hidden="true"
           className="absolute inset-0 bg-[radial-gradient(ellipse_at_6%_45%,rgba(214,167,59,0.22),transparent_58%)]"
         />
-        <div className="shell-wide relative grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:gap-10 lg:py-12">
+        <div className="shell-wide relative grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_minmax(0,1.02fr)] lg:gap-10 lg:py-20">
           {/* left: the coach */}
           <Reveal className="lg:pr-6">
             <div className="flex items-start gap-6 lg:gap-8">
@@ -256,7 +256,7 @@ export default async function HomePage({
 
       {/* --------------------------------------------- training objectives */}
       <section id="objectives" className="bg-[#ece9e4] text-ink">
-        <div className="shell-wide py-10 lg:py-14">
+        <div className="shell-wide py-12 lg:py-20">
           <div className="grid gap-8 lg:grid-cols-[21rem_minmax(0,1fr)] lg:items-center lg:gap-8">
             <div>
               <p className="font-sans text-[0.66rem] font-semibold uppercase tracking-[0.3em] text-[#6f5416] lg:text-[0.56rem]">
