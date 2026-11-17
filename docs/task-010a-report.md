@@ -39,7 +39,7 @@ The directive requires: *"If Vercel access is unavailable, stop before any merge
 | `feature/task-007-athlete-skyline-header` | `e8568f7` | 27 | `412c9e0` | Merge PR #2 |
 | `feature/task-009-homepage-complete` | `52982f8` | 26 | `412c9e0` | docs(task-009) |
 | `feature/task-010-spacing-footer-reviews` | `b756a2d` | 28 | `c33fa5a` | fix(home): unify section spacing… |
-| `integration/yesp-production-sync` **(new)** | `cd17bf0` | 29 | `c33fa5a` | consolidation merge |
+| `integration/yesp-production-sync` **(new)** | `954e7c1` | 31 | `c62a945` | consolidation + PR #5 merge |
 
 **Tags:** none existed before this task. Three backup tags created (see §6).
 
@@ -51,6 +51,8 @@ The directive requires: *"If Vercel access is unavailable, stop before any merge
 | **2** | Task 009 — Complete Homepage, Reviews Scaffold & Visual Content (+009A) | `feature/task-009-homepage-complete` → `feature/task-007-athlete-skyline-header` | **MERGED** 2026-11-17T16:17Z | `e8568f7` |
 | **3** | Task 010 — Spacing system, footer logo canvas crop, visible reviews | `feature/task-010-spacing-footer-reviews` → `feature/task-007-athlete-skyline-header` | **OPEN (draft)** | — |
 | **4** | YESP — Consolidate Approved Production Website into Main **(new)** | `integration/yesp-production-sync` → `main` | **OPEN (draft)** | — |
+| **5** | YESP — Remove internal verification section from About page | `fix/about-remove-verification-panel` → `feature/task-007-athlete-skyline-header` | **OPEN (draft)** | — |
+| **6** | Task 010B — Replace About Us Profile Photo **(new)** | `feature/task-010b-about-photo` → `integration/yesp-production-sync` | **OPEN (draft)** | — |
 
 PR #2 was **already merged** into `feature/task-007-athlete-skyline-header` — it must not be merged again. It is not.
 
@@ -65,7 +67,17 @@ feature/task-007-athlete-skyline-header 27 / 0
 feature/task-010-spacing-footer-reviews 28 / 0
 ```
 
-**Every branch is a strict ancestor of `feature/task-010-spacing-footer-reviews`.** `git log main..<branch>` and `git log <tip>..<branch>` are **empty for all branches**. There is **zero unique unmerged work anywhere** — the repository is a single linear chain.
+**The Task 001–010 lineage is a single linear chain.** Every branch up to
+`feature/task-010-spacing-footer-reviews` is a strict ancestor of it; `git log
+main..<branch>` and `git log <tip>..<branch>` are empty for all of them.
+
+**One exception, discovered after the initial audit:** PR #5
+(`fix/about-remove-verification-panel` @ `4f15d94`) was opened at 16:57Z, after
+the first `git fetch`. It carries **one unique commit** on top of `e8568f7` that
+is *not* in the Task 007/009/010 lineage: it removes the public
+"Verification status / What we have not published" section from `/app/about`
+(28 lines, owner-authored). This commit has now been **merged into the
+integration branch** (merge `954e7c1`), so no approved work is lost.
 
 ## 5. Which branch holds the newest homepage / registration / waiver implementation
 
@@ -160,7 +172,16 @@ Merging PR #1 separately would move `main` **backwards** from a 29-commit state 
 
 **Recommendation: close PR #1 without merging once PR #4 lands.** It has **not** been closed or merged.
 
+**PR #5** is likewise now fully contained in the integration branch (merge
+`954e7c1`). It should be **closed as contained** once PR #4 lands — its change is
+already present. It has **not** been closed.
+
 ## 10. QA — all green on `integration/yesp-production-sync`
+
+> Re-run after merging PR #5 (`4f15d94`) into the integration branch. The final
+> verification pass was executed on `feature/task-010b-about-photo`, whose tree is
+> the integration branch **plus** the Task 010B About photo — a superset, so every
+> result below covers the integration branch as well.
 
 | Check | Result |
 |---|---|
@@ -213,6 +234,8 @@ The only visual deltas are the three intended Task 010 changes. No section was r
 | `feature/task-007-athlete-skyline-header` | ✅ all 27 | none | **PR #3 (draft)** base | unknown | ❌ **No** — PR #3 targets it |
 | `feature/task-009-homepage-complete` | ✅ all 26 | none | none | **likely — production source** | ❌ **No** — production evidence |
 | `feature/task-010-spacing-footer-reviews` | ✅ all 28 | none | **PR #3 (draft)** head | unknown | ❌ **No** — PR #3 head |
+| `fix/about-remove-verification-panel` | ✅ `4f15d94` merged in `954e7c1` | none | **PR #5 (draft)** | unknown | ❌ **No** — close PR #5 first |
+| `feature/task-010b-about-photo` | ✅ (on integration) | 010B | **PR #6 (draft)** | unknown | ❌ **No** — PR #6 head |
 | `integration/yesp-production-sync` | — | PR #4 | PR #4 | unknown | ❌ Keep |
 
 **Recommended cleanup order (after approval):**
