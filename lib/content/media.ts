@@ -122,6 +122,44 @@ export const media: Record<MediaCategory, MediaAsset> = {
 
 export const mediaList: MediaAsset[] = Object.values(media);
 
+/* ------------------------------------------------------------------------- *
+ * Licensed location photography
+ * ------------------------------------------------------------------------- */
+
+export type LicensedAsset = {
+  src: string;
+  srcMedium: string;
+  srcSmall: string;
+  alt: string;
+  width: number;
+  height: number;
+  /** False for real, licensed photography. */
+  placeholder: boolean;
+  credit: string;
+  licence: string;
+  source: string;
+};
+
+/**
+ * Downtown Dallas skyline including Reunion Tower.
+ *
+ * Real, licensed photography is used here rather than an AI placeholder so the
+ * skyline is recognisably Dallas. The image shows the city, not a YESP facility,
+ * and must never be captioned as YESP premises.
+ */
+export const dfwSkyline: LicensedAsset = {
+  src: "/media/dfw/dallas-skyline.jpg",
+  srcMedium: "/media/dfw/dallas-skyline-md.jpg",
+  srcSmall: "/media/dfw/dallas-skyline-sm.jpg",
+  alt: "Downtown Dallas skyline at dusk, including Reunion Tower.",
+  width: 1920,
+  height: 802,
+  placeholder: false,
+  credit: "Photo: Matthew T Rader, CC BY-SA 4.0, via Wikimedia Commons",
+  licence: "CC BY-SA 4.0",
+  source: "https://commons.wikimedia.org/wiki/File:Dallas_Skyline_at_Dusk.jpg",
+};
+
 /** Placeholder disclosure used wherever imagery is shown to the client. */
 export const MEDIA_DISCLOSURE =
   "Photography on this preview is brand-directed placeholder imagery. The people shown are not YESP athletes, coaches, employees, or clients.";

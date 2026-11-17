@@ -376,3 +376,21 @@ html[data-a11y-pointer="on"] * {
     bottom: max(0.75rem, env(safe-area-inset-bottom));
   }
 }
+
+/* ------------------------------------------------------------------------- *
+ * DFW band — angled gold panel
+ *
+ * On small screens the gold panel sits below the skyline strip and is cut on a
+ * shallow diagonal so the two halves read as one composition. From lg upwards
+ * the panel is an absolutely positioned, clip-pathed overlay instead (see
+ * app/page.tsx) and this class must not clip anything.
+ * ------------------------------------------------------------------------- */
+.dfw-panel {
+  clip-path: polygon(0 2.25rem, 100% 0, 100% 100%, 0 100%);
+}
+
+@media (min-width: 1024px) {
+  .dfw-panel {
+    clip-path: none;
+  }
+}

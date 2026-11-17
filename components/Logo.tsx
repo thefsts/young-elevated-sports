@@ -39,6 +39,39 @@ export function Monogram({
   );
 }
 
+/**
+ * The complete client-approved logo: runner symbol, wordmark, SPORTS
+ * PERFORMANCE, the Athletic Training / Speed / Strength / Performance rule, the
+ * Dallas skyline, and the Dallas–Fort Worth location line.
+ *
+ * Rendered from the traced vector master of the approved artwork, recoloured
+ * for dark surfaces. Nothing is redrawn, re-lettered, or re-cropped.
+ */
+export function FullLogo({
+  className = "",
+  tone = "light",
+}: {
+  className?: string;
+  tone?: "light" | "dark";
+}) {
+  const src =
+    tone === "light"
+      ? "/brand/ye-runner-lockup.svg"
+      : "/brand/ye-runner-lockup-black.svg";
+
+  return (
+    // eslint-disable-next-line @next/next/no-img-element -- fixed-aspect brand SVG, no optimisation needed
+    <img
+      src={src}
+      alt="Young & Elevated Sports Performance — Dallas–Fort Worth"
+      className={className}
+      width={1536}
+      height={1024}
+      decoding="async"
+    />
+  );
+}
+
 type LogoProps = {
   className?: string;
   /** Colour of the wordmark. */

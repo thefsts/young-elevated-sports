@@ -4,7 +4,7 @@ import Link from "next/link";
 import { footerNavigation, site } from "@/lib/content/site";
 import { useI18n } from "@/lib/i18n/client";
 import { openCookiePreferences } from "@/lib/consent";
-import { Logo } from "./Logo";
+import { FullLogo } from "./Logo";
 
 export function SiteFooter() {
   const year = new Date().getFullYear();
@@ -12,27 +12,31 @@ export function SiteFooter() {
 
   return (
     <footer className="border-t border-white/10 bg-ink">
-      <div className="shell py-16 lg:py-20">
-        <div className="grid gap-12 lg:grid-cols-[1.4fr_1fr_1fr_1fr]">
-          <div>
-            <Link href={path("/")}>
-              <Logo />
-            </Link>
-            <p className="mt-6 max-w-xs font-sans text-sm leading-6 text-silver">
-              Elite athletic development in {site.region}. Built on speed, strength, discipline, and
-              measurable performance.
-            </p>
-            <p className="mt-6 font-sans text-[0.7rem] uppercase tracking-[0.22em] text-white/60">
-              {t("footer.serving")} {site.region}
-            </p>
-          </div>
+      {/* full approved logo, including the Dallas skyline and DFW line */}
+      <div className="shell pt-14 lg:pt-16">
+        <div className="flex flex-col gap-8 border-b border-white/10 pb-12 sm:flex-row sm:items-end sm:justify-between">
+          <Link href={path("/")} className="inline-block shrink-0">
+            <FullLogo className="h-auto w-[16rem] sm:w-[20rem] lg:w-[26rem]" />
+          </Link>
+          <p className="max-w-sm font-sans text-sm leading-6 text-silver">
+            Elite athletic development in {site.region}. Built on speed, strength, discipline, and
+            measurable performance.
+          </p>
+        </div>
+      </div>
 
+      <div className="shell py-12 lg:py-14">
+        <div className="grid gap-10 sm:grid-cols-2 lg:grid-cols-3">
           <FooterColumn title={t("footer.train")} links={footerNavigation.train} path={path} />
           <FooterColumn title={t("footer.register")} links={footerNavigation.register} path={path} />
           <FooterColumn title={t("footer.policies")} links={footerNavigation.legal} path={path} />
         </div>
 
-        <div className="mt-14 border-t border-white/10 pt-8">
+        <p className="mt-12 font-sans text-[0.7rem] uppercase tracking-[0.22em] text-white/60">
+          {t("footer.serving")} {site.region}
+        </p>
+
+        <div className="mt-8 border-t border-white/10 pt-8">
           <p className="max-w-4xl font-sans text-xs leading-6 text-white/60">
             <strong className="font-semibold text-white/60">{t("legal.draft")}:</strong>{" "}
             {t("footer.draftNotice")} Athletic training involves inherent risk and is not medical

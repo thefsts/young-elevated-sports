@@ -1,36 +1,40 @@
-# Checkpoint 005 — Preview Recovery, Approved Pricing, Photography Brightness
+# PM Correction Task 005 — Visual Fidelity Rebuild
 
-Base commit: `79655ca` · branch `feature/batch-001-foundation` · PR #1 open, not merged.
+## 1. Reference analysis
+- [x] Measure the approved reference (1536×1024) with OCR bounding boxes and pixel sampling
+- [x] Extract exact band boundaries, background colours, headline size and gold values
+- [x] Identify that the objectives band is light (#ECE9E4) and the DFW band is bright gold
 
-## 1. GitHub state
-- [x] Fetch remote, confirm local == remote (`79655ca`)
-- [x] Inspect PR #1 (OPEN, head matches)
+## 2. Rebuild the homepage
+- [x] Replace the 4-line headline with the reference's 2-line headline (new .display-hero token)
+- [x] Change the second hero CTA to Athlete Intake Form
+- [x] Add the five discipline icons beneath the hero copy, remove the ticker
+- [x] Merge coach profile and performance technology into one side-by-side band
+- [x] Build the eight training objectives as one horizontal row on a light band
+- [x] Rebuild DFW as a full-bleed gold skyline band
+- [x] Remove stats strip, manifesto, programs grid, method grid, separate tech section, pillars grid
 
-## 2. Preview deployment recovery
-- [x] Inspect Vercel aliases and determine why the branch is not at a shareable URL
-- [x] Document exact owner actions to create a shareable Preview (no auth disabling without approval)
-- [x] Re-test aliases for `/classes` and `/es/classes`
+## 3. Brightness
+- [x] Remove the hero's vertical scrim and grain layer, keep a single left-weighted scrim
+- [x] Lift the coach band off pure black
+- [x] Replace the DFW black section with a screen-blended gold duotone
+- [x] Match measured band luma to the reference within tolerance
 
-## 3. Photography brightness
-- [x] Audit current overlay/filter/shadow values on photo surfaces
-- [x] Reduce darkening on hero, Coach Young portrait, training, class imagery
-- [x] Preserve text contrast (verify against WCAG AA)
-- [x] Capture before/after screenshots
+## 4. Preserve
+- [x] Logo and favicon untouched; check:brand 5/5
+- [x] Coach portrait unchanged; no uncleared photography published
+- [x] Four classes, 75-minute sessions, seven price points, sibling inquiry preserved
+- [x] EN/ES, cookie consent, accessibility controls, inquiries, security headers intact
 
-## 4. Official class offerings and pricing
-- [x] Replace catalog with the four approved tracks (75 minutes each)
-- [x] Add seven approved price points + 60-day flex expiry + track mixing
-- [x] Add family/sibling discount inquiry language with no invented amount
-- [x] Remove unapproved proposed offerings
-- [x] Mirror all changes in Spanish with pricing parity
+## 5. Verify
+- [x] tsc, lint, vitest 69/69, check:brand, check:assets, check:routes, build
+- [x] axe-core 0 violations across 10 routes × 2 viewports
+- [x] No horizontal overflow at 390 / 834 / 1440
+- [x] Two-line headline confirmed at all three breakpoints
 
-## 5. Safety restrictions
-- [x] Class interest remains inquiry-only
-- [x] No medical intake, payments, reservations, or waiver signing
-- [x] Unreleased athlete photography stays unpublished
-
-## 6. Verification
-- [x] lint, typecheck, tests, brand, routes, build
-- [x] EN/ES pricing parity check
-- [x] Desktop/tablet/mobile screenshots
+## 6. Compare and deliver
+- [x] Build reference-vs-corrected and live-vs-corrected comparisons at desktop/tablet/mobile
+- [x] Write docs/checkpoint-005-correction-report.md
+- [x] Push to feature/correction-005-visual-fidelity (3cc26f5)
+- [x] Do not merge PR #1 or touch the production domain
 - [x] Report and stop for PM review

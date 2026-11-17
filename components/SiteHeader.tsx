@@ -48,11 +48,14 @@ export function SiteHeader() {
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open
-          ? "border-b border-white/10 bg-ink/95 backdrop-blur"
-          : "bg-gradient-to-b from-black/70 to-transparent"
+        scrolled || open ? "bg-ink/95 backdrop-blur" : "bg-ink/85 backdrop-blur-sm"
       }`}
     >
+      {/* thin gold accent along the base of the header */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,rgba(214,167,59,0.7)_0%,rgba(214,167,59,0.28)_38%,rgba(214,167,59,0.06)_72%,rgba(214,167,59,0.22)_100%)]"
+      />
       <div className="shell flex h-[4.5rem] items-center justify-between gap-4 lg:h-20">
         <Link href={path("/")} className="shrink-0">
           <Logo compact />
@@ -76,7 +79,8 @@ export function SiteHeader() {
           })}
         </nav>
 
-        <div className="hidden items-center gap-3 xl:flex">
+        <div className="hidden items-center gap-4 xl:flex">
+          <span aria-hidden="true" className="h-6 w-px bg-white/15" />
           <LanguageSelector />
           <Link href={path("/start-training")} className="btn-primary !min-h-[2.75rem] !px-5">
             {t("nav.startTraining")}
