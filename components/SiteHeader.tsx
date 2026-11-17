@@ -42,13 +42,21 @@ export function SiteHeader() {
     return () => window.removeEventListener("keydown", onKey);
   }, []);
 
+  // On the homepage the hero photograph runs behind the header, so the bar is
+  // transparent until the user scrolls. Every other page keeps the solid bar.
+  const isHome = pathname === "/";
+
   const isActive = (href: string) =>
     href === "/" ? pathname === "/" : pathname === href || pathname.startsWith(`${href}/`);
 
   return (
     <header
       className={`fixed inset-x-0 top-0 z-50 transition-colors duration-300 ${
-        scrolled || open ? "bg-ink/95 backdrop-blur" : "bg-ink/85 backdrop-blur-sm"
+        isHome && !scrolled && !open
+          ? "bg-transparent"
+          : scrolled || open
+            ? "bg-ink/95 backdrop-blur"
+            : "bg-ink/85 backdrop-blur-sm"
       }`}
     >
       {/* thin gold accent along the base of the header */}
@@ -57,8 +65,14 @@ export function SiteHeader() {
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,rgba(214,167,59,0.7)_0%,rgba(214,167,59,0.28)_38%,rgba(214,167,59,0.06)_72%,rgba(214,167,59,0.22)_100%)]"
       />
       <div className="shell flex h-16 items-center justify-between gap-4">
-        <Link href={path("/")} className="shrink-0">
-          <Logo compact />
+        <Link
+          href={path("/")}
+          aria-label="Young & Elevated Sports Performance — Home"
+          className="shrink-0"
+        >
+          {/* Icon only: the approved runner-and-arrow mark, no business-name
+              text at any viewport width. */}
+          <Logo iconOnly />
         </Link>
 
         <nav aria-label={t("nav.primary")} className="hidden items-center gap-7 xl:flex">

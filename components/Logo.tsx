@@ -78,6 +78,12 @@ type LogoProps = {
   tone?: "light" | "dark";
   showDescriptor?: boolean;
   compact?: boolean;
+  /**
+   * Render the approved runner-and-arrow mark on its own, with no wordmark and
+   * no "Sports Performance" descriptor. Used by the site header, where the
+   * business name must not appear as text at any viewport width.
+   */
+  iconOnly?: boolean;
 };
 
 export function Logo({
@@ -85,9 +91,22 @@ export function Logo({
   tone = "light",
   showDescriptor = true,
   compact = false,
+  iconOnly = false,
 }: LogoProps) {
   const wordColor = tone === "light" ? "#FFFFFF" : "#080808";
   const subColor = tone === "light" ? "#D6A73B" : "#8A6A1E";
+
+  if (iconOnly) {
+    return (
+      <span className={`inline-flex items-center ${className}`}>
+        <Monogram
+          tone={tone}
+          decorative
+          className="h-10 w-auto shrink-0 sm:h-11 lg:h-[3.25rem]"
+        />
+      </span>
+    );
+  }
 
   return (
     <span className={`inline-flex items-center gap-2.5 sm:gap-3 ${className}`}>

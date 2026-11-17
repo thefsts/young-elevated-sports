@@ -79,7 +79,7 @@
   .display-hero {
     font-family: var(--font-display-wide), "Arial Black", Impact, sans-serif;
     font-weight: 400;
-    font-size: clamp(2.3rem, 4.55vw, 4.25rem);
+    font-size: clamp(1.42rem, 3.7vw, 3.55rem);
     line-height: 0.9;
     letter-spacing: -0.005em;
     text-transform: uppercase;
