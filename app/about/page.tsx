@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import Image from "next/image";
 import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
-import { Eyebrow, GoldRule, Notice, PageHero, SectionHeading } from "@/components/ui";
+import { Eyebrow, GoldRule, PageHero } from "@/components/ui";
 import { bio } from "@/lib/content/bio";
 import { pageCopy } from "@/lib/content/page-copy-es";
 import { coachPortrait } from "@/lib/content/media";
@@ -32,7 +32,6 @@ export default async function AboutPage() {
   const education = b?.education ?? bio.education;
   const certifications = b?.certifications ?? bio.certifications.map((x) => x.name);
   const accomplishments = b?.accomplishments ?? bio.accomplishments;
-  const pending = b?.pendingVerification ?? bio.pendingVerification;
 
   return (
     <>
@@ -154,31 +153,6 @@ export default async function AboutPage() {
               </ul>
             </div>
           </aside>
-        </div>
-      </section>
-
-      <section className="border-t border-white/10 bg-graphite/30 py-20">
-        <div className="shell">
-          <SectionHeading
-            eyebrow={copy?.verificationEyebrow ?? "Verification status"}
-            title={copy?.verificationTitle ?? "What we have not published"}
-            intro={
-              copy?.verificationIntro ??
-              "The following details were not supplied or verified, so they are intentionally absent from this page rather than invented."
-            }
-          />
-          <div className="mt-10 max-w-3xl">
-            <Notice tone="info" title={copy?.pendingTitle ?? "Pending client verification"}>
-              <ul className="mt-1 space-y-2">
-                {pending.map((item) => (
-                  <li key={item} className="flex gap-3">
-                    <span aria-hidden="true" className="mt-2.5 h-px w-3 shrink-0 bg-gold" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </Notice>
-          </div>
         </div>
       </section>
 
