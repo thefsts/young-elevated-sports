@@ -23,6 +23,7 @@ export type MediaCategory =
   | "vertical-jump"
   | "assessment-equipment"
   | "group-sessions"
+  | "facility"
   | "dfw-skyline";
 
 export type MediaAsset = {
@@ -112,6 +113,11 @@ export const media: Record<MediaCategory, MediaAsset> = {
     "group-sessions",
     "Small group of athletes performing a synchronized sprint-start drill on dark turf",
     "Small-group training sessions",
+  ),
+  facility: asset(
+    "facility",
+    "Indoor athletic training facility with turf lanes, strength racks and warm directional lighting",
+    "Indoor training facility",
   ),
   "dfw-skyline": asset(
     "dfw-skyline",
