@@ -3,7 +3,7 @@ import Link from "next/link";
 import { Reveal } from "@/components/Reveal";
 import { Eyebrow, ArrowLink } from "@/components/ui";
 import { DISCIPLINE_ICONS, OBJECTIVE_ICONS, TECH_ICONS } from "@/components/icons";
-import { coachPortrait, dfwSkyline, dfwSkylinePhoto, heroAthlete } from "@/lib/content/media";
+import { coachPortraitFootball, dfwSkyline, dfwSkylinePhoto, heroAthlete } from "@/lib/content/media";
 import {
   DevelopmentSection,
   FaqSection,
@@ -187,11 +187,11 @@ export default async function HomePage({
                 />
                 <div className="relative aspect-[4/5] w-[9.5rem] overflow-hidden border border-white/15 sm:w-[11.5rem] lg:w-[14.6rem]">
                   <Image
-                    src={coachPortrait.src}
-                    alt={t("home.coach.portraitAlt")}
+                    src={coachPortraitFootball.src}
+                    alt={coachPortraitFootball.alt}
                     fill
                     sizes="(max-width: 640px) 152px, (max-width: 1024px) 184px, 234px"
-                    className="object-cover object-[50%_18%]"
+                    className="object-cover object-center"
                   />
                 </div>
               </div>

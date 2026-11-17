@@ -107,6 +107,11 @@ frame contains one person.
 | `coach-young-about.jpg` | 994 × 1242 | **Task 010B** About-page profile portrait (owner-supplied) |
 | `coach-young-about-md.jpg` | 800 × 1000 | About portrait — tablet |
 | `coach-young-about-sm.jpg` | 400 × 500 | About portrait — mobile |
+| `coach-young-football.jpg` | 819 × 1024 | **Task 010D** homepage coach profile — Liberty Flames uniform, number 70 (owner-supplied) |
+| `coach-young-football-md.jpg` | 600 × 750 | Tablet derivative |
+| `coach-young-football-sm.jpg` | 300 × 375 | Mobile derivative |
+| `coach-young-standard.png` | 266 × 758 | **Task 010D** arms-crossed cutout, RGBA master (owner-supplied, background removed) |
+| `coach-young-standard.webp` | 266 × 758 | Arms-crossed cutout, alpha WebP served to the browser |
 
 The crop is derived from the measured face box, not a guess: the face occupies
 approximately 26% of frame height with a small headroom margin, which reads as a
@@ -116,7 +121,8 @@ standard head-and-shoulders portrait at every breakpoint.
 
 | Surface | Component | Asset |
 | --- | --- | --- |
-| Homepage coach introduction | `app/page.tsx` | `coach-young-portrait.jpg` |
+| Homepage coach introduction | `app/page.tsx` | `coach-young-football.jpg` **(Task 010D)** |
+| Homepage "Coaching That Holds a Standard" cutout | `components/home/HomeSections.tsx` | `coach-young-standard.webp` **(Task 010D)** |
 | About Coach Young profile | `app/about/page.tsx` | `coach-young-about.jpg` **(Task 010B)** |
 | Training programme introduction | `app/training/page.tsx` | `coach-young-cutout.png` |
 | Media gallery | `app/media/page.tsx` | `coach-young-portrait.jpg` |
@@ -237,3 +243,30 @@ of them.
 2. Supply releases for every other identifiable adult in the four frames.
 3. Confirm which of the four the client actually wants on the site; the review
    copies in `review/coach-photos/` are the shortlist.
+
+### Task 010D — homepage Coach Young photography
+
+Two owner-supplied frames were integrated into the existing homepage. Neither
+was regenerated, substituted or retouched; the originals are preserved byte for
+byte under `assets/photos/originals/`.
+
+| Property | Football uniform portrait | Arms-crossed cutout |
+| --- | --- | --- |
+| Source file | `Young in football pads.png` | `Coach Young with transparent background.png` |
+| Original preserved | `assets/photos/originals/coach-young-football.png` (382,497 B) | `assets/photos/originals/coach-young-standard.png` (291,356 B) |
+| Supplied size | 994 × 1024, RGBA (alpha all 255) | 994 × 1024, RGBA (alpha all 255) |
+| Supplied background | pure `#000000`, zero noise | pure `#000000`, zero noise — **not** transparent despite the filename |
+| Preparation | horizontal crop to 4/5 (819 × 1024), centred on the figure | deterministic background removal, trimmed to artwork + 2 px |
+| Cropping of subject | none — head top y=277, jersey bottom y=895 both inside | none — head top y=142, feet y=895 both inside |
+| Retouching | none | none |
+| Background method | retained (matches ink palette) | flood fill from border at ≤ 12/255 luminance, interior holes filled, 2 px antialias band given a soft alpha ramp from local foreground luminance, band un-premultiplied |
+| Alpha result | n/a | 36.92 % transparent, 2.35 % partial, 60.73 % opaque |
+| Halo check | n/a | 0 clipped band pixels; ring outside silhouette composites to exact background colour |
+| Derivatives | 819×1024 (44,880 B), 600×750 (28,525 B), 300×375 (10,173 B) | PNG master (198,463 B), WebP (28,248 B) |
+| Rendered aspect vs source | 0.799 vs 0.800 — no stretching | 0.3509 vs 0.3509 — no stretching |
+| Placement | `app/page.tsx` coach profile frame (replaces `coachPortrait`) | `components/home/HomeSections.tsx` `WhySection` |
+| About page | unchanged | unchanged |
+
+Note: the cutout is rendered with `unoptimized` because the Next.js image
+optimizer re-encodes it to JPEG and flattens the alpha channel into an opaque
+black rectangle. The WebP is already 28 KB, so it is served directly.

@@ -340,6 +340,68 @@ export const coachPortraitBrand = {
   status: "cleared" as PublicationStatus,
 };
 
+/**
+ * Homepage coach profile portrait (Task 010D, section 1).
+ *
+ * Owner-supplied frame `Young in football pads.png` — Coach Young in the
+ * Liberty Flames football uniform, number 70. The unmodified original is kept at
+ * `assets/photos/originals/coach-young-football.png`.
+ *
+ * Preparation: the source is 994 x 1024 with a pure black (#000000)
+ * background, which matches the site's ink palette, so the background was left
+ * untouched. The frame was cropped horizontally — centred on the figure — to
+ * the site's 4/5 portrait ratio (819 x 1024) so that `object-cover` crops
+ * nothing at render time. Nothing was retouched, recoloured or sharpened, and
+ * no part of the head, shoulders or jersey number was cropped.
+ *
+ * Deliberately separate from `coachPortrait`, which the About page, coach card
+ * and program intro still use, so the About Us photograph cannot change.
+ */
+export const coachPortraitFootball: CoachPhoto = {
+  id: "coach-young-football",
+  src: "/media/coach/coach-young-football.jpg",
+  srcMedium: "/media/coach/coach-young-football-md.jpg",
+  srcSmall: "/media/coach/coach-young-football-sm.jpg",
+  alt: "Coach Reggie Young in a Liberty Flames football uniform, number 70, photographed against a black background",
+  caption: "Coach Young",
+  width: 819,
+  height: 1024,
+  placeholder: false,
+  credit: COACH_CREDIT,
+  status: "cleared",
+  usage: ["home"],
+};
+
+/**
+ * Arms-crossed standing cutout (Task 010D, section 2).
+ *
+ * Owner-supplied frame `Coach Young with transparent background.png`. Despite
+ * the filename the supplied file had a fully opaque pure-black background, so
+ * the background was removed here. The unmodified original is kept at
+ * `assets/photos/originals/coach-young-standard.png`.
+ *
+ * Matte method: deterministic flood fill from the frame border over pixels at
+ * or below 12/255 luminance (the background is exactly #000000 with zero
+ * noise), keeping the figure and filling interior holes. The 2 px antialias
+ * band gets a soft alpha ramp derived from the local foreground luminance, and
+ * those edge pixels are un-premultiplied so they keep their true colour. Hair,
+ * facial features, clothing folds and tattoos are all preserved — no AI
+ * cutout, no retouching, no added shadow or outline. The result is trimmed to
+ * the visible artwork with a 2 px margin so no empty black space ships.
+ */
+export const coachCutoutStandard = {
+  id: "coach-young-standard",
+  src: "/media/coach/coach-young-standard.webp",
+  alt: "Coach Reggie Young standing with arms crossed, cut out against a transparent background",
+  caption: "Coach Young",
+  width: 266,
+  height: 758,
+  placeholder: false as const,
+  credit: COACH_CREDIT,
+  status: "cleared" as PublicationStatus,
+  usage: ["home"],
+};
+
 /** Cleared photographs that may be rendered on the public site. */
 export const coachPhotos: CoachPhoto[] = [coachPortrait];
 
