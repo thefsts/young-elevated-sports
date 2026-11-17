@@ -104,6 +104,8 @@ type HomepageCopy = {
     intro: string;
     emptyTitle: string;
     emptyBody: string;
+    /** What every published review will show. Describes the card, not a review. */
+    fields: { label: string; detail: string }[];
     cta: string;
   };
   development: {
@@ -242,13 +244,27 @@ export const homepageCopy: Record<Locale, HomepageCopy> = {
       ],
     },
     reviews: {
-      eyebrow: "Athlete reviews & testimonials",
-      title: "Athlete stories coming soon.",
+      eyebrow: "What athletes and parents say",
+      title: "Athlete Reviews & Testimonials",
       intro:
-        "This space is reserved for reviews from YESP athletes and parents. Real reviews will be published here once they are collected and approved for release.",
-      emptyTitle: "No reviews published yet",
+        "Real feedback from YESP athletes and their families, published only after it has been collected and approved for release.",
+      emptyTitle: "Athlete stories coming soon.",
       emptyBody:
         "We will not invent testimonials, star ratings, client names, or athlete achievements. When verified reviews are available, each one will appear here with the athlete or parent's name, their sport or program, and the date of the review.",
+      fields: [
+        {
+          label: "Athlete or parent name",
+          detail: "Published only with written permission from the person named.",
+        },
+        {
+          label: "Sport or program",
+          detail: "The class or training program the review relates to.",
+        },
+        {
+          label: "Verified date",
+          detail: "When the review was collected, so nothing is undated or anonymous.",
+        },
+      ],
       cta: "Learn about training",
     },
     development: {
@@ -480,13 +496,27 @@ export const homepageCopy: Record<Locale, HomepageCopy> = {
       ],
     },
     reviews: {
-      eyebrow: "Reseñas y testimonios de atletas",
-      title: "Historias de atletas muy pronto.",
+      eyebrow: "Lo que dicen atletas y padres",
+      title: "Reseñas y testimonios de atletas",
       intro:
-        "Este espacio está reservado para reseñas de atletas y padres de YESP. Las reseñas reales se publicarán aquí cuando se recopilen y se apruebe su publicación.",
-      emptyTitle: "Aún no hay reseñas publicadas",
+        "Comentarios reales de atletas de YESP y sus familias, publicados solo después de recopilarlos y aprobar su publicación.",
+      emptyTitle: "Historias de atletas muy pronto.",
       emptyBody:
         "No inventaremos testimonios, calificaciones, nombres de clientes ni logros de atletas. Cuando existan reseñas verificadas, cada una aparecerá aquí con el nombre del atleta o del padre, su deporte o programa y la fecha de la reseña.",
+      fields: [
+        {
+          label: "Nombre del atleta o del padre",
+          detail: "Se publica solo con permiso escrito de la persona nombrada.",
+        },
+        {
+          label: "Deporte o programa",
+          detail: "La clase o el programa de entrenamiento al que se refiere la reseña.",
+        },
+        {
+          label: "Fecha verificada",
+          detail: "Cuándo se recopiló la reseña, para que ninguna quede sin fecha.",
+        },
+      ],
       cta: "Conocer el entrenamiento",
     },
     development: {

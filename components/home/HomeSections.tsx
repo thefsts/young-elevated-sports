@@ -1,6 +1,6 @@
 import Image from "next/image";
 import Link from "next/link";
-import { ArrowLink, Eyebrow } from "@/components/ui";
+import { ArrowLink, Eyebrow, GoldRule } from "@/components/ui";
 import { media } from "@/lib/content/media";
 import { classes, formatPrice, pricing, pricingPolicy } from "@/lib/content/classes";
 import {
@@ -33,7 +33,7 @@ export function ProgramsSection({ locale, path }: Common) {
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_85%_0%,rgba(214,167,59,0.10),transparent_55%)]"
       />
-      <div className="shell-wide relative py-16 lg:py-20">
+      <div className="shell-wide relative py-12 lg:py-20">
         <div className="flex flex-col gap-6 lg:flex-row lg:items-end lg:justify-between">
           <div className="max-w-2xl">
             <Eyebrow>{c.eyebrow}</Eyebrow>
@@ -112,7 +112,7 @@ export function PricingSection({ locale, path }: Common) {
 
   return (
     <section id="pricing" className="border-t border-white/10 bg-[#0d0c0b]">
-      <div className="shell-wide py-16 lg:py-20">
+      <div className="shell-wide py-12 lg:py-20">
         <div className="max-w-2xl">
           <Eyebrow>{c.eyebrow}</Eyebrow>
           <h2 className="mt-3 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[clamp(2rem,2.8vw,2.75rem)]">
@@ -226,7 +226,7 @@ export function WhySection({ locale }: Common) {
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_10%_20%,rgba(214,167,59,0.14),transparent_60%)]"
       />
-      <div className="shell-wide relative py-16 lg:py-20">
+      <div className="shell-wide relative py-12 lg:py-20">
         <div className="max-w-2xl">
           <Eyebrow>{c.eyebrow}</Eyebrow>
           <h2 className="mt-3 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[clamp(2rem,2.8vw,2.75rem)]">
@@ -263,13 +263,14 @@ export function ReviewsSection({ locale, path }: Common) {
 
   return (
     <section id="reviews" className="border-t border-white/10 bg-ink">
-      <div className="shell-wide py-16 lg:py-20">
-        <div className="max-w-2xl">
+      <div className="shell-wide py-12 lg:py-20">
+        <div className="max-w-3xl">
           <Eyebrow>{c.eyebrow}</Eyebrow>
-          <h2 className="mt-3 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[clamp(2rem,2.8vw,2.75rem)]">
+          <h2 className="mt-3 font-display text-[2.25rem] uppercase leading-[0.9] text-white sm:text-[2.6rem] lg:text-[clamp(2.6rem,3.4vw,3.4rem)]">
             {c.title}
           </h2>
-          <p className="mt-4 font-sans text-[1rem] leading-[1.6] text-silver/85 lg:text-[1.0625rem]">
+          <GoldRule className="mt-5" />
+          <p className="mt-5 font-sans text-[1rem] leading-[1.6] text-silver/85 lg:text-[1.0625rem]">
             {c.intro}
           </p>
         </div>
@@ -281,30 +282,52 @@ export function ReviewsSection({ locale, path }: Common) {
             ))}
           </ul>
         ) : (
-          <div className="mt-10 grid items-center gap-8 border border-dashed border-gold/35 bg-gold/[0.035] p-6 sm:p-8 lg:grid-cols-[minmax(0,1fr)_minmax(0,0.85fr)] lg:gap-10">
-            <div>
-              <p className="font-sans text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-gold">
-                {c.emptyTitle}
-              </p>
-              <p className="mt-3 max-w-xl font-sans text-[0.98rem] leading-[1.65] text-silver/85">
-                {c.emptyBody}
-              </p>
-              <div className="mt-6">
-                <ArrowLink href={path("/training")}>{c.cta}</ArrowLink>
+          <div className="mt-10 border border-gold/30 bg-gold/[0.04]">
+            <div className="grid items-stretch lg:grid-cols-[minmax(0,1.05fr)_minmax(0,0.95fr)]">
+              {/* photograph: small-group training, clearly credited as placeholder */}
+              <div className="relative min-h-[15rem] overflow-hidden border-b border-gold/20 lg:min-h-[22rem] lg:border-b-0 lg:border-r">
+                <Image
+                  src={media["group-sessions"].src}
+                  alt={media["group-sessions"].alt}
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 52vw"
+                  className="object-cover"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-ink/85 via-ink/25 to-transparent" />
+                <p className="absolute bottom-3 left-4 right-4 font-sans text-[0.66rem] uppercase leading-[1.4] tracking-[0.12em] text-white/70">
+                  {media["group-sessions"].credit}
+                </p>
               </div>
-            </div>
-            <div className="relative aspect-[16/10] overflow-hidden border border-white/12">
-              <Image
-                src={media["group-sessions"].src}
-                alt={media["group-sessions"].alt}
-                fill
-                sizes="(max-width: 1024px) 92vw, 40vw"
-                className="object-cover"
-              />
-              <div className="absolute inset-0 bg-gradient-to-t from-ink/80 via-ink/10 to-transparent" />
-              <p className="absolute bottom-3 left-3 right-3 font-sans text-[0.68rem] uppercase leading-[1.4] tracking-[0.12em] text-white/70">
-                {media["group-sessions"].credit}
-              </p>
+
+              {/* honest empty state + what a real review will contain */}
+              <div className="p-6 sm:p-8 lg:p-10">
+                <p className="font-sans text-[0.7rem] font-semibold uppercase tracking-[0.26em] text-gold">
+                  {c.emptyTitle}
+                </p>
+                <p className="mt-4 font-sans text-[0.98rem] leading-[1.65] text-silver/85">
+                  {c.emptyBody}
+                </p>
+
+                <ul className="mt-7 space-y-3 border-t border-white/10 pt-6">
+                  {c.fields.map((f) => (
+                    <li key={f.label} className="flex gap-3">
+                      <span aria-hidden="true" className="mt-[0.5rem] block h-1.5 w-1.5 shrink-0 bg-gold" />
+                      <span>
+                        <span className="block font-sans text-[0.86rem] font-semibold text-white">
+                          {f.label}
+                        </span>
+                        <span className="mt-0.5 block font-sans text-[0.82rem] leading-[1.5] text-silver/70">
+                          {f.detail}
+                        </span>
+                      </span>
+                    </li>
+                  ))}
+                </ul>
+
+                <div className="mt-7">
+                  <ArrowLink href={path("/training")}>{c.cta}</ArrowLink>
+                </div>
+              </div>
             </div>
           </div>
         )}
@@ -345,7 +368,7 @@ export function DevelopmentSection({ locale }: Common) {
   const c = homepageCopy[locale].development;
   return (
     <section id="development" className="border-t border-white/10 bg-[#ece9e4] text-ink">
-      <div className="shell-wide py-16 lg:py-20">
+      <div className="shell-wide py-12 lg:py-20">
         <div className="max-w-2xl">
           <p className="font-sans text-[0.68rem] font-semibold uppercase tracking-[0.3em] text-[#6d5316]">
             {c.eyebrow}
@@ -394,7 +417,7 @@ export function GallerySection({ locale }: Common) {
   const c = homepageCopy[locale].gallery;
   return (
     <section id="gallery" className="border-t border-white/10 bg-ink">
-      <div className="shell-wide py-16 lg:py-20">
+      <div className="shell-wide py-12 lg:py-20">
         <div className="max-w-2xl">
           <Eyebrow>{c.eyebrow}</Eyebrow>
           <h2 className="mt-3 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[clamp(2rem,2.8vw,2.75rem)]">
@@ -447,7 +470,7 @@ export function FaqSection({ locale }: Common) {
   const c = homepageCopy[locale].faq;
   return (
     <section id="faq" className="border-t border-white/10 bg-[#0d0c0b]">
-      <div className="shell-wide py-16 lg:py-20">
+      <div className="shell-wide py-12 lg:py-20">
         <div className="grid gap-10 lg:grid-cols-[minmax(0,0.8fr)_minmax(0,1.2fr)] lg:gap-14">
           <div>
             <Eyebrow>{c.eyebrow}</Eyebrow>
@@ -502,7 +525,7 @@ export function FinalCtaSection({ locale, path }: Common) {
       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-r from-ink via-ink/85 to-ink/45" />
       <div aria-hidden="true" className="absolute inset-0 bg-gradient-to-t from-ink via-transparent to-ink/60" />
 
-      <div className="shell-wide relative py-20 lg:py-28">
+      <div className="shell-wide relative py-16 lg:py-24">
         <div className="max-w-3xl">
           <Eyebrow>{c.eyebrow}</Eyebrow>
           <h2 className="mt-4 font-display text-[2.4rem] uppercase leading-[0.9] text-white sm:text-[3.2rem] lg:text-[clamp(3rem,5vw,4.75rem)]">

@@ -13,10 +13,19 @@ export function SiteFooter() {
   return (
     <footer className="border-t border-white/10 bg-ink">
       {/* full approved logo, including the Dallas skyline and DFW line */}
-      <div className="shell pt-14 lg:pt-16">
-        <div className="flex flex-col gap-8 border-b border-white/10 pb-12 sm:flex-row sm:items-end sm:justify-between">
-          <Link href={path("/")} className="inline-block w-[190px] max-w-full shrink-0 sm:w-[220px] lg:w-[240px]">
-            <FullLogo className="h-auto w-full max-w-full object-contain" />
+      <div className="shell pt-10 lg:pt-12">
+        <div className="flex flex-col gap-6 border-b border-white/10 pb-10 sm:flex-row sm:items-end sm:justify-between sm:gap-10">
+          {/*
+            The SVG canvas is cropped to the artwork's ink bounds, so this width
+            is the visible logo width — not a padded container. 200px desktop /
+            150px mobile keeps the full lockup (runner, wordmark, descriptor)
+            balanced against the description and the three link columns.
+          */}
+          <Link
+            href={path("/")}
+            className="inline-block w-[150px] max-w-full shrink-0 sm:w-[170px] lg:w-[200px]"
+          >
+            <FullLogo className="block h-auto w-full max-w-full object-contain" />
           </Link>
           <p className="max-w-sm font-sans text-sm leading-6 text-silver">
             Elite athletic development in {site.region}. Built on speed, strength, discipline, and
