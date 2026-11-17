@@ -65,8 +65,15 @@
     @apply mx-auto w-full max-w-shell px-5 sm:px-8 lg:px-12;
   }
 
+  /* Homepage gutter: the approved reference runs the content grid from 48px to
+     1508px at 1536px wide, i.e. edge-to-edge with a 48px gutter rather than the
+     narrower 84rem shell used on interior pages. */
+  .shell-wide {
+    @apply mx-auto w-full max-w-[1536px] px-5 sm:px-8 lg:px-12;
+  }
+
   .display-hero {
-    font-size: clamp(2.15rem, 4.7vw, 4.5rem);
+    font-size: clamp(2.15rem, 4.35vw, 4.05rem);
     line-height: 0.92;
     letter-spacing: -0.012em;
   }

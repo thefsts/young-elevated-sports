@@ -187,6 +187,35 @@ export const dfwSkylinePhoto: LicensedAsset = {
   source: "https://commons.wikimedia.org/wiki/File:Dallas_Skyline_at_Dusk.jpg",
 };
 
+/* ------------------------------------------------------------------------- *
+ * Homepage hero
+ * ------------------------------------------------------------------------- */
+
+/**
+ * Homepage hero: a sprinter driving toward the camera inside a training
+ * facility, with the approved YE runner mark composited onto the facility wall
+ * as an illuminated sign.
+ *
+ * PROVENANCE: the underlying photograph is an AI-generated, brand-directed
+ * placeholder \u2014 the person shown is not a YESP athlete. The wall sign is the
+ * real client-approved vector master (`/brand/ye-runner-mark-gold.svg`),
+ * rasterised and screened onto the wall, not a generated approximation of the
+ * logo. Replace `src`/`srcMedium`/`srcSmall` with real photography when the
+ * client supplies it.
+ */
+export const heroAthlete: LicensedAsset = {
+  src: "/media/hero-athlete.jpg",
+  srcMedium: "/media/hero-athlete-md.jpg",
+  srcSmall: "/media/hero-athlete-sm.jpg",
+  alt: "Athlete sprinting toward the camera inside a training facility, with the illuminated Young & Elevated runner mark on the wall behind him.",
+  width: 1536,
+  height: 1024,
+  placeholder: true,
+  credit: "AI-generated placeholder \u2014 not a YESP athlete. Wall mark: client-approved YE runner logo.",
+  licence: "AI-generated \u2014 no third-party licence required",
+  source: "Generated in-house for YESP; approved logo composited onto the facility wall",
+};
+
 /** Placeholder disclosure used wherever imagery is shown to the client. */
 export const MEDIA_DISCLOSURE =
   "Photography on this preview is brand-directed placeholder imagery. The people shown are not YESP athletes, coaches, employees, or clients.";

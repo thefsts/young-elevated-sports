@@ -56,12 +56,12 @@ export function SiteHeader() {
         aria-hidden="true"
         className="pointer-events-none absolute inset-x-0 bottom-0 h-px bg-[linear-gradient(90deg,rgba(214,167,59,0.7)_0%,rgba(214,167,59,0.28)_38%,rgba(214,167,59,0.06)_72%,rgba(214,167,59,0.22)_100%)]"
       />
-      <div className="shell flex h-[4.5rem] items-center justify-between gap-4 lg:h-20">
+      <div className="shell flex h-14 items-center justify-between gap-4">
         <Link href={path("/")} className="shrink-0">
           <Logo compact />
         </Link>
 
-        <nav aria-label={t("nav.primary")} className="hidden items-center gap-6 xl:flex">
+        <nav aria-label={t("nav.primary")} className="hidden items-center gap-7 xl:flex">
           {navigation.map((item) => {
             const active = isActive(item.href);
             return (
@@ -82,7 +82,7 @@ export function SiteHeader() {
         <div className="hidden items-center gap-4 xl:flex">
           <span aria-hidden="true" className="h-6 w-px bg-white/15" />
           <LanguageSelector />
-          <Link href={path("/start-training")} className="btn-primary !min-h-[2.75rem] !px-5">
+          <Link href={path("/start-training")} className="btn-primary !min-h-[2.4rem] !px-5 !text-[0.64rem]">
             {t("nav.startTraining")}
           </Link>
         </div>
@@ -119,7 +119,7 @@ export function SiteHeader() {
       </div>
 
       {open ? (
-        <div id="mobile-nav" className="max-h-[calc(100vh-4.5rem)] overflow-y-auto border-t border-white/10 bg-ink xl:hidden">
+        <div id="mobile-nav" className="max-h-[calc(100vh-3.5rem)] overflow-y-auto border-t border-white/10 bg-ink xl:hidden">
           <nav aria-label={t("nav.mobile")} className="shell flex flex-col py-4">
             {navigation.map((item) => {
               const active = isActive(item.href);

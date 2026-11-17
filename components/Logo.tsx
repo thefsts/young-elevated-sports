@@ -94,14 +94,14 @@ export function Logo({
       <Monogram
         tone={tone}
         decorative
-        className={compact ? "h-8 w-auto" : "h-10 w-auto"}
+        className={compact ? "h-7 w-auto" : "h-10 w-auto"}
       />
       <span className="flex flex-col leading-none">
         <span
           className="font-display font-bold uppercase leading-none"
           style={{
             color: wordColor,
-            fontSize: compact ? "1.05rem" : "1.2rem",
+            fontSize: compact ? "0.95rem" : "1.2rem",
             letterSpacing: "0.02em",
           }}
         >
@@ -110,7 +110,7 @@ export function Logo({
         {showDescriptor ? (
           <span
             className="mt-1 font-sans uppercase"
-            style={{ color: subColor, fontSize: "0.5rem", letterSpacing: "0.34em" }}
+            style={{ color: subColor, fontSize: compact ? "0.44rem" : "0.5rem", letterSpacing: "0.34em" }}
           >
             Sports Performance
           </span>

@@ -1,0 +1,129 @@
+{
+  "desktop": {
+    "viewport": 1536,
+    "scrollWidth": 1536,
+    "horizontalOverflow": false,
+    "overflowing": [],
+    "docHeight": 2578,
+    "sections": [
+      {
+        "id": null,
+        "top": 0,
+        "h": 488
+      },
+      {
+        "id": null,
+        "top": 488,
+        "h": 265
+      },
+      {
+        "id": "objectives",
+        "top": 753,
+        "h": 110
+      },
+      {
+        "id": "dfw",
+        "top": 863,
+        "h": 170
+      },
+      {
+        "id": null,
+        "top": 1033,
+        "h": 551
+      }
+    ],
+    "h1": {
+      "left": 48,
+      "top": 139,
+      "w": 704,
+      "h": 119
+    }
+  },
+  "tablet": {
+    "viewport": 834,
+    "scrollWidth": 834,
+    "horizontalOverflow": false,
+    "overflowing": [],
+    "docHeight": 3740,
+    "sections": [
+      {
+        "id": null,
+        "top": 0,
+        "h": 664
+      },
+      {
+        "id": null,
+        "top": 664,
+        "h": 677
+      },
+      {
+        "id": "objectives",
+        "top": 1341,
+        "h": 271
+      },
+      {
+        "id": "dfw",
+        "top": 1612,
+        "h": 473
+      },
+      {
+        "id": null,
+        "top": 2085,
+        "h": 467
+      }
+    ],
+    "h1": {
+      "left": 32,
+      "top": 136,
+      "w": 704,
+      "h": 67
+    }
+  },
+  "mobile": {
+    "viewport": 390,
+    "scrollWidth": 390,
+    "horizontalOverflow": false,
+    "overflowing": [
+      {
+        "tag": "div",
+        "cls": "absolute -left-3 -top-2 h-[104%] w-[9.5rem] -skew-x-[9deg] bg-[linear-gradient(165deg,#f0c",
+        "left": -6,
+        "right": 174
+      }
+    ],
+    "docHeight": 4443,
+    "sections": [
+      {
+        "id": null,
+        "top": 0,
+        "h": 632
+      },
+      {
+        "id": null,
+        "top": 632,
+        "h": 846
+      },
+      {
+        "id": "objectives",
+        "top": 1478,
+        "h": 404
+      },
+      {
+        "id": "dfw",
+        "top": 1881,
+        "h": 461
+      },
+      {
+        "id": null,
+        "top": 2343,
+        "h": 467
+      }
+    ],
+    "h1": {
+      "left": 20,
+      "top": 133,
+      "w": 350,
+      "h": 63
+    }
+  }
+}
