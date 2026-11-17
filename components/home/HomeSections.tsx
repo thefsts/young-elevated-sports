@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { ArrowLink, Eyebrow, GoldRule } from "@/components/ui";
-import { media } from "@/lib/content/media";
+import { coachCutoutStandard, media } from "@/lib/content/media";
 import { classes, formatPrice, pricing, pricingPolicy } from "@/lib/content/classes";
 import {
   homepageCopy,
@@ -226,30 +226,57 @@ export function WhySection({ locale }: Common) {
         aria-hidden="true"
         className="absolute inset-0 bg-[radial-gradient(ellipse_at_10%_20%,rgba(214,167,59,0.14),transparent_60%)]"
       />
-      <div className="shell-wide relative py-12 lg:py-20">
-        <div className="max-w-2xl">
-          <Eyebrow>{c.eyebrow}</Eyebrow>
-          <h2 className="mt-3 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[clamp(2rem,2.8vw,2.75rem)]">
-            {c.title}
-          </h2>
-          <p className="mt-4 font-sans text-[1rem] leading-[1.6] text-silver/85 lg:text-[1.0625rem]">
-            {c.intro}
-          </p>
+      <div className="shell-wide relative grid gap-10 py-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end lg:gap-12 lg:py-20">
+        <div>
+          <div className="max-w-2xl">
+            <Eyebrow>{c.eyebrow}</Eyebrow>
+            <h2 className="mt-3 font-display text-[2rem] uppercase leading-[0.92] text-white lg:text-[clamp(2rem,2.8vw,2.75rem)]">
+              {c.title}
+            </h2>
+            <p className="mt-4 font-sans text-[1rem] leading-[1.6] text-silver/85 lg:text-[1.0625rem]">
+              {c.intro}
+            </p>
+          </div>
+
+          <ul className="mt-10 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 xl:grid-cols-3">
+            {c.items.map((item, i) => (
+              <li key={item.title} className="bg-[#121110] p-6">
+                <p className="font-sans text-[0.72rem] font-semibold tracking-[0.24em] text-gold/85">
+                  {String(i + 1).padStart(2, "0")}
+                </p>
+                <h3 className="mt-3 font-display text-[1.15rem] uppercase leading-[1.2] text-white">
+                  {item.title}
+                </h3>
+                <p className="mt-2.5 font-sans text-[0.92rem] leading-[1.6] text-silver/75">{item.body}</p>
+              </li>
+            ))}
+          </ul>
         </div>
 
-        <ul className="mt-10 grid gap-px border border-white/10 bg-white/10 sm:grid-cols-2 lg:grid-cols-3">
-          {c.items.map((item, i) => (
-            <li key={item.title} className="bg-[#121110] p-6">
-              <p className="font-sans text-[0.72rem] font-semibold tracking-[0.24em] text-gold/85">
-                {String(i + 1).padStart(2, "0")}
-              </p>
-              <h3 className="mt-3 font-display text-[1.15rem] uppercase leading-[1.2] text-white">
-                {item.title}
-              </h3>
-              <p className="mt-2.5 font-sans text-[0.92rem] leading-[1.6] text-silver/75">{item.body}</p>
-            </li>
-          ))}
-        </ul>
+        {/*
+         * Coach cutout (Task 010D, section 2). Sits in the existing "Coaching
+         * that holds a standard." section — right of the copy on desktop,
+         * stacked beneath it on mobile, and bottom-aligned with the section.
+         * The alpha comes from the supplied photograph itself, so there is no
+         * added shadow, halo or outline, and the figure is sized by height so
+         * no empty black space surrounds it.
+         */}
+        <div className="flex justify-center lg:justify-end">
+          <Image
+            src={coachCutoutStandard.src}
+            alt={coachCutoutStandard.alt}
+            width={coachCutoutStandard.width}
+            height={coachCutoutStandard.height}
+            /*
+             * `unoptimized` is required: the Next.js image optimizer re-encodes
+             * this source to JPEG, which flattens the alpha channel into an
+             * opaque black rectangle. The supplied WebP is already 28 KB, so
+             * serving it directly is both correct and cheap.
+             */
+            unoptimized
+            className="h-auto w-[min(54vw,12.5rem)] max-w-full sm:w-[min(34vw,14rem)] lg:h-[clamp(24rem,38vw,36rem)] lg:w-auto lg:max-w-none"
+          />
+        </div>
       </div>
     </section>
   );
