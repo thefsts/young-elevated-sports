@@ -4,6 +4,16 @@ import { Reveal } from "@/components/Reveal";
 import { Eyebrow, ArrowLink } from "@/components/ui";
 import { DISCIPLINE_ICONS, OBJECTIVE_ICONS, TECH_ICONS } from "@/components/icons";
 import { coachPortrait, dfwSkyline, dfwSkylinePhoto, heroAthlete } from "@/lib/content/media";
+import {
+  DevelopmentSection,
+  FaqSection,
+  FinalCtaSection,
+  GallerySection,
+  PricingSection,
+  ProgramsSection,
+  ReviewsSection,
+  WhySection,
+} from "@/components/home/HomeSections";
 import { JsonLd, organizationSchema } from "@/lib/seo";
 import { getTranslator } from "@/lib/i18n/server";
 import { localizedPath } from "@/lib/i18n/config";
@@ -353,26 +363,29 @@ export default async function HomePage({
         </div>
       </section>
 
-      {/* ------------------------------------------------------------- CTA */}
-      <section className="relative overflow-hidden border-t border-white/10 bg-ink py-24 lg:py-28">
-        <div
-          aria-hidden="true"
-          className="absolute inset-0 bg-[radial-gradient(ellipse_at_center,rgba(214,167,59,0.14),transparent_65%)]"
-        />
-        <div className="shell relative text-center">
-          <Eyebrow className="justify-center">{t("home.cta.eyebrow")}</Eyebrow>
-          <h2 className="display-xl mx-auto mt-6 max-w-4xl text-white">{t("home.cta.title")}</h2>
-          <p className="lede mx-auto mt-6 max-w-xl">{t("home.cta.intro")}</p>
-          <div className="mt-10 flex flex-wrap justify-center gap-3">
-            <Link href={lp("/start-training")} className="btn-primary">
-              {t("home.hero.cta")}
-            </Link>
-            <Link href={lp("/contact")} className="btn-ghost">
-              {t("common.contact")}
-            </Link>
-          </div>
-        </div>
-      </section>
+      {/* -------------------------------------------------- 06 · programs */}
+      <ProgramsSection locale={locale} path={lp} />
+
+      {/* ---------------------------------------- 07 · classes & packages */}
+      <PricingSection locale={locale} path={lp} />
+
+      {/* ------------------------------------------------------ 08 · why */}
+      <WhySection locale={locale} path={lp} />
+
+      {/* -------------------------------------------------- 09 · reviews */}
+      <ReviewsSection locale={locale} path={lp} />
+
+      {/* ---------------------------------------------- 10 · development */}
+      <DevelopmentSection locale={locale} path={lp} />
+
+      {/* -------------------------------------------------- 11 · gallery */}
+      <GallerySection locale={locale} path={lp} />
+
+      {/* ------------------------------------------------------ 12 · FAQ */}
+      <FaqSection locale={locale} path={lp} />
+
+      {/* ------------------------------------------------- 13 · final CTA */}
+      <FinalCtaSection locale={locale} path={lp} />
     </>
   );
 }

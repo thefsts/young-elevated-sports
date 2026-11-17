@@ -10,7 +10,7 @@ The single source of truth in code is `lib/content/media.ts`. Each entry carries
 `alt` text from that registry. Replacing real photography means changing `src`
 and `alt` there — no component needs to be edited.
 
-## Categories (12)
+## Categories (13)
 
 | Category | File stem | Used on | Subject |
 | --- | --- | --- | --- |
@@ -24,11 +24,14 @@ and `alt` there — no component needs to be edited.
 | Coach-to-athlete instruction | `coach-instruction` | About, technology | Coach cueing an athlete |
 | Vertical jump testing | `vertical-jump` | Technology, classes | Jump measurement |
 | Assessment equipment | `assessment-equipment` | Technology | Timing gates / measurement |
-| Group sessions | `group-sessions` | Classes hero, training | Small-group session |
+| Group sessions | `group-sessions` | Home reviews panel, classes hero, training | Small-group session |
+| Indoor facility | `facility` | Home gallery (Task 009) | Turf lanes, racks, directional light |
 | DFW skyline | `dfw-skyline` | Contact, footer band | Dallas–Fort Worth skyline |
 
 Each category ships three derivatives: full (`*.jpg`, 1536×1024), medium
-(`*-md.jpg`, 960 px wide), and small (`*-sm.jpg`, 480 px wide). `hero-track`
+(`*-md.jpg`, 960 px wide), and small (`*-sm.jpg`, 480 px wide). The `facility`
+category was added for the Task 009 homepage gallery and follows the same
+three-derivative pattern (`facility.jpg`, `facility-md.jpg`, `facility-sm.jpg`). `hero-track`
 ships full + small only because it is only ever used as a full-bleed hero.
 
 ## Licensing and provenance

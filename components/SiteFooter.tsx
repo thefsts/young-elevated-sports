@@ -15,8 +15,8 @@ export function SiteFooter() {
       {/* full approved logo, including the Dallas skyline and DFW line */}
       <div className="shell pt-14 lg:pt-16">
         <div className="flex flex-col gap-8 border-b border-white/10 pb-12 sm:flex-row sm:items-end sm:justify-between">
-          <Link href={path("/")} className="inline-block shrink-0">
-            <FullLogo className="h-auto w-[16rem] sm:w-[20rem] lg:w-[26rem]" />
+          <Link href={path("/")} className="inline-block w-[190px] max-w-full shrink-0 sm:w-[220px] lg:w-[240px]">
+            <FullLogo className="h-auto w-full max-w-full object-contain" />
           </Link>
           <p className="max-w-sm font-sans text-sm leading-6 text-silver">
             Elite athletic development in {site.region}. Built on speed, strength, discipline, and

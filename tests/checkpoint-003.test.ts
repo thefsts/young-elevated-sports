@@ -31,7 +31,7 @@ describe("checkpoint 003 — coach photography registry", () => {
   });
 
   it("keeps every placeholder asset flagged as a placeholder", () => {
-    expect(mediaList).toHaveLength(12);
+    expect(mediaList).toHaveLength(13);
     for (const asset of mediaList) {
       expect(asset.placeholder).toBe(true);
       expect(asset.credit).toMatch(/placeholder/i);
@@ -46,6 +46,9 @@ describe("checkpoint 003 — coach photography registry", () => {
       coachPortraitCutout.src,
       coachPortraitCutout.srcSmall,
       coachPortraitBrand.src,
+      media.facility.src,
+      media.facility.srcMedium,
+      media.facility.srcSmall,
     ];
     for (const p of paths) {
       expect(existsSync(pub(p)), `${p} should exist`).toBe(true);
